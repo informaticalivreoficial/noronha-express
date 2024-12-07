@@ -1,29 +1,22 @@
 <?php
 
-use App\Livewire\Admin\UserComponent;
+use App\Livewire\Auth\Login;
+use App\Livewire\Auth\Register;
+use App\Livewire\Dashboard\Dashboard;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
-Route::view('/', 'welcome');
+Route::get('/', function () {
+    return view('welcome');
+});
 
-Route::view('dashboard', 'admin.dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+// Dashboard routes
+Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'admin'], function () {
+    Route::get('/', Dashboard::class)->name('admin');
+});
 
-Route::view('profile', 'livewire.admin.users.profile')
-    ->middleware(['auth'])
-    ->name('profile');
-
-Route::get('usuarios', UserComponent::class)->name('users.index')->middleware(['auth']);
-
-require __DIR__.'/auth.php';
+// Authentication routes
+Route::group(['prefix' => 'auth'], function () {
+    Route::get('login', Login::class)->name('login');
+    Route::get('register', Register::class)->name('register');
+});
