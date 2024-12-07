@@ -33,6 +33,8 @@ class UserFactory extends Factory
             'whatsapp' => '(12)' . fake()->cellphone,
             'additional_email' => fake()->safeEmail(),
             'email_verified_at' => now(),
+            'gender' => fake()->randomElement(['masculino', 'feminino']),
+            'civil_status' => fake()->randomElement(['casado', 'separado', 'solteiro', 'divorciado', 'viuvo']),
             'client' => true,
             'status' => 1,            
             'password' => static::$password ??= Hash::make('password'),

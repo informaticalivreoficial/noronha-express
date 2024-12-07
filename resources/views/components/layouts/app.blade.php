@@ -25,9 +25,7 @@
     <link rel="stylesheet" href="{{ asset('theme/plugins/daterangepicker/daterangepicker.css') }}">
     {{-- summernote --}}
     <link rel="stylesheet" href="{{ asset('theme/plugins/summernote/summernote-bs4.min.css') }}">
-
-    {{-- SweetAlert2 --}}
-    <link rel="stylesheet" href="{{ asset('theme/plugins/sweetalert2/sweetalert2.min.css') }}">
+    
     {{-- Toastr --}}
     <link rel="stylesheet" href="{{ asset('theme/plugins/toastr/toastr.min.css') }}">
 
@@ -105,14 +103,17 @@
 
     <script src="{{ asset('theme/dist/js/adminlte.js') }}"></script>
 
-    {{-- SweetAlert2 --}}
-    <script src="{{ asset('theme/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+   
 
     {{-- Toastr --}}
     <script src="{{ asset('theme/plugins/toastr/toastr.min.js') }}"></script>
 
     {{-- General Script --}}
     <script src="{{ asset('assets/js/main.js') }}"></script>
+    
+    @stack('script')
 </body>
 
 </html>

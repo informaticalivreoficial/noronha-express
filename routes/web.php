@@ -3,6 +3,7 @@
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
 use App\Livewire\Dashboard\Dashboard;
+use App\Livewire\Dashboard\Users\Users;
 use Illuminate\Support\Facades\Route;
 
 
@@ -13,6 +14,8 @@ Route::get('/', function () {
 // Dashboard routes
 Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'admin'], function () {
     Route::get('/', Dashboard::class)->name('admin');
+
+    Route::get('clientes', Users::class)->name('clientes.index');
 });
 
 // Authentication routes

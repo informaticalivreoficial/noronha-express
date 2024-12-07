@@ -7,7 +7,7 @@
         </li>
 
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="{{ route('dashboard') }}" wire:navigate class="nav-link">Home</a>
+            <a href="{{ route('admin') }}" wire:navigate class="nav-link">Home</a>
         </li>
 
         <li class="nav-item d-none d-sm-inline-block">
