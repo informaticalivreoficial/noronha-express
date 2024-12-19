@@ -1,4 +1,23 @@
-<div>
+<div>     
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1><i class="fas fa-search mr-2"></i> Clientes</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">                    
+                        <li class="breadcrumb-item"><a href="{{route('admin')}}">Painel de Controle</a></li>
+                        <li class="breadcrumb-item active">Clientes</li>
+                    </ol>
+                </div>
+            </div>
+        </div>    
+    </div> 
+    {{--
+    @if ($updateMode)
+        <livewire:dashboard.users.form />
+    @endif  --}}
     <div class="card">
         <div class="card-header">
             <div class="row">
@@ -6,8 +25,7 @@
                     <div class="card-tools">
                         <div style="width: 250px;">
                             <form class="input-group input-group-sm" action="" method="post">
-                                <input type="text" wire:model.live="search" class="form-control float-right" placeholder="Pesquisar">
-                
+                                <input type="text" wire:model.live="search" class="form-control float-right" placeholder="Pesquisar">               
                                 
                             </form>
                         </div>
@@ -65,7 +83,7 @@
                             <td>{{$user->cpf}}</td>
                             <td class="text-center">
                                 <label class="switch" wire:model="active">
-                                    <input type="checkbox" value="{{$user->id}}" wire:change="statusUpdate({{$user->id}})" wire:loading.attr="disabled" {{$user->status == true ? 'checked' : ''}}>
+                                    <input type="checkbox" value="{{$user->status}}"  wire:change="toggleStatus({{$user->id}})" wire:loading.attr="disabled" {{$user->status ? 'checked': ''}}>
                                     <span class="slider round"></span>
                                 </label>
                             </td>
@@ -82,7 +100,7 @@
                                     <button title="Enviar Email" type="submit" class="btn btn-xs text-white bg-teal"><i class="fas fa-envelope"></i></button>
                                 </form> 
                                 <a href="{{--route('users.view',['id' => $user->id])--}}" class="btn btn-xs btn-info text-white"><i class="fas fa-search"></i></a>
-                                <a href="{{--route('users.edit',['id' => $user->id])--}}" class="btn btn-xs btn-default"><i class="fas fa-pen"></i></a>
+                                <button class="btn btn-xs btn-default" wire:click="edit({{ $user->id }})"><i class="fas fa-pen"></i></button>
                                 <button type="button" class="btn btn-xs btn-danger text-white" wire:click="setDeleteId({{$user->id}})">
                                     <i class="fas fa-trash"></i>
                                 </button>

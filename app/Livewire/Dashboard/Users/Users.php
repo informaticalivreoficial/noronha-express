@@ -23,7 +23,9 @@ class Users extends Component
 
     public string $sortDirection = 'asc';
 
-    public bool $active = false;
+    public bool $active;
+
+    public bool $updateMode = false;
 
         
     #{Url}
@@ -76,10 +78,17 @@ class Users extends Component
         }
     }
 
-    public function statusUpdate($id)
-    {
+    public function toggleStatus($id)
+    {              
         $user = User::find($id);
-        $user->status = $this->active;
+        $user->status = !$this->active;        
         $user->save();
+        $this->active = $user->status;
     }
+
+    public function edit($id)
+    {
+        $this->updateMode = true;
+    }
+
 }
