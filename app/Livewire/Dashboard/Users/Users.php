@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Dashboard\Users;
 
+use App\Models\User;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -21,7 +22,10 @@ class Users extends Component
     public $delete_id;
 
     public string $sortDirection = 'asc';
-    
+
+    public bool $active = false;
+
+        
     #{Url}
     public function updatingSearch(): void
     {
@@ -70,5 +74,12 @@ class Users extends Component
                 'text' => 'Cliente removido com sucesso!'
             ]);
         }
+    }
+
+    public function statusUpdate($id)
+    {
+        $user = User::find($id);
+        $user->status = $this->active;
+        $user->save();
     }
 }

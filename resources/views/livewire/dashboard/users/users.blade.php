@@ -36,13 +36,13 @@
                             <th>Foto</th>
                             <th wire:click="sortBy('name')">Nome <i class="expandable-table-caret fas fa-caret-down fa-fw"></i></th>
                             <th>CPF</th>
-                            <th>Perfil</th>
+                            <th class="text-center">Status</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($users as $user)                    
-                        <tr style="{{ ($user->status == '1' ? '' : 'background: #fffed8 !important;')  }}">
+                        <tr style="{{ ($user->status == true ? '' : 'background: #fffed8 !important;')  }}">
                             @php
                                 if(!empty($user->avatar) && \Illuminate\Support\Facades\Storage::exists($user->avatar)){
                                     $cover = \Illuminate\Support\Facades\Storage::url($user->avatar);
@@ -63,12 +63,18 @@
                             </td>
                             <td>{{$user->name}}</td>
                             <td>{{$user->cpf}}</td>
-                            <td>{{$user->getFuncao()}}</td>
+                            <td class="text-center">
+                                <label class="switch" wire:model="active">
+                                    <input type="checkbox" value="{{$user->id}}" wire:change="statusUpdate({{$user->id}})" wire:loading.attr="disabled" {{$user->status == true ? 'checked' : ''}}>
+                                    <span class="slider round"></span>
+                                </label>
+                            </td>
                             <td>
-                                <input type="checkbox" data-onstyle="success" data-offstyle="warning" data-size="mini" class="toggle-class" data-id="{{ $user->id }}" data-toggle="toggle" data-style="slow" data-on="<i class='fas fa-check'></i>" data-off="<i style='color:#fff !important;' class='fas fa-exclamation-triangle'></i>" {{ $user->status == true ? 'checked' : ''}}>
+                                
                                 @if($user->whatsapp != '')
                                     <a target="_blank" href="{{\App\Helpers\WhatsApp::getNumZap($user->whatsapp)}}" class="btn btn-xs btn-success text-white"><i class="fab fa-whatsapp"></i></a>
                                 @endif
+                                
                                 <form class="btn btn-xs" action="{{--route('email.send')--}}" method="post">
                                     @csrf
                                     <input type="hidden" name="nome" value="{{ $user->name }}">
@@ -101,6 +107,7 @@
     </div>
 
 </div>
+
 
 <script>
     
