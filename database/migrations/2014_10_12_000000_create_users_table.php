@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('email')->unique();
+            $table->string('name');            
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('code')->nullable();
@@ -30,8 +29,7 @@ return new class extends Migration
             $table->date('birthday')->nullable();
             $table->string('naturalness')->nullable();
             $table->string('civil_status')->nullable();
-            $table->string('avatar')->nullable();
-            $table->string('additional_email')->nullable();
+            $table->string('avatar')->nullable();            
 
             /** address */
             $table->string('postcode')->nullable();
@@ -43,11 +41,10 @@ return new class extends Migration
             $table->string('city')->nullable();
 
             /** contact */
-            $table->string('phone')->nullable();
             $table->string('cell_phone')->nullable();
             $table->string('whatsapp')->nullable();
-            $table->string('skype')->nullable();
-            $table->string('telegram')->nullable();
+            $table->string('additional_email')->nullable();
+            $table->string('email')->unique();
 
             /** Redes Sociais */
             $table->string('facebook')->nullable();

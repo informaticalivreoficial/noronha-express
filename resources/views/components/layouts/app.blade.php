@@ -110,8 +110,7 @@
     {{-- Toastr --}}
     <script src="{{ asset('theme/plugins/toastr/toastr.min.js') }}"></script>
 
-    {{-- General Script --}}
-    <script src="{{ asset('assets/js/main.js') }}"></script>
+    
     
     @stack('script')
 </body>

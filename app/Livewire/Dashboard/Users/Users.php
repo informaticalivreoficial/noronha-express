@@ -88,6 +88,8 @@ class Users extends Component
 
     public function edit($id)
     {
+        $user = User::findOrFail($id);
+        $this->dispatch('userId');
         $this->updateMode = true;
     }
 

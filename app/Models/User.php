@@ -30,7 +30,7 @@ class User extends Authenticatable
         //Endereço      
         'postcode', 'street', 'number', 'complement', 'neighborhood', 'state', 'city',
         //Contato
-        'phone', 'cell_phone', 'whatsapp', 'skype', 'telegram', 'email', 'additional_email',
+        'cell_phone', 'whatsapp', 'email', 'additional_email',
         //Social
         'facebook', 'twitter', 'instagram', 'linkedin', 'vimeo', 'youtube', 'fliccr', 
         // Cargo

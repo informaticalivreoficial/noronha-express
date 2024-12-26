@@ -13,11 +13,10 @@
                 </div>
             </div>
         </div>    
-    </div> 
-    {{--
+    </div>   {{-- 
     @if ($updateMode)
-        <livewire:dashboard.users.form />
-    @endif  --}}
+        @livewire('dashboard.users.form')
+    @endif  --}} 
     <div class="card">
         <div class="card-header">
             <div class="row">
@@ -32,7 +31,7 @@
                       </div>
                 </div>
                 <div class="col-12 col-sm-6 my-2 text-right">
-                    <a href="" class="btn btn-sm btn-default"><i class="fas fa-plus mr-2"></i> Cadastrar Novo</a>
+                    <a wire:navigate href="cadastrar-cliente" class="btn btn-sm btn-default"><i class="fas fa-plus mr-2"></i> Cadastrar Novo</a>
                 </div>
             </div>
         </div>        
@@ -99,7 +98,7 @@
                                     <input type="hidden" name="email" value="{{ $user->email }}">
                                     <button title="Enviar Email" type="submit" class="btn btn-xs text-white bg-teal"><i class="fas fa-envelope"></i></button>
                                 </form> 
-                                <a href="{{--route('users.view',['id' => $user->id])--}}" class="btn btn-xs btn-info text-white"><i class="fas fa-search"></i></a>
+                                <a wire:navigate href="cliente/{{$user->id}}" class="btn btn-xs btn-info text-white"><i class="fas fa-search"></i></a>
                                 <button class="btn btn-xs btn-default" wire:click="edit({{ $user->id }})"><i class="fas fa-pen"></i></button>
                                 <button type="button" class="btn btn-xs btn-danger text-white" wire:click="setDeleteId({{$user->id}})">
                                     <i class="fas fa-trash"></i>
