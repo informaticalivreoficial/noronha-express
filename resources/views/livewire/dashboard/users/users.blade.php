@@ -98,7 +98,7 @@
                                     <input type="hidden" name="email" value="{{ $user->email }}">
                                     <button title="Enviar Email" type="submit" class="btn btn-xs text-white bg-teal"><i class="fas fa-envelope"></i></button>
                                 </form> 
-                                <a wire:navigate href="cliente/{{$user->id}}" class="btn btn-xs btn-info text-white"><i class="fas fa-search"></i></a>
+                                <a wire:navigate href="visualizar-cliente/{{$user->id}}" class="btn btn-xs btn-info text-white"><i class="fas fa-search"></i></a>
                                 <button class="btn btn-xs btn-default" wire:click="edit({{ $user->id }})"><i class="fas fa-pen"></i></button>
                                 <button type="button" class="btn btn-xs btn-danger text-white" wire:click="setDeleteId({{$user->id}})">
                                     <i class="fas fa-trash"></i>
