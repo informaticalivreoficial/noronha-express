@@ -8,7 +8,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{route('admin')}}">Painel de Controle</a></li>
-                        <li class="breadcrumb-item"><a href="{{route('clientes.index')}}">Clientes</a></li>
+                        <li class="breadcrumb-item"><a wire:navigate href="{{route('clientes.index')}}">Clientes</a></li>
                         <li class="breadcrumb-item active">Perfil</li>
                     </ol>
                 </div>

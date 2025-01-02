@@ -1,4 +1,28 @@
-<div wire:transition.in.scale.origin.top.duration.400ms>                    
+<div>    
+    
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1><i class="fas fa-user mr-2"></i> {{($userId ? 'Editar' : 'Cadastrar')}}</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{route('admin')}}">Painel de Controle</a></li>
+                        <li class="breadcrumb-item"><a wire:navigate href="{{route('clientes.index')}}">Clientes</a></li>
+                        <li class="breadcrumb-item active">Editar</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (session()->has('message'))
+        <div class="alert alert-success">
+            {{ session('message') }}
+        </div>
+    @endif
+
     <form wire:submit.prevent="save">    
         <div class="card card-teal card-outline card-outline-tabs">
 
@@ -28,11 +52,10 @@
                                             if(!empty($user->avatar) && \Illuminate\Support\Facades\File::exists(public_path() . '/storage/' . $user->avatar)){
                                                 $cover = url('storage/'.$user->avatar);
                                             } else {
-                                                $cover = url(asset('backend/assets/images/image.jpg'));
+                                                $cover = url(asset('theme/images/image.jpg'));
                                             }
                                         @endphp
-                                        <img id="preview" src="{{$cover}}" alt="{{ old('name') }}" title="{{ old('name') }}"/>
-                                        <input id="img-input" type="file" name="avatar">
+                                        
                                     </div>                                                
                                 </div>
                             </div>
@@ -41,14 +64,17 @@
                                     <div class="col-12 col-md-6 col-lg-8 mb-2">
                                         <div class="form-group">
                                             <label class="labelforms text-muted"><b>*Nome</b></label>
-                                            <input type="text" class="form-control" placeholder="Nome" wire:model="name">
+                                            <input type="text" class="form-control" id="name" placeholder="Nome" wire:model="name">
+                                        </div>
+                                        <div class="text-red-500">
+                                            @error('name') <span class="error">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6 col-lg-4 mb-2"> 
                                         <div class="form-group">
                                             <label class="labelforms text-muted"><b>*Data de Nascimento</b></label>
                                             <div class="input-group">
-                                                <input type="text" class="form-control datepicker-here" data-language='pt-BR' name="nasc" value="{{ old('nasc') }}"/>
+                                                <input type="text" class="form-control datepicker-here" data-language='pt-BR' wire:model="nasc" id="nasc" />
                                                 <div class="input-group-append">
                                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                                 </div>
@@ -111,6 +137,45 @@
                             <div class="card">
                                 <div class="card-header">
                                     <h4>
+                                        <a style="border:none;color: #555;" data-toggle="collapse" data-parent="#accordion" href="#collapseContato">
+                                            <i class="nav-icon fas fa-plus mr-2"></i> Contato
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseContato" class="panel-collapse collapse show">
+                                    <div class="card-body">
+                                        <div class="row mb-2">
+                                            <div class="col-12 col-md-6 col-lg-4"> 
+                                                <div class="form-group">
+                                                    <label class="labelforms text-muted"><b>*Celular:</b></label>
+                                                    <input type="text" class="form-control celularmask" placeholder="Número do Celular com DDD" wire:model="cell_phone" id="cell_phone">
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6 col-lg-4"> 
+                                                <div class="form-group">
+                                                    <label class="labelforms text-muted"><b>WhatsApp:</b></label>
+                                                    <input type="text" class="form-control whatsappmask" placeholder="Número do WhatsApp com DDD" wire:model="whatsapp" id="whatsapp">
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6 col-lg-4"> 
+                                                <div class="form-group">
+                                                    <label class="labelforms text-muted"><b>E-mail:</b></label>
+                                                    <input type="text" autocomplete="off" class="form-control" placeholder="Email" wire:model="email" id="email">
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6 col-lg-4"> 
+                                                <div class="form-group">
+                                                    <label class="labelforms text-muted"><b>E-mail Alternativo:</b></label>
+                                                    <input type="text" autocomplete="off" class="form-control" placeholder="Email Alternativo" wire:model="additional_email" id="additional_email">
+                                                </div>
+                                            </div>                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>
                                         <a style="border:none;color: #555;" data-toggle="collapse" data-parent="#accordion" href="#collapseEndereco">
                                             <i class="nav-icon fas fa-plus mr-2"></i> Endereço
                                         </a>
@@ -167,57 +232,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4>
-                                        <a style="border:none;color: #555;" data-toggle="collapse" data-parent="#accordion" href="#collapseContato">
-                                            <i class="nav-icon fas fa-plus mr-2"></i> Contato
-                                        </a>
-                                    </h4>
-                                </div>
-                                <div id="collapseContato" class="panel-collapse collapse show">
-                                    <div class="card-body">
-                                        <div class="row mb-2">
-                                            <div class="col-12 col-md-6 col-lg-4"> 
-                                                <div class="form-group">
-                                                    <label class="labelforms text-muted"><b>Residencial:</b></label>
-                                                    <input type="text" class="form-control telefonemask" placeholder="Número do Telefone com DDD" name="telefone" value="{{old('telefone')}}">
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-6 col-lg-4"> 
-                                                <div class="form-group">
-                                                    <label class="labelforms text-muted"><b>*Celular:</b></label>
-                                                    <input type="text" class="form-control celularmask" placeholder="Número do Celular com DDD" name="celular" value="{{old('celular')}}">
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-6 col-lg-4"> 
-                                                <div class="form-group">
-                                                    <label class="labelforms text-muted"><b>WhatsApp:</b></label>
-                                                    <input type="text" class="form-control whatsappmask" placeholder="Número do Celular com DDD" name="whatsapp" value="{{old('whatsapp')}}">
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-6 col-lg-4"> 
-                                                <div class="form-group">
-                                                    <label class="labelforms text-muted"><b>E-mail Alternativo:</b></label>
-                                                    <input type="text" autocomplete="off" class="form-control" placeholder="Email Alternativo" name="email1" value="{{old('email1')}}">
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-6 col-lg-4"> 
-                                                <div class="form-group">
-                                                    <label class="labelforms text-muted"><b>Skype:</b></label>
-                                                    <input type="text" class="form-control" placeholder="Usuário Skype" name="skype" value="{{old('skype')}}">
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-6 col-lg-4"> 
-                                                <div class="form-group">
-                                                    <label class="labelforms text-muted"><b>Telegram:</b></label>
-                                                    <input type="text" class="form-control" placeholder="Usuário Telegram" name="telegram" value="{{old('telegram')}}">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            
                             <div class="card">
                                 <div class="card-header">
                                     <h4>
@@ -267,37 +282,13 @@
                                     <label class="labelforms text-muted"><b>Facebook:</b></label>
                                     <input type="text" class="form-control text-muted" placeholder="Facebook" name="facebook" value="{{old('facebook')}}">
                                 </div>
-                            </div>
-                            <div class="col-12 col-md-6 col-lg-4"> 
-                                <div class="form-group">
-                                    <label class="labelforms text-muted"><b>Twitter:</b></label>
-                                    <input type="text" class="form-control text-muted" placeholder="Twitter" name="twitter" value="{{old('twitter')}}">
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-6 col-lg-4"> 
-                                <div class="form-group">
-                                    <label class="labelforms text-muted"><b>Youtube:</b></label>
-                                    <input type="text" class="form-control text-muted" placeholder="Youtube" name="youtube" value="{{old('youtube')}}">
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-6 col-lg-4"> 
-                                <div class="form-group">
-                                    <label class="labelforms text-muted"><b>Flickr:</b></label>
-                                    <input type="text" class="form-control text-muted" placeholder="Flickr" name="fliccr" value="{{old('fliccr')}}">
-                                </div>
-                            </div>
+                            </div>                                                      
                             <div class="col-12 col-md-6 col-lg-4"> 
                                 <div class="form-group">
                                     <label class="labelforms text-muted"><b>Instagram:</b></label>
                                     <input type="text" class="form-control text-muted" placeholder="Instagram" name="instagram" value="{{old('instagram')}}">
                                 </div>
-                            </div>
-                            <div class="col-12 col-md-6 col-lg-4"> 
-                                <div class="form-group">
-                                    <label class="labelforms text-muted"><b>Vimeo:</b></label>
-                                    <input type="text" class="form-control text-muted" placeholder="Vimeo" name="vimeo" value="{{old('vimeo')}}">
-                                </div>
-                            </div>
+                            </div>                            
                             <div class="col-12 col-md-6 col-lg-4"> 
                                 <div class="form-group">
                                     <label class="labelforms text-muted"><b>Linkedin:</b></label>
@@ -338,7 +329,7 @@
 
                 <div class="row text-right">
                     <div class="col-12 mb-4">
-                        <button type="submit" class="btn btn-success"><i class="nav-icon fas fa-check mr-2"></i> {{ $userId ? 'Atualizar Post' : 'Cadastrar Agora' }}</button>
+                        <button type="submit" class="btn btn-success"><i class="nav-icon fas fa-check mr-2"></i> {{-- $userId ? 'Atualizar Post' : 'Cadastrar Agora' --}}Cadastrar Agora</button>
                     </div>
                 </div>
             </div>
@@ -346,3 +337,13 @@
         </div>
     </form>        
 </div>
+
+<script>
+    window.addEventListener('alert', event => {
+        toastr[event.detail.type](event.detail.message,
+        event.detail.title ?? ''), toastr.options = {
+        "closeButton": true,
+        "progressBar": true,
+        }
+    });
+</script>

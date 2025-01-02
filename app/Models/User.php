@@ -32,7 +32,7 @@ class User extends Authenticatable
         //Contato
         'cell_phone', 'whatsapp', 'email', 'additional_email',
         //Social
-        'facebook', 'twitter', 'instagram', 'linkedin', 'vimeo', 'youtube', 'fliccr', 
+        'facebook', 'instagram', 'linkedin',  
         // Cargo
         'admin', 'client', 'editor', 'superadmin',
         'status',

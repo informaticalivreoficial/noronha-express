@@ -48,12 +48,8 @@ return new class extends Migration
 
             /** Redes Sociais */
             $table->string('facebook')->nullable();
-            $table->string('twitter')->nullable();
-            $table->string('vimeo')->nullable();
-            $table->string('youtube')->nullable();
             $table->string('linkedin')->nullable();
             $table->string('instagram')->nullable();
-            $table->string('fliccr')->nullable();
 
             /** access */
             $table->boolean('superadmin')->nullable();

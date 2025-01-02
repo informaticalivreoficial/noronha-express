@@ -7,11 +7,12 @@
 
     <title>{{ $title ?? 'Page Title' }} | {{ env('APP_NAME') }}</title>
 
+    <link rel="icon" href="{{ asset('theme/images/chave.png')}}" type="image/x-icon">
+
     {{-- FontAwesome --}}
     <link rel="stylesheet" href="{{ asset('theme/plugins/fontawesome-free/css/all.min.css') }}">
     {{-- Bootstrap 4 --}}
-    <link rel="stylesheet"
-        href="{{ asset('theme/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('theme/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
 
     <link rel="stylesheet" href="{{ asset('theme/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
     {{-- JQVMap --}}

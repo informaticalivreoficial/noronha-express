@@ -99,7 +99,7 @@
                                     <button title="Enviar Email" type="submit" class="btn btn-xs text-white bg-teal"><i class="fas fa-envelope"></i></button>
                                 </form> 
                                 <a wire:navigate href="visualizar-cliente/{{$user->id}}" class="btn btn-xs btn-info text-white"><i class="fas fa-search"></i></a>
-                                <button class="btn btn-xs btn-default" wire:click="edit({{ $user->id }})"><i class="fas fa-pen"></i></button>
+                                <a wire:navigate href="{{ route('clientes.edit', [ 'userId' => $user->id ]) }}" class="btn btn-xs btn-default"><i class="fas fa-pen"></i></a>
                                 <button type="button" class="btn btn-xs btn-danger text-white" wire:click="setDeleteId({{$user->id}})">
                                     <i class="fas fa-trash"></i>
                                 </button>
