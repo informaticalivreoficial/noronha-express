@@ -89,7 +89,7 @@
                                     <div class="col-12 col-md-6 col-lg-4 mb-2"> 
                                         <div class="form-group">
                                             <label class="labelforms text-muted"><b>*CPF</b></label>
-                                            <input type="text" class="form-control cpfmask" placeholder="CPF do Cliente" name="cpf" value="{{ old('cpf') }}"/>
+                                            <input type="text" class="form-control cpfmask" placeholder="CPF do Cliente" wire:model="cpf" id="cpf"/>
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6 col-lg-4 mb-2"> 

@@ -23,7 +23,7 @@
         </div>
     @endif
 
-    <form wire:submit.prevent="save">    
+    <form wire:submit.prevent="update">    
         <div class="card card-teal card-outline card-outline-tabs">
 
             <div class="card-header p-0 border-bottom-0">
@@ -107,7 +107,7 @@
                                     <div class="col-12 col-md-6 col-lg-4 mb-2"> 
                                         <div class="form-group">
                                             <label class="labelforms text-muted"><b>*CPF</b></label>
-                                            <input type="text" class="form-control cpfmask" placeholder="CPF do Cliente" name="cpf" value="{{ old('cpf') }}"/>
+                                            <input type="text" class="form-control cpfmask" placeholder="CPF do Cliente" id="cpf" wire:model="cpf"/>
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6 col-lg-4 mb-2"> 
@@ -184,6 +184,12 @@
                                 <div id="collapseEndereco" class="panel-collapse collapse show">
                                     <div class="card-body">
                                         <div class="row mb-2">
+                                            
+                                    
+                                            
+                                               
+                                            
+                                            {{--
                                             <div class="col-12 col-md-6 col-lg-2"> 
                                                 <div class="form-group">
                                                     <label class="labelforms text-muted"><b>*CEP:</b></label>
@@ -227,7 +233,7 @@
                                                     <label class="labelforms text-muted"><b>Complemento:</b></label>
                                                     <input type="text" class="form-control" placeholder="Complemento (Opcional)" name="complemento" value="{{old('complemento')}}">
                                                 </div>
-                                            </div>                                            
+                                            </div>   --}}                                         
                                         </div>
                                     </div>
                                 </div>
@@ -280,19 +286,19 @@
                             <div class="col-12 col-md-6 col-lg-4"> 
                                 <div class="form-group">
                                     <label class="labelforms text-muted"><b>Facebook:</b></label>
-                                    <input type="text" class="form-control text-muted" placeholder="Facebook" name="facebook" value="{{old('facebook')}}">
+                                    <input type="text" class="form-control text-muted" placeholder="Facebook" id="facebook" wire:model="facebook">
                                 </div>
                             </div>                                                      
                             <div class="col-12 col-md-6 col-lg-4"> 
                                 <div class="form-group">
                                     <label class="labelforms text-muted"><b>Instagram:</b></label>
-                                    <input type="text" class="form-control text-muted" placeholder="Instagram" name="instagram" value="{{old('instagram')}}">
+                                    <input type="text" class="form-control text-muted" placeholder="Instagram" id="instagram" wire:model="instagram">
                                 </div>
                             </div>                            
                             <div class="col-12 col-md-6 col-lg-4"> 
                                 <div class="form-group">
                                     <label class="labelforms text-muted"><b>Linkedin:</b></label>
-                                    <input type="text" class="form-control text-muted" placeholder="Linkedin" name="linkedin" value="{{old('linkedin')}}">
+                                    <input type="text" class="form-control text-muted" placeholder="Linkedin" id="linkedin" wire:model="linkedin">
                                 </div>
                             </div>                                        
                         </div>
@@ -346,4 +352,11 @@
         "progressBar": true,
         }
     });
+
+    
+    // Máscara para o campo CEP
+    function maskCep(input) {
+        input.value = input.value.replace(/\D/g, '').replace(/(\d{5})(\d{3})/, '$1-$2');
+    }
+
 </script>

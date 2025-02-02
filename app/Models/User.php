@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name', 'password', 'remember_token', 'senha',
+        'name', 'password', 'remember_token', 'code',
         'gender',
         'cpf',
         'rg',
@@ -27,13 +27,13 @@ class User extends Authenticatable
         'naturalness',
         'civil_status',
         'avatar',  
-        //Endereço      
+        //Address      
         'postcode', 'street', 'number', 'complement', 'neighborhood', 'state', 'city',
         //Contato
         'cell_phone', 'whatsapp', 'email', 'additional_email',
         //Social
         'facebook', 'instagram', 'linkedin',  
-        // Cargo
+        //function
         'admin', 'client', 'editor', 'superadmin',
         'status',
         'information'
@@ -89,6 +89,24 @@ class User extends Authenticatable
         }else{
             return 'Super Administrador'; 
         }
+    }
+
+    public function setCpfAttribute($value)
+    {
+        $this->attributes['cpf'] = (!empty($value) ? $this->clearField($value) : null);
+    }
+    
+    public function getCpfAttribute($value)
+    {
+        if (empty($value)) {
+            return null;
+        }
+
+        return
+            substr($value, 0, 3) . '.' .
+            substr($value, 3, 3) . '.' .
+            substr($value, 6, 3) . '-' .
+            substr($value, 9, 2);
     }
 
     public function setCellPhoneAttribute($value)

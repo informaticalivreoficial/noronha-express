@@ -46,7 +46,7 @@ return new class extends Migration
             $table->string('additional_email')->nullable();
             $table->string('email')->unique();
 
-            /** Redes Sociais */
+            /** Socials */
             $table->string('facebook')->nullable();
             $table->string('linkedin')->nullable();
             $table->string('instagram')->nullable();
