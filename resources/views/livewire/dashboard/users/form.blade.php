@@ -10,7 +10,7 @@
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{route('admin')}}">Painel de Controle</a></li>
                         <li class="breadcrumb-item"><a wire:navigate href="{{route('clientes.index')}}">Clientes</a></li>
-                        <li class="breadcrumb-item active">Editar</li>
+                        <li class="breadcrumb-item active">{{($userId ? 'Editar' : 'Cadastrar')}}</li>
                     </ol>
                 </div>
             </div>
@@ -47,16 +47,20 @@
                         <div class="row">                                        
                             <div class="col-12 col-md-6 col-lg-3"> 
                                 <div class="form-group">
-                                    <div class="thumb_user_admin">
-                                        @php
-                                            if(!empty($user->avatar) && \Illuminate\Support\Facades\File::exists(public_path() . '/storage/' . $user->avatar)){
-                                                $cover = url('storage/'.$user->avatar);
-                                            } else {
-                                                $cover = url(asset('theme/images/image.jpg'));
-                                            }
-                                        @endphp
-                                        
-                                    </div>                                                
+                                    <div>
+                                        <label for="foto">Selecione uma foto:</label>
+                                        <input type="file" id="foto" wire:model="foto">
+                                        @error('foto') <span class="error">{{ $message }}</span> @enderror
+                                    </div>
+                                    <!-- Exibe a prévia da foto -->
+                                    @if ($fotoUrl)
+                                        <div style="margin-top: 20px;">
+                                            <p>Prévia da foto:</p>
+                                            <img src="{{ $fotoUrl }}" alt="Prévia da foto" style="max-width: 300px;">
+                                        </div>
+                                    @endif
+                                    
+                                                                                   
                                 </div>
                             </div>
                             <div class="col-12 col-md-6 col-lg-9"> 
@@ -74,7 +78,7 @@
                                         <div class="form-group">
                                             <label class="labelforms text-muted"><b>*Data de Nascimento</b></label>
                                             <div class="input-group">
-                                                <input type="text" class="form-control datepicker-here" data-language='pt-BR' wire:model="nasc" id="nasc" />
+                                                <input type="text" class="form-control datepicker-here" data-language='pt-BR' wire:model="birthday" id="birthday" />
                                                 <div class="input-group-append">
                                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                                 </div>
@@ -345,6 +349,18 @@
 </div>
 
 <script>
+    document.addEventListener('cliente-atualizado', function () {
+        Swal.fire({
+            title: 'Sucesso!',
+            text: "Cliente atualizado!",
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
+    });
+</script>
+
+
+<script>
     window.addEventListener('alert', event => {
         toastr[event.detail.type](event.detail.message,
         event.detail.title ?? ''), toastr.options = {
@@ -358,5 +374,7 @@
     function maskCep(input) {
         input.value = input.value.replace(/\D/g, '').replace(/(\d{5})(\d{3})/, '$1-$2');
     }
+
+    
 
 </script>

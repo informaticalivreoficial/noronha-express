@@ -33,6 +33,7 @@
     {{-- General Styles --}}
     <link rel="stylesheet" href="{{ asset('theme/dist/css/styles.css') }}">
 
+   
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 

@@ -2,10 +2,8 @@
 
 namespace App\Livewire\Dashboard\Users;
 
-use App\Http\Requests\Admin\UserRequest;
 use App\Models\User;
 use Livewire\Component;
-use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Http;
 
@@ -14,6 +12,11 @@ class Form extends Component
     use WithFileUploads;
 
     public $userId;
+
+    public $foto; // Propriedade para armazenar a foto temporariamente
+    public $fotoUrl; // Propriedade para armazenar o caminho da foto após o upload
+
+       
 
     //Informations about
     public $name, $birthday, $gender, $naturalness, $civil_status, $code ,$avatar;    
@@ -70,9 +73,20 @@ class Form extends Component
 
     public function update()
     {
+        // $this->validate([
+        //     'foto' => 'image|max:1024', // Aceita apenas imagens com até 1MB
+        //     'foto.image' => 'O arquivo deve ser uma imagem.',
+        //     'foto.max' => 'A imagem não pode ter mais de 1MB.',
+        // ]);
+
         $user = User::findOrFail($this->userId);
 
+        $this->validateOnly('foto'); // Valida apenas o campo 'foto'
+        $this->fotoUrl = $this->foto->temporaryUrl(); // Gera a URL temporária da foto
+        //$this->caminhoFoto = $this->foto->store('clientes_fotos', 'public');
+
         $user->update([
+            'avatar' => $this->caminhoFoto,
             'name' => $this->name,
             'email' => $this->email,
             'facebook' => $this->facebook,
@@ -89,10 +103,13 @@ class Form extends Component
             'whatsapp' => $this->whatsapp,
             'additional_email' => $this->additional_email,
         ]);
-        session()->flash('message', 'Cliente atualizado com sucesso!');
+        //session()->flash('message', 'Cliente atualizado com sucesso!');
         $this->modoEdicao = false;
         //$this->reset(['name', 'email']);
         $this->dispatch('userId');
+        $this->dispatch(['cliente-atualizado']);
+        //$this->reset('foto');
+        
     }
 
    
@@ -121,5 +138,11 @@ class Form extends Component
             }
         }
     }
+
+    // public function updatedFoto()
+    // {
+    //     $this->validateOnly('foto'); // Valida apenas o campo 'foto'
+    //     $this->fotoUrl = $this->foto->temporaryUrl(); // Gera a URL temporária da foto
+    // }
 
 }
