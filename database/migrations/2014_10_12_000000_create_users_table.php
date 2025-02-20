@@ -41,10 +41,12 @@ return new class extends Migration
             $table->string('city')->nullable();
 
             /** contact */
+            $table->string('phone')->nullable();
             $table->string('cell_phone')->nullable();
             $table->string('whatsapp')->nullable();
             $table->string('additional_email')->nullable();
             $table->string('email')->unique();
+            $table->string('telegram')->unique();
 
             /** Socials */
             $table->string('facebook')->nullable();

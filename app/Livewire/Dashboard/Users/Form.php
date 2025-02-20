@@ -32,7 +32,7 @@ class Form extends Component
     public $postcode, $street, $neighborhood, $city, $state, $complement, $number;
 
     //Contact
-    public $cell_phone, $whatsapp, $email, $additional_email;
+    public $phone, $cell_phone, $whatsapp, $email, $additional_email, $telegram;
 
     //Social
     public $facebook, $instagram, $linkedin;
@@ -62,12 +62,18 @@ class Form extends Component
                 $this->rg_expedition = $user->rg_expedition;
                 $this->cpf = $user->cpf;
                 $this->email = $user->email;
+                $this->phone = $user->phone;
                 $this->cell_phone = $user->cell_phone;
                 $this->whatsapp = $user->whatsapp;
                 $this->additional_email = $user->additional_email;
+                $this->telegram = $user->telegram;
                 $this->facebook = $user->facebook;
                 $this->instagram = $user->instagram;
                 $this->linkedin = $user->linkedin;
+                $this->admin = $user->admin;
+                $this->superadmin = $user->superadmin;
+                $this->editor = $user->editor;
+                $this->client = $user->client;
             }            
         }
         //$this->fotoUrl = $this->foto->temporaryUrl(); // Gera a URL temporária da foto
@@ -109,9 +115,15 @@ class Form extends Component
             'rg' => $this->rg,
             'rg_expedition' => $this->rg_expedition,
             'cpf' => $this->cpf,
+            'phone' => $this->phone,
             'cell_phone' => $this->cell_phone,
-            'whatsapp' => $this->whatsapp,
             'additional_email' => $this->additional_email,
+            'whatsapp' => $this->whatsapp,
+            'telegram' => $this->telegram,
+            'admin' => $this->admin,
+            'superadmin' => $this->superadmin,
+            'editor' => $this->editor,
+            'client' => $this->client,
         ]);
 
         //$this->modoEdicao = false;

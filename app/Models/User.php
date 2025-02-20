@@ -30,7 +30,7 @@ class User extends Authenticatable
         //Address      
         'postcode', 'street', 'number', 'complement', 'neighborhood', 'state', 'city',
         //Contato
-        'cell_phone', 'whatsapp', 'email', 'additional_email',
+        'phone', 'cell_phone', 'whatsapp', 'email', 'additional_email', 'telegram',
         //Social
         'facebook', 'instagram', 'linkedin',  
         //function
@@ -126,25 +126,25 @@ class User extends Authenticatable
             substr($value, 7, 4) ;
     }
 
-    public function setAdminAttribute($value)
-    {
-        $this->attributes['admin'] = ($value === true || $value === 'on' ? 1 : 0);
-    }
+    // public function setAdminAttribute($value)
+    // {
+    //     $this->attributes['admin'] = ($value === true || $value === 'on' ? 1 : 0);
+    // }
 
-    public function setEditorAttribute($value)
-    {
-        $this->attributes['editor'] = ($value === true || $value === 'on' ? 1 : 0);
-    }
+    // public function setEditorAttribute($value)
+    // {
+    //     $this->attributes['editor'] = ($value === true || $value === 'on' ? 1 : 0);
+    // }
 
-    public function setClientAttribute($value)
-    {
-        $this->attributes['client'] = ($value === true || $value === 'on' ? 1 : 0);
-    }
+    // public function setClientAttribute($value)
+    // {
+    //     $this->attributes['client'] = ($value === true || $value === 'on' ? 1 : 0);
+    // }
     
-    public function setSuperAdminAttribute($value)
-    {
-        $this->attributes['superadmin'] = ($value === true || $value === 'on' ? 1 : 0);
-    }
+    // public function setSuperAdminAttribute($value)
+    // {
+    //     $this->attributes['superadmin'] = ($value === true || $value === 'on' ? 1 : 0);
+    // }
 
     private function convertStringToDouble(?string $param)
     {
