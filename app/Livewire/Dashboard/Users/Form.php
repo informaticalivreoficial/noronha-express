@@ -6,6 +6,7 @@ use App\Models\User;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 
 class Form extends Component
 {
@@ -15,7 +16,10 @@ class Form extends Component
 
     public $foto; // Propriedade para armazenar a foto temporariamente
     public $fotoUrl; // Propriedade para armazenar o caminho da foto após o upload
-
+    
+    protected $rules = [
+        'foto' => 'image|max:1024',
+    ];
        
 
     //Informations about
@@ -39,6 +43,7 @@ class Form extends Component
     public $password;
 
     public $modoEdicao = false;
+
     
 
     public function mount($userId = null)
@@ -48,6 +53,7 @@ class Form extends Component
             if ($user) {
                 $this->userId = $user->id;
                 $this->name = $user->name;                
+                $this->avatar = $user->avatar;                
                 $this->birthday = $user->birthday;
                 $this->gender = $user->gender;
                 $this->naturalness = $user->naturalness;
@@ -62,8 +68,9 @@ class Form extends Component
                 $this->facebook = $user->facebook;
                 $this->instagram = $user->instagram;
                 $this->linkedin = $user->linkedin;
-            }
+            }            
         }
+        //$this->fotoUrl = $this->foto->temporaryUrl(); // Gera a URL temporária da foto
     }
 
     public function render()
@@ -73,20 +80,23 @@ class Form extends Component
 
     public function update()
     {
-        // $this->validate([
-        //     'foto' => 'image|max:1024', // Aceita apenas imagens com até 1MB
-        //     'foto.image' => 'O arquivo deve ser uma imagem.',
-        //     'foto.max' => 'A imagem não pode ter mais de 1MB.',
-        // ]);
+        $user = User::findOrFail($this->userId); 
 
-        $user = User::findOrFail($this->userId);
-
-        $this->validateOnly('foto'); // Valida apenas o campo 'foto'
-        $this->fotoUrl = $this->foto->temporaryUrl(); // Gera a URL temporária da foto
-        //$this->caminhoFoto = $this->foto->store('clientes_fotos', 'public');
-
-        $user->update([
-            'avatar' => $this->caminhoFoto,
+        if ($this->foto) {
+            // Exclui a foto antiga (se existir)
+            if ($this->avatar && Storage::disk()->exists($this->avatar)) {
+                Storage::delete($this->avatar);
+            }
+            // Salva a nova foto no diretório 'public/fotos'
+            $caminhoFoto = $this->foto->store('client', 'public');
+            $user->update([
+                'avatar' => $caminhoFoto
+            ]);
+        }
+        
+        //$this->fotoUrl = $this->foto->store('client', 'public');
+        
+        $user->update([            
             'name' => $this->name,
             'email' => $this->email,
             'facebook' => $this->facebook,
@@ -103,12 +113,12 @@ class Form extends Component
             'whatsapp' => $this->whatsapp,
             'additional_email' => $this->additional_email,
         ]);
-        //session()->flash('message', 'Cliente atualizado com sucesso!');
-        $this->modoEdicao = false;
+
+        //$this->modoEdicao = false;
         //$this->reset(['name', 'email']);
         $this->dispatch('userId');
         $this->dispatch(['cliente-atualizado']);
-        //$this->reset('foto');
+        $this->reset('foto');
         
     }
 
@@ -139,10 +149,10 @@ class Form extends Component
         }
     }
 
-    // public function updatedFoto()
-    // {
-    //     $this->validateOnly('foto'); // Valida apenas o campo 'foto'
-    //     $this->fotoUrl = $this->foto->temporaryUrl(); // Gera a URL temporária da foto
-    // }
+    public function updatedFoto()
+    {
+        $this->validateOnly('foto'); // Valida apenas o campo 'foto'
+        $this->fotoUrl = $this->foto->temporaryUrl(); // Gera a URL temporária da foto
+    }
 
 }

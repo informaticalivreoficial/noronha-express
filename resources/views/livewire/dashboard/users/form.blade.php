@@ -46,21 +46,25 @@
 
                         <div class="row">                                        
                             <div class="col-12 col-md-6 col-lg-3"> 
-                                <div class="form-group">
-                                    <div>
-                                        <label for="foto">Selecione uma foto:</label>
-                                        <input type="file" id="foto" wire:model="foto">
-                                        @error('foto') <span class="error">{{ $message }}</span> @enderror
-                                    </div>
-                                    <!-- Exibe a prévia da foto -->
+                                <div class="form-group">                                    
+                                        <input type="file" id="foto" wire:model="foto" style="display: none;">
+                                        @error('foto') <span class="error">{{ $message }}</span> @enderror                                                                       
+                                    @php
+                                        if(!empty($avatar) && env('AWS_PASTA') . \Illuminate\Support\Facades\Storage::exists($avatar)){
+                                            $cover = \Illuminate\Support\Facades\Storage::url($avatar);
+                                        } else {
+                                            $cover = url(asset('theme/images/image.jpg'));
+                                        }
+                                    @endphp
                                     @if ($fotoUrl)
-                                        <div style="margin-top: 20px;">
-                                            <p>Prévia da foto:</p>
-                                            <img src="{{ $fotoUrl }}" alt="Prévia da foto" style="max-width: 300px;">
-                                        </div>
-                                    @endif
-                                    
-                                                                                   
+                                        <label for="foto">
+                                            <img class="file-input-container" src="{{ $fotoUrl }}" alt="{{$name}}" style="max-width: 262px;">
+                                        </label>
+                                    @else
+                                        <label for="foto">
+                                            <img class="file-input-container" src="{{ $cover }}" alt="{{$name}}" style="max-width: 262px;">
+                                        </label>
+                                    @endif                                        
                                 </div>
                             </div>
                             <div class="col-12 col-md-6 col-lg-9"> 
@@ -111,25 +115,25 @@
                                     <div class="col-12 col-md-6 col-lg-4 mb-2"> 
                                         <div class="form-group">
                                             <label class="labelforms text-muted"><b>*CPF</b></label>
-                                            <input type="text" class="form-control cpfmask" placeholder="CPF do Cliente" id="cpf" wire:model="cpf"/>
+                                            <input type="text" class="form-control" placeholder="000.000.000-00" id="cpf" wire:model="cpf" x-mask="999.999.999-99"/>
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6 col-lg-4 mb-2"> 
                                         <div class="form-group">
                                             <label class="labelforms text-muted"><b>RG</b></label>
-                                            <input type="text" class="form-control rgmask" placeholder="RG do Cliente" name="rg" value="{{ old('rg') }}"/>
+                                            <input type="text" class="form-control" placeholder="RG do Cliente" id="rg" wire:model="rg"/>
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6 col-lg-4 mb-2"> 
                                         <div class="form-group">
                                             <label class="labelforms text-muted"><b>Órgão Expedidor</b></label>
-                                            <input type="text" class="form-control" placeholder="Expedição" name="rg_expedicao" value="{{ old('rg_expedicao') }}">
+                                            <input type="text" class="form-control" placeholder="Expedição" id="rg_expedition" wire:model="rg_expedition">
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6 col-lg-4 mb-2"> 
                                         <div class="form-group">
                                             <label class="labelforms text-muted"><b>Naturalidade</b></label>
-                                            <input type="text" class="form-control" placeholder="Cidade de Nascimento" name="naturalidade" value="{{ old('naturalidade') }}">
+                                            <input type="text" class="form-control" placeholder="Cidade de Nascimento" id="naturalness" wire:model="naturalness">
                                         </div>
                                     </div>
                                 </div>                                           
@@ -152,13 +156,13 @@
                                             <div class="col-12 col-md-6 col-lg-4"> 
                                                 <div class="form-group">
                                                     <label class="labelforms text-muted"><b>*Celular:</b></label>
-                                                    <input type="text" class="form-control celularmask" placeholder="Número do Celular com DDD" wire:model="cell_phone" id="cell_phone">
+                                                    <input type="text" class="form-control" x-mask="(99) 99999-9999" placeholder="Número do Celular com DDD" wire:model="cell_phone" id="cell_phone">
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-6 col-lg-4"> 
                                                 <div class="form-group">
                                                     <label class="labelforms text-muted"><b>WhatsApp:</b></label>
-                                                    <input type="text" class="form-control whatsappmask" placeholder="Número do WhatsApp com DDD" wire:model="whatsapp" id="whatsapp">
+                                                    <input type="text" class="form-control" x-mask="(99) 99999-9999" placeholder="Número do WhatsApp com DDD" wire:model="whatsapp" id="whatsapp">
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-6 col-lg-4"> 
@@ -314,22 +318,23 @@
                                 <div class="form-group p-3 mb-0">
                                     <span class="mr-3"><b>Acesso ao Sistema:</b></span>  
                                     <div class="form-check d-inline mx-2">
-                                        <input id="editor" class="form-check-input" type="checkbox" name="editor" {{ (old('editor') == 'on' || old('editor') == true ? 'checked' : '') }}>
-                                        <label for="editor" class="form-check-label">Editor</label>
-                                    </div>
-                                    <div class="form-check d-inline mx-2">
-                                        <input id="admin" class="form-check-input" type="checkbox" name="admin" {{ (old('admin') == 'on' || old('admin') == true ? 'checked' : '') }}>
-                                        <label for="admin" class="form-check-label">Administrativo</label>
-                                    </div>
-                                    <div class="form-check d-inline mx-2">
-                                        <input id="client" class="form-check-input" type="checkbox"  name="client" {{ (old('client') == 'on' || old('client') == true ? 'checked' : '') }}>
+                                        <input id="client" class="form-check-input" type="checkbox"  wire:model="client" {{ (old('client') == 'on' || old('client') == true ? 'checked' : '') }}>
                                         <label for="client" class="form-check-label">Cliente</label>
                                     </div>
-                                    @if(\Illuminate\Support\Facades\Auth::user()->superadmin == 1)
                                     <div class="form-check d-inline mx-2">
-                                        <input id="superadmin" class="form-check-input" type="checkbox"  name="superadmin" {{ (old('superadmin') == 'on' || old('superadmin') == true ? 'checked' : '') }}>
-                                        <label for="superadmin" class="form-check-label">Super Administrador</label>
+                                        <input id="editor" class="form-check-input" type="checkbox" wire:model="editor" {{ (old('editor') == 'on' || old('editor') == true ? 'checked' : '') }}>
+                                        <label for="editor" class="form-check-label">Editor</label>
                                     </div>
+                                    @if(\Illuminate\Support\Facades\Auth::user()->superadmin == 1)
+                                        <div class="form-check d-inline mx-2">
+                                            <input id="admin" class="form-check-input" type="checkbox" wire:model="admin" {{ (old('admin') == 'on' || old('admin') == true ? 'checked' : '') }}>
+                                            <label for="admin" class="form-check-label">Administrativo</label>
+                                        </div>                                    
+                                    
+                                        <div class="form-check d-inline mx-2">
+                                            <input id="superadmin" class="form-check-input" type="checkbox"  wire:model="superadmin" {{ (old('superadmin') == 'on' || old('superadmin') == true ? 'checked' : '') }}>
+                                            <label for="superadmin" class="form-check-label">Super Administrador</label>
+                                        </div>
                                     @endif
                                 </div>
                             </div>                                        
@@ -354,9 +359,12 @@
             title: 'Sucesso!',
             text: "Cliente atualizado!",
             icon: 'success',
-            confirmButtonText: 'OK'
+            showConfirmButton: false,
+            timer: 3000 // Fecha automaticamente após 3 segundos
         });
     });
+
+    
 </script>
 
 
