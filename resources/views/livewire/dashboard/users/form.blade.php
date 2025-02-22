@@ -255,7 +255,7 @@
                                         <div class="row mb-2">
 
 
-                                            {{--
+                                            
                                             <div class="col-12 col-md-6 col-lg-2"> 
                                                 <div class="form-group">
                                                     <label class="labelforms text-muted"><b>*CEP:</b></label>
@@ -299,7 +299,7 @@
                                                     <label class="labelforms text-muted"><b>Complemento:</b></label>
                                                     <input type="text" class="form-control" placeholder="Complemento (Opcional)" name="complemento" value="{{old('complemento')}}">
                                                 </div>
-                                            </div>   --}}
+                                            </div>   
                                         </div>
                                     </div>
                                 </div>
