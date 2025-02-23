@@ -259,25 +259,26 @@
                                             <div class="col-12 col-md-6 col-lg-2"> 
                                                 <div class="form-group">
                                                     <label class="labelforms text-muted"><b>*CEP:</b></label>
-                                                    <input type="text" class="form-control mask-zipcode" id="cep" placeholder="Digite o CEP" name="cep" value="{{old('cep')}}">
+                                                    <input type="text" class="form-control" id="postcode" wire:model.lazy="postcode">
                                                 </div>
                                             </div>
+                                            
                                             <div class="col-12 col-md-4 col-lg-3"> 
                                                 <div class="form-group">
                                                     <label class="labelforms text-muted"><b>*Estado:</b></label>
-                                                    <input type="text" class="form-control" id="uf" name="uf" value="{{old('uf')}}">
+                                                    <input type="text" class="form-control" id="state" wire:model="state" readonly>
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-4 col-lg-4"> 
                                                 <div class="form-group">
                                                     <label class="labelforms text-muted"><b>*Cidade:</b></label>
-                                                    <input type="text" class="form-control" id="cidade" name="cidade" value="{{old('cidade')}}">
+                                                    <input type="text" class="form-control" id="city" wire:model="city" readonly>
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-6 col-lg-3"> 
                                                 <div class="form-group">
                                                     <label class="labelforms text-muted"><b>*Rua:</b></label>
-                                                    <input type="text" class="form-control" placeholder="Endereço Completo" id="rua" name="rua" value="{{old('rua')}}">
+                                                    <input type="text" class="form-control" id="street" wire:model="street" readonly>
                                                 </div>
                                             </div>                                            
                                         </div>
@@ -285,19 +286,19 @@
                                             <div class="col-12 col-md-4 col-lg-3"> 
                                                 <div class="form-group">
                                                     <label class="labelforms text-muted"><b>*Bairro:</b></label>
-                                                    <input type="text" class="form-control" placeholder="Bairro" id="bairro" name="bairro" value="{{old('bairro')}}">
+                                                    <input type="text" class="form-control" id="neighborhood" wire:model="neighborhood" readonly>
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-6 col-lg-2"> 
                                                 <div class="form-group">
                                                     <label class="labelforms text-muted"><b>*Número:</b></label>
-                                                    <input type="text" class="form-control" placeholder="Número do Endereço" name="num" value="{{old('num')}}">
+                                                    <input type="text" class="form-control" placeholder="Número do Endereço" id="number" wire:model="number">
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-6 col-lg-3"> 
                                                 <div class="form-group">
                                                     <label class="labelforms text-muted"><b>Complemento:</b></label>
-                                                    <input type="text" class="form-control" placeholder="Complemento (Opcional)" name="complemento" value="{{old('complemento')}}">
+                                                    <input type="text" class="form-control" id="complement" wire:model="complement">
                                                 </div>
                                             </div>   
                                         </div>

@@ -91,23 +91,23 @@ class User extends Authenticatable
         }
     }
 
-    public function setCpfAttribute($value)
-    {
-        $this->attributes['cpf'] = (!empty($value) ? $this->clearField($value) : null);
-    }
+    // public function setCpfAttribute($value)
+    // {
+    //     $this->attributes['cpf'] = (!empty($value) ? $this->clearField($value) : null);
+    // }
     
-    public function getCpfAttribute($value)
-    {
-        if (empty($value)) {
-            return null;
-        }
+    // public function getCpfAttribute($value)
+    // {
+    //     if (empty($value)) {
+    //         return null;
+    //     }
 
-        return
-            substr($value, 0, 3) . '.' .
-            substr($value, 3, 3) . '.' .
-            substr($value, 6, 3) . '-' .
-            substr($value, 9, 2);
-    }
+    //     return
+    //         substr($value, 0, 3) . '.' .
+    //         substr($value, 3, 3) . '.' .
+    //         substr($value, 6, 3) . '-' .
+    //         substr($value, 9, 2);
+    // }
 
     public function setCellPhoneAttribute($value)
     {

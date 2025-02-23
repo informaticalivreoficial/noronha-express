@@ -44,7 +44,7 @@ class Form extends Component
 
     public $modoEdicao = false;
 
-    
+    public $dados = [];
 
     public function mount($userId = null)
     {
@@ -67,6 +67,13 @@ class Form extends Component
                 $this->whatsapp = $user->whatsapp;
                 $this->additional_email = $user->additional_email;
                 $this->telegram = $user->telegram;
+                $this->number = $user->number;
+                $this->postcode = $user->postcode;
+                $this->street = $user->street;
+                $this->neighborhood = $user->neighborhood;
+                $this->city = $user->city;
+                $this->state = $user->state;
+                $this->complement = $user->complement;
                 $this->facebook = $user->facebook;
                 $this->instagram = $user->instagram;
                 $this->linkedin = $user->linkedin;
@@ -119,6 +126,13 @@ class Form extends Component
             'cell_phone' => $this->cell_phone,
             'additional_email' => $this->additional_email,
             'whatsapp' => $this->whatsapp,
+            'number '=> $this->number,
+            'postcode' => $this->postcode,
+            'street' => $this->street,
+            'neighborhood' => $this->neighborhood,
+            'city' => $this->city,
+            'state' => $this->state,
+            'complement' => $this->complement,
             'telegram' => $this->telegram,
             'admin' => $this->admin,
             'superadmin' => $this->superadmin,
@@ -132,31 +146,21 @@ class Form extends Component
         $this->dispatch(['cliente-atualizado']);
         $this->reset('foto');
         
-    }
+    }   
 
-   
-    // Função para fazer a consulta via API
-    public function consultarCep()
+    public function updatedPostcode(string $value)
     {
-        // Validando se o CEP foi informado corretamente
-        if (strlen($this->cep) === 8) {
-            $response = Http::get("https://viacep.com.br/ws/{$this->cep}/json/");
-            
-            if ($response->ok()) {
-                $data = $response->json();
-                dd($data);
-                // Preenche os campos com os dados retornados da consulta
-                $this->endereco = $data['logradouro'] ?? '';
-                $this->bairro = $data['bairro'] ?? '';
-                $this->cidade = $data['localidade'] ?? '';
-                $this->estado = $data['uf'] ?? '';
-            } else {
-                // Em caso de erro, limpa os campos
-                $this->endereco = '';
-                $this->bairro = '';
-                $this->cidade = '';
-                $this->estado = '';
-                session()->flash('error', 'CEP não encontrado.');
+        $this->postcode = preg_replace('/[^0-9]/', '', $value);
+        if(strlen($this->postcode) === 8){
+            $response = Http::get("https://viacep.com.br/ws/{$this->postcode}/json/")->json();
+            if(!isset($response['erro'])){
+                $this->street = $response['logradouro'] ?? '';
+                $this->neighborhood = $response['bairro'] ?? '';
+                $this->state = $response['uf'] ?? '';
+                $this->city = $response['localidade'] ?? '';
+                $this->complement = $response['complemento'] ?? '';
+            }else{
+                session()->flash('erro', 'CEP não encontrado!');
             }
         }
     }
