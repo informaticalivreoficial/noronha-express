@@ -253,9 +253,6 @@
                                 <div id="collapseEndereco" class="panel-collapse collapse show">
                                     <div class="card-body">
                                         <div class="row mb-2">
-
-
-                                            
                                             <div class="col-12 col-md-6 col-lg-2"> 
                                                 <div class="form-group">
                                                     <label class="labelforms text-muted"><b>*CEP:</b></label>
@@ -353,7 +350,7 @@
                     <div class="tab-pane fade" id="custom-tabs-four-redes" role="tabpanel"
                         aria-labelledby="custom-tabs-four-redes-tab">
                         <div class="row mb-2 text-muted">
-                            <div class="col-sm-12 text-muted">
+                            <div class="col-sm-12">
                                 <div class="form-group">
                                     <h5><b>Redes Sociais</b></h5>
                                 </div>
@@ -382,9 +379,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="custom-tabs-four-permissoes" role="tabpanel"
-                        aria-labelledby="custom-tabs-four-permissoes-tab">
+                    <div class="tab-pane fade" id="custom-tabs-four-permissoes" role="tabpanel" aria-labelledby="custom-tabs-four-permissoes-tab">
+                        
                         <div class="row mb-2 text-muted">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <h5><b>Permissão de Acesso</b></h5>
+                                </div>
+                            </div>
                             <div class="col-sm-12 bg-gray-light mb-3">
                                 <!-- checkbox -->
                                 <div class="form-group p-3 mb-0">
@@ -410,20 +412,42 @@
                                             <input id="superadmin" class="form-check-input" type="checkbox"
                                                 wire:model="superadmin"
                                                 {{ $superadmin == true ? 'checked' : null }}>
-                                            <label for="superadmin" class="form-check-label">Super
-                                                Administrador</label>
+                                            <label for="superadmin" class="form-check-label">Super Administrador</label>
                                         </div>
                                     @endif
                                 </div>
                             </div>
+                            @if (!$userId)
+                                <div class="col-12 col-md-6 col-lg-4">
+                                    <label class="labelforms text-muted"><b>Senha:</b></label>
+                                    <div class="input-group input-group-md">                                    
+                                        <input type="password" id="password" class="form-control" wire:model="password">
+                                        <span class="input-group-append">
+                                        <button type="button" onclick="togglePassword('password')" class="btn btn-default btn-flat"><i class="fa fa-eye"></i></button>
+                                        </span>
+                                    </div>                                
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-4">
+                                    <label class="labelforms text-muted"><b>Confirmar Senha:</b></label>
+                                    <div class="input-group input-group-md">                                    
+                                        <input type="password" id="password_confirmation" class="form-control" wire:model.lazy="password_confirmation">
+                                        <span class="input-group-append">
+                                        <button type="button" onclick="togglePassword('password_confirmation')" class="btn btn-default btn-flat"><i class="fa fa-eye"></i></button>
+                                        </span>
+                                    </div>                                
+                                </div>
+                                @if(session()->has('erro'))
+                                    <p class="text-red-500 mb-2">{{ session('erro') }}</p>
+                                @endif
+                            @endif
+                            
                         </div>
                     </div>
                 </div>
 
                 <div class="row text-right">
                     <div class="col-12 mb-4">
-                        <button type="submit" class="btn btn-success"><i
-                                class="nav-icon fas fa-check mr-2"></i>{{ $userId ? 'Atualizar Agora' : 'Cadastrar Agora' }}</button>
+                        <button type="submit" class="btn btn-success"><i class="nav-icon fas fa-check mr-2"></i>{{ $userId ? 'Atualizar Agora' : 'Cadastrar Agora' }}</button>
                     </div>
                 </div>
             </div>
@@ -453,6 +477,11 @@
             "progressBar": true,
         }
     });
+
+    function togglePassword(id) {
+        let input = document.getElementById(id);
+        input.type = input.type === 'password' ? 'text' : 'password';
+    }
 
 
     // Máscara para o campo CEP

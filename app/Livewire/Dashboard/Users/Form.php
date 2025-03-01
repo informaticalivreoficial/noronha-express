@@ -3,6 +3,7 @@
 namespace App\Livewire\Dashboard\Users;
 
 use App\Models\User;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Http;
@@ -19,8 +20,7 @@ class Form extends Component
     
     protected $rules = [
         'foto' => 'image|max:1024',
-    ];
-       
+    ];       
 
     //Informations about
     public $name, $birthday, $gender, $naturalness, $civil_status, $code ,$avatar;    
@@ -41,10 +41,11 @@ class Form extends Component
     public $admin = null, $client = null, $editor = null, $superadmin = null;
 
     public $password;
+    public $password_confirmation;
 
     public $modoEdicao = false;
 
-    public $dados = [];
+    //$this->userId = null ? 'Novo Cliente' : 'Editar Cliente'
 
     public function mount($userId = null)
     {
@@ -53,6 +54,7 @@ class Form extends Component
             if ($user) {
                 $this->userId = $user->id;
                 $this->name = $user->name;                
+                $this->password = $user->password;       
                 $this->avatar = $user->avatar;                
                 $this->birthday = $user->birthday;
                 $this->gender = $user->gender;
@@ -82,8 +84,7 @@ class Form extends Component
                 $this->editor = $user->editor;
                 $this->client = $user->client;
             }            
-        }
-        //$this->fotoUrl = $this->foto->temporaryUrl(); // Gera a URL temporária da foto
+        }        
     }
 
     public function render()
@@ -106,9 +107,12 @@ class Form extends Component
                 'avatar' => $caminhoFoto
             ]);
         }
-        
-        //$this->fotoUrl = $this->foto->store('client', 'public');
-        
+
+        // if ($this->password !== $this->password_confirmation) {
+        //     session()->flash('erro', 'As senhas não coincidem!');
+        //     return;
+        // }
+                
         $user->update([            
             'name' => $this->name,
             'email' => $this->email,
@@ -126,7 +130,7 @@ class Form extends Component
             'cell_phone' => $this->cell_phone,
             'additional_email' => $this->additional_email,
             'whatsapp' => $this->whatsapp,
-            'number '=> $this->number,
+            'number'=> $this->number,
             'postcode' => $this->postcode,
             'street' => $this->street,
             'neighborhood' => $this->neighborhood,
@@ -144,8 +148,7 @@ class Form extends Component
         //$this->reset(['name', 'email']);
         $this->dispatch('userId');
         $this->dispatch(['cliente-atualizado']);
-        $this->reset('foto');
-        
+        $this->reset('foto');        
     }   
 
     public function updatedPostcode(string $value)
@@ -164,6 +167,14 @@ class Form extends Component
             }
         }
     }
+
+    // public function updatedPasswordconfirmation(string $value)
+    // {
+    //     if ($this->password !== $this->password_confirmation) {
+    //         session()->flash('erro', 'As senhas não coincidem!');
+    //         return;
+    //     }
+    // }
 
     public function updatedFoto()
     {
