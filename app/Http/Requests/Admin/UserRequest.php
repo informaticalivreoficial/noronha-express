@@ -64,4 +64,21 @@ class UserRequest extends FormRequest
 //            'profissao_empresa_conjuje' => 'required_if:estado_civil,casado,separado'
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'O nome é obrigatório!',
+            'name.min' => 'O nome deve ter pelo menos 3 caracteres!',
+            'cpf.required' => 'O cpf é obrigatório!',
+            'email.required' => 'O e-mail é obrigatório!',
+            'email.email' => 'O e-mail deve ser válido!',
+            'email.unique' => 'Este e-mail já está cadastrado!',
+            'password.required' => 'A senha é obrigatória!',
+            'password.min' => 'A senha deve ter pelo menos 6 caracteres!',
+            'password.confirmed' => 'As senhas não coincidem!',
+            'estado_civil.required' => 'O estado civil é obrigatório!',
+            'estado_civil.in' => 'Selecione um estado civil válido!',
+        ];
+    }
 }

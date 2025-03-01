@@ -30,6 +30,8 @@
     {{-- Toastr --}}
     <link rel="stylesheet" href="{{ asset('theme/plugins/toastr/toastr.min.css') }}">
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
     {{-- General Styles --}}
     <link rel="stylesheet" href="{{ asset('theme/dist/css/styles.css') }}">
 
@@ -106,6 +108,9 @@
     <script src="{{ asset('theme/dist/js/adminlte.js') }}"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
    
 

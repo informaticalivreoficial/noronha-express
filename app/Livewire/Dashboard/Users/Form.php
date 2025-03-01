@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Dashboard\Users;
 
+use App\Http\Requests\Admin\UserRequest;
 use App\Models\User;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -43,8 +44,8 @@ class Form extends Component
     public $password;
     public $password_confirmation;
 
-    public $modoEdicao = false;
-
+    protected $listeners = ['atualizar-data' => 'atualizarData'];
+    
     //$this->userId = null ? 'Novo Cliente' : 'Editar Cliente'
 
     public function mount($userId = null)
@@ -90,6 +91,57 @@ class Form extends Component
     public function render()
     {
         return view('livewire.dashboard.users.form');
+    }
+
+    public function save()
+    {
+        //dd($this->userId);
+        if ($this->userId != null) {
+            $this->update();
+        } else {
+            $this->create();
+        }
+    }
+
+    public function create()
+    {
+        $validated = app(UserRequest::class)->validated();
+
+        User::create([
+            'name' => $validated['name'],                
+            'password' => $this->password,       
+            'avatar' => $this->avatar,                
+            'birthday' => $this->birthday,
+            'gender' => $this->gender,
+            'naturalness' => $this->naturalness,
+            'civil_status' => $this->civil_status,
+            'rg' => $this->rg,
+            'rg_expedition' => $this->rg_expedition,
+            'cpf' => $validated['cpf'],
+            'email' => $this->email,
+            'phone' => $this->phone,
+            'cell_phone' => $this->cell_phone,
+            'whatsapp' => $this->whatsapp,
+            'additional_email' => $this->additional_email,
+            'telegram' => $this->telegram,
+            'number' => $this->number,
+            'postcode' => $this->postcode,
+            'street' => $this->street,
+            'neighborhood' => $this->neighborhood,
+            'city' => $this->city,
+            'state' => $this->state,
+            'complement' => $this->complement,
+            'facebook' => $this->facebook,
+            'instagram' => $this->instagram,
+            'linkedin' => $this->linkedin,
+            'admin' => $this->admin,
+            'superadmin' => $this->superadmin,
+            'editor' => $this->editor,
+            'client' => $this->client
+        ]);
+
+        session()->flash('mensagem', 'Usuário cadastrado com sucesso!');
+        $this->dispatch(['cliente-cadastrado']);
     }
 
     public function update()
@@ -180,6 +232,11 @@ class Form extends Component
     {
         $this->validateOnly('foto'); // Valida apenas o campo 'foto'
         $this->fotoUrl = $this->foto->temporaryUrl(); // Gera a URL temporária da foto
+    }
+
+    public function atualizarData($valor)
+    {
+        $this->birthday = $valor;
     }
 
 }

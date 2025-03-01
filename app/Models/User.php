@@ -109,6 +109,19 @@ class User extends Authenticatable
     //         substr($value, 9, 2);
     // }
 
+    public function setBirthdayAttribute($value)
+    {
+        $this->attributes['birthday'] = (!empty($value) ? $this->convertStringToDate($value) : null);
+    }
+    
+    public function getBirthdayAttribute($value)
+    {
+        if (empty($value)) {
+            return null;
+        }
+        return date('d/m/Y', strtotime($value));
+    }
+
     public function setCellPhoneAttribute($value)
     {
         $this->attributes['cell_phone'] = (!empty($value) ? $this->clearField($value) : null);

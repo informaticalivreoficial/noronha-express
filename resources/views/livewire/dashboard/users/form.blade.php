@@ -24,7 +24,7 @@
         </div>
     @endif
 
-    <form wire:submit.prevent="update">
+    <form wire:submit.prevent="save" autocomplete="off">
         <div class="card card-teal card-outline card-outline-tabs">
 
             <div class="card-header p-0 border-bottom-0">
@@ -87,36 +87,27 @@
                                     <div class="col-12 col-md-6 col-lg-8 mb-2">
                                         <div class="form-group">
                                             <label class="labelforms"><b>*Nome</b></label>
-                                            <input type="text" class="form-control" id="name" placeholder="Nome"
-                                                wire:model="name">
-                                        </div>
-                                        <div class="text-red-500">
+                                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" placeholder="Nome" wire:model="name">
                                             @error('name')
-                                                <span class="error">{{ $message }}</span>
+                                                <span class="error erro-feedback">{{ $message }}</span>
                                             @enderror
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6 col-lg-4 mb-2">
                                         <div class="form-group">
                                             <label class="labelforms"><b>*Data de Nascimento</b></label>
-                                            <div class="input-group">
-                                                <input type="text" class="form-control datepicker-here"
-                                                    data-language='pt-BR' wire:model="birthday" id="birthday" />
-                                                <div class="input-group-append">
-                                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                                </div>
-                                            </div>
+                                            @livewire('date-picker', ['dataSelecionada' => $birthday])                                                
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6 col-lg-4 mb-2">
                                         <div class="form-group">
                                             <label class="labelforms"><b>*Genero</b></label>
-                                            <select class="form-control" name="genero">
+                                            <select class="form-control" wire:model="gender">
                                                 <option value="masculino"
-                                                    {{ old('genero') == 'masculino' ? 'selected' : '' }}>Masculino
+                                                    {{ old('gender') == 'masculino' ? 'selected' : '' }}>Masculino
                                                 </option>
                                                 <option value="feminino"
-                                                    {{ old('genero') == 'feminino' ? 'selected' : '' }}>Feminino
+                                                    {{ old('gender') == 'feminino' ? 'selected' : '' }}>Feminino
                                                 </option>
                                             </select>
                                         </div>
@@ -124,22 +115,22 @@
                                     <div class="col-12 col-md-6 col-lg-4 mb-2">
                                         <div class="form-group">
                                             <label class="labelforms"><b>*Estado Civil</b></label>
-                                            <select class="form-control" name="estado_civil">
+                                            <select class="form-control" wire:model="civil_status">
                                                 <optgroup label="Cônjuge Obrigatório">
                                                     <option value="casado"
-                                                        {{ old('estado_civil') == 'casado' ? 'selected' : '' }}>
+                                                        {{ old('civil_status') == 'casado' ? 'selected' : '' }}>
                                                         Casado</option>
                                                     <option value="separado"
-                                                        {{ old('estado_civil') == 'separado' ? 'selected' : '' }}>
+                                                        {{ old('civil_status') == 'separado' ? 'selected' : '' }}>
                                                         Separado</option>
                                                     <option value="solteiro"
-                                                        {{ old('estado_civil') == 'solteiro' ? 'selected' : '' }}>
+                                                        {{ old('civil_status') == 'solteiro' ? 'selected' : '' }}>
                                                         Solteiro</option>
                                                     <option value="divorciado"
-                                                        {{ old('estado_civil') == 'divorciado' ? 'selected' : '' }}>
+                                                        {{ old('civil_status') == 'divorciado' ? 'selected' : '' }}>
                                                         Divorciado</option>
                                                     <option value="viuvo"
-                                                        {{ old('estado_civil') == 'viuvo' ? 'selected' : '' }}>
+                                                        {{ old('civil_status') == 'viuvo' ? 'selected' : '' }}>
                                                         Viúvo(a)</option>
                                                 </optgroup>
                                             </select>
@@ -148,9 +139,11 @@
                                     <div class="col-12 col-md-6 col-lg-4 mb-2">
                                         <div class="form-group">
                                             <label class="labelforms"><b>*CPF</b></label>
-                                            <input type="text" class="form-control" placeholder="000.000.000-00"
-                                                id="cpf" wire:model="cpf" x-mask="999.999.999-99" />
-                                        </div>
+                                            <input type="text" class="form-control @error('cpf') is-invalid @enderror" placeholder="000.000.000-00" id="cpf" wire:model="cpf" x-mask="999.999.999-99" />
+                                            @error('cpf')
+                                                <span class="error erro-feedback">{{ $message }}</span>
+                                            @enderror
+                                        </div>                                        
                                     </div>
                                     <div class="col-12 col-md-6 col-lg-4 mb-2">
                                         <div class="form-group">
@@ -460,7 +453,17 @@
     document.addEventListener('cliente-atualizado', function() {
         Swal.fire({
             title: 'Sucesso!',
-            text: "Cliente atualizado!",
+            text: "Usuário atualizado!",
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 3000 // Fecha automaticamente após 3 segundos
+        });
+    });
+
+    document.addEventListener('cliente-cadastrado', function() {
+        Swal.fire({
+            title: 'Sucesso!',
+            text: "Usuário Cadastrado!",
             icon: 'success',
             showConfirmButton: false,
             timer: 3000 // Fecha automaticamente após 3 segundos
