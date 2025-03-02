@@ -96,12 +96,15 @@
                                     <div class="col-12 col-md-6 col-lg-4 mb-2">
                                         <div class="form-group">
                                             <label class="labelforms"><b>*Data de Nascimento</b></label>
-                                            @livewire('date-picker', ['dataSelecionada' => $birthday])                                                
+                                            <input type="text" class="form-control @error('birthday') is-invalid @enderror" wire:model="dataSelecionada" id="datepicker" />
+                                            @error('birthday')
+                                                <span class="error erro-feedback">{{ $message }}</span>
+                                            @enderror                                                                                                                                      
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6 col-lg-4 mb-2">
                                         <div class="form-group">
-                                            <label class="labelforms"><b>*Genero</b></label>
+                                            <label class="labelforms"><b>Genero</b></label>
                                             <select class="form-control" wire:model="gender">
                                                 <option value="masculino"
                                                     {{ old('gender') == 'masculino' ? 'selected' : '' }}>Masculino
@@ -114,7 +117,7 @@
                                     </div>
                                     <div class="col-12 col-md-6 col-lg-4 mb-2">
                                         <div class="form-group">
-                                            <label class="labelforms"><b>*Estado Civil</b></label>
+                                            <label class="labelforms"><b>Estado Civil</b></label>
                                             <select class="form-control" wire:model="civil_status">
                                                 <optgroup label="Cônjuge Obrigatório">
                                                     <option value="casado"
@@ -187,7 +190,7 @@
                                         <div class="row mb-2">
                                             <div class="col-12 col-md-6 col-lg-4">
                                                 <div class="form-group">
-                                                    <label class="labelforms"><b>*Telefone fixo:</b></label>
+                                                    <label class="labelforms"><b>Telefone fixo:</b></label>
                                                     <input type="text" class="form-control" placeholder="(00) 0000-0000"
                                                         x-mask="(99) 9999-9999" wire:model="phone" id="phone">
                                                 </div>
@@ -195,9 +198,12 @@
                                             <div class="col-12 col-md-6 col-lg-4">
                                                 <div class="form-group">
                                                     <label class="labelforms"><b>*Celular:</b></label>
-                                                    <input type="text" class="form-control" placeholder="(00) 00000-0000"
+                                                    <input type="text" class="form-control @error('cell_phone') is-invalid @enderror" placeholder="(00) 00000-0000"
                                                         x-mask="(99) 99999-9999" wire:model="cell_phone"
                                                         id="cell_phone">
+                                                    @error('cell_phone')
+                                                        <span class="error erro-feedback">{{ $message }}</span>
+                                                    @enderror
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-6 col-lg-4">
@@ -211,8 +217,10 @@
                                             <div class="col-12 col-md-6 col-lg-4">
                                                 <div class="form-group">
                                                     <label class="labelforms"><b>E-mail:</b></label>
-                                                    <input type="text" class="form-control" placeholder="Email"
-                                                        wire:model="email" id="email">
+                                                    <input type="text" class="form-control @error('email') is-invalid @enderror" placeholder="Email" wire:model="email" id="email">
+                                                    @error('email')
+                                                        <span class="error erro-feedback">{{ $message }}</span>
+                                                    @enderror
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-6 col-lg-4">
@@ -249,7 +257,13 @@
                                             <div class="col-12 col-md-6 col-lg-2"> 
                                                 <div class="form-group">
                                                     <label class="labelforms text-muted"><b>*CEP:</b></label>
-                                                    <input type="text" class="form-control" id="postcode" wire:model.lazy="postcode">
+                                                    <input type="text" x-mask="99.9999-999" class="form-control @error('postcode') is-invalid @enderror" id="postcode" wire:model.lazy="postcode">
+                                                    @error('postcode')
+                                                        <span class="error erro-feedback">{{ $message }}</span>
+                                                    @enderror
+                                                    @if (session()->has('error'))
+                                                        {{ session('message') }}
+                                                    @endif
                                                 </div>
                                             </div>
                                             
@@ -469,6 +483,34 @@
             timer: 3000 // Fecha automaticamente após 3 segundos
         });
     });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        let input = document.getElementById('datepicker');
+        flatpickr(input, {
+            dateFormat: "d/m/Y",
+            allowInput: true,
+            maxDate: "today",
+            onChange: function(selectedDates, dateStr, instance) {
+                @this.set('birthday', dateStr);
+            },
+            locale: {
+                    firstDayOfWeek: 1,
+                    weekdays: {
+                        shorthand: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+                        longhand: ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'],
+                    },
+                    months: {
+                        shorthand: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                        longhand: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+                    },
+                    today: "Hoje",
+                    clear: "Limpar",
+                    weekAbbreviation: "Sem",
+                    scrollTitle: "Role para aumentar",
+                    toggleTitle: "Clique para alternar",
+                }
+        });
+    });
 </script>
 
 
@@ -488,7 +530,7 @@
 
 
     // Máscara para o campo CEP
-    function maskCep(input) {
-        input.value = input.value.replace(/\D/g, '').replace(/(\d{5})(\d{3})/, '$1-$2');
-    }
+    // function maskCep(input) {
+    //     input.value = input.value.replace(/\D/g, '').replace(/(\d{5})(\d{3})/, '$1-$2');
+    // }
 </script>

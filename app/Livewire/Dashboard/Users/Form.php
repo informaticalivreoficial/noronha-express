@@ -21,6 +21,14 @@ class Form extends Component
     
     protected $rules = [
         'foto' => 'image|max:1024',
+        'name' => 'required|min:3',
+        'birthday' => 'required|date_format:d/m/Y|before:today',
+        'cpf' => 'required|cpf|unique:users,cpf',
+        'cell_phone' => 'required|celular_com_ddd',
+        'email' => 'required|email|unique:users,email',
+        'postcode' => 'required',
+        'password' => 'nullable|min:6|confirmed',
+        
     ];       
 
     //Informations about
@@ -44,7 +52,9 @@ class Form extends Component
     public $password;
     public $password_confirmation;
 
-    protected $listeners = ['atualizar-data' => 'atualizarData'];
+    public $errorMessage;
+
+    //protected $listeners = ['atualizar-data' => 'atualizarData'];
     
     //$this->userId = null ? 'Novo Cliente' : 'Editar Cliente'
 
@@ -105,27 +115,29 @@ class Form extends Component
 
     public function create()
     {
-        $validated = app(UserRequest::class)->validated();
-
+        //$validated = app(UserRequest::class)->validated();
+        $validated = $this->validate();
+        
+        // Criar novo usuário
         User::create([
             'name' => $validated['name'],                
             'password' => $this->password,       
             'avatar' => $this->avatar,                
-            'birthday' => $this->birthday,
+            'birthday' => $validated['birthday'],
             'gender' => $this->gender,
             'naturalness' => $this->naturalness,
             'civil_status' => $this->civil_status,
             'rg' => $this->rg,
             'rg_expedition' => $this->rg_expedition,
             'cpf' => $validated['cpf'],
-            'email' => $this->email,
+            'email' => $validated['email'],
             'phone' => $this->phone,
-            'cell_phone' => $this->cell_phone,
+            'cell_phone' => $validated['cell_phone'],
             'whatsapp' => $this->whatsapp,
             'additional_email' => $this->additional_email,
             'telegram' => $this->telegram,
             'number' => $this->number,
-            'postcode' => $this->postcode,
+            'postcode' => $validated['postcode'],
             'street' => $this->street,
             'neighborhood' => $this->neighborhood,
             'city' => $this->city,
@@ -196,7 +208,7 @@ class Form extends Component
             'client' => $this->client,
         ]);
 
-        //$this->modoEdicao = false;
+        
         //$this->reset(['name', 'email']);
         $this->dispatch('userId');
         $this->dispatch(['cliente-atualizado']);
@@ -215,7 +227,7 @@ class Form extends Component
                 $this->city = $response['localidade'] ?? '';
                 $this->complement = $response['complemento'] ?? '';
             }else{
-                session()->flash('erro', 'CEP não encontrado!');
+                $this->dispatch('cep-nao-encontrado', 'CEP não encontrado!', 'error');
             }
         }
     }
@@ -234,9 +246,9 @@ class Form extends Component
         $this->fotoUrl = $this->foto->temporaryUrl(); // Gera a URL temporária da foto
     }
 
-    public function atualizarData($valor)
-    {
-        $this->birthday = $valor;
-    }
+    // public function atualizarData($valor)
+    // {
+    //     $this->birthday = $valor;
+    // }
 
 }

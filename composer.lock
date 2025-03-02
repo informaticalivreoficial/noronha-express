@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "214354abc08f8f7a0b3aea90e547cbe1",
+    "content-hash": "aa44a430f8228d3ec35528742231913b",
     "packages": [
         {
             "name": "brick/math",
@@ -1511,6 +1511,57 @@
                 "source": "https://github.com/laravel/tinker/tree/v2.10.1"
             },
             "time": "2025-01-27T14:24:01+00:00"
+        },
+        {
+            "name": "laravellegends/pt-br-validator",
+            "version": "12.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/LaravelLegends/pt-br-validator.git",
+                "reference": "7b5f77fd7ebdc8c3a866b33fc91bb949c06297fe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/LaravelLegends/pt-br-validator/zipball/7b5f77fd7ebdc8c3a866b33fc91bb949c06297fe",
+                "reference": "7b5f77fd7ebdc8c3a866b33fc91bb949c06297fe",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0 || ^11.0 || ^12.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^4.0 || ^5.0 || ^6.0 || ^7.0 || ^8.0 || ^10.0",
+                "phpunit/phpunit": "^8.3 || ^9.0 || ^11.5.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "LaravelLegends\\PtBrValidator\\ValidatorProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "LaravelLegends\\PtBrValidator\\": "src/pt-br-validator"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Wallace de Souza Vizerra",
+                    "email": "wallacemaxters@gmail.com"
+                }
+            ],
+            "description": "Uma biblioteca contendo validações de formatos Brasileiros, para o Laravel",
+            "support": {
+                "issues": "https://github.com/LaravelLegends/pt-br-validator/issues",
+                "source": "https://github.com/LaravelLegends/pt-br-validator/tree/12.0.0"
+            },
+            "time": "2025-02-27T16:35:49+00:00"
         },
         {
             "name": "league/commonmark",
@@ -6325,29 +6376,29 @@
         },
         {
             "name": "lucascudo/laravel-pt-br-localization",
-            "version": "v2.2.5",
+            "version": "v3.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lucascudo/laravel-pt-BR-localization.git",
-                "reference": "446a6b76f26179a95c38a5ef5efa917320412873"
+                "reference": "76e4fc4939416debf1595d59d4f0d49b4700c089"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucascudo/laravel-pt-BR-localization/zipball/446a6b76f26179a95c38a5ef5efa917320412873",
-                "reference": "446a6b76f26179a95c38a5ef5efa917320412873",
+                "url": "https://api.github.com/repos/lucascudo/laravel-pt-BR-localization/zipball/76e4fc4939416debf1595d59d4f0d49b4700c089",
+                "reference": "76e4fc4939416debf1595d59d4f0d49b4700c089",
                 "shasum": ""
             },
             "type": "library",
             "extra": {
                 "laravel": {
                     "providers": [
-                        "Lucascudo\\LaravelPtBRLocalization\\LaravelPtBRLocalizationServiceProvider"
+                        "Lucascudo\\LaravelPtBrLocalization\\LaravelPtBrLocalizationServiceProvider"
                     ]
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "Lucascudo\\LaravelPtBRLocalization\\": "src/"
+                    "Lucascudo\\LaravelPtBrLocalization\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -6364,7 +6415,7 @@
             "homepage": "https://github.com/lucascudo/laravel-pt-br-localization",
             "support": {
                 "issues": "https://github.com/lucascudo/laravel-pt-BR-localization/issues",
-                "source": "https://github.com/lucascudo/laravel-pt-BR-localization/tree/v2.2.5"
+                "source": "https://github.com/lucascudo/laravel-pt-BR-localization/tree/v3.0.3"
             },
             "funding": [
                 {
@@ -6380,7 +6431,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-10-15T21:33:59+00:00"
+            "time": "2025-02-27T10:05:34+00:00"
         },
         {
             "name": "mockery/mockery",

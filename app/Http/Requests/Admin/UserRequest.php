@@ -9,11 +9,13 @@ class UserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
+     *
+     * @return bool
      */
     public function authorize(): bool
     {
-        return Auth::check();
-    }    
+        return true; // Permite que qualquer usuário acesse
+    }  
 
     /**
      * Get the validation rules that apply to the request.
