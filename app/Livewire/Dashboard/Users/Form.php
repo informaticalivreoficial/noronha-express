@@ -20,15 +20,14 @@ class Form extends Component
     public $fotoUrl; // Propriedade para armazenar o caminho da foto após o upload
     
     protected $rules = [
-        'foto' => 'image|max:1024',
+        //'foto' => 'image|max:1024',
         'name' => 'required|min:3',
         'birthday' => 'required|date_format:d/m/Y|before:today',
         'cpf' => 'required|cpf|unique:users,cpf',
         'cell_phone' => 'required|celular_com_ddd',
         'email' => 'required|email|unique:users,email',
         'postcode' => 'required',
-        'password' => 'nullable|min:6|confirmed',
-        
+        //'password' => 'required|min:6|confirmed',        
     ];       
 
     //Informations about
@@ -105,7 +104,6 @@ class Form extends Component
 
     public function save()
     {
-        //dd($this->userId);
         if ($this->userId != null) {
             $this->update();
         } else {
@@ -115,14 +113,32 @@ class Form extends Component
 
     public function create()
     {
+        //dd($this->foto);
         //$validated = app(UserRequest::class)->validated();
+        
         $validated = $this->validate();
         
-        // Criar novo usuário
-        User::create([
+        if($this->foto){
+            $this->validate([
+                'foto' => 'image|max:1024'
+            ]);
+            $caminhoFoto = $this->foto->store('client', 'public');
+        }else{
+            $caminhoFoto = null;
+        }
+
+        // $this->validate([
+        //     'password' => 'required|min:6|confirmed',
+        // ]);
+
+        if ($this->password !== $this->password_confirmation) {
+            return $this->dispatch('toast', message: 'As senhas devem ser iguais', notify:'error' );
+        }
+        dd($this->password, $this->password_confirmation);
+        $data = [
             'name' => $validated['name'],                
             'password' => $this->password,       
-            'avatar' => $this->avatar,                
+            'avatar' => $caminhoFoto,                
             'birthday' => $validated['birthday'],
             'gender' => $this->gender,
             'naturalness' => $this->naturalness,
@@ -150,8 +166,10 @@ class Form extends Component
             'superadmin' => $this->superadmin,
             'editor' => $this->editor,
             'client' => $this->client
-        ]);
-
+        ];
+        dd($data);
+        // Criar novo usuário
+        User::create($data);
         session()->flash('mensagem', 'Usuário cadastrado com sucesso!');
         $this->dispatch(['cliente-cadastrado']);
     }
@@ -172,10 +190,7 @@ class Form extends Component
             ]);
         }
 
-        // if ($this->password !== $this->password_confirmation) {
-        //     session()->flash('erro', 'As senhas não coincidem!');
-        //     return;
-        // }
+        
                 
         $user->update([            
             'name' => $this->name,
@@ -216,18 +231,18 @@ class Form extends Component
     }   
 
     public function updatedPostcode(string $value)
-    {
+    {        
         $this->postcode = preg_replace('/[^0-9]/', '', $value);
         if(strlen($this->postcode) === 8){
-            $response = Http::get("https://viacep.com.br/ws/{$this->postcode}/json/")->json();
-            if(!isset($response['erro'])){
+            $response = Http::get("https://viacep.com.br/ws/{$this->postcode}/json/")->json();            
+            if(isset($response['erro']) && $response['erro'] === true){
+                return $this->dispatch('toast', message: 'CEP não encontrado!', notify:'error' );                
+            }else{
                 $this->street = $response['logradouro'] ?? '';
                 $this->neighborhood = $response['bairro'] ?? '';
                 $this->state = $response['uf'] ?? '';
                 $this->city = $response['localidade'] ?? '';
                 $this->complement = $response['complemento'] ?? '';
-            }else{
-                $this->dispatch('cep-nao-encontrado', 'CEP não encontrado!', 'error');
             }
         }
     }

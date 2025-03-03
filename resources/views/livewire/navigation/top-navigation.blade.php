@@ -173,5 +173,8 @@
                 <i class="fas fa-th-large"></i>
             </a>
         </li>
+        @auth
+            <livewire:auth.button-logout />
+        @endauth
     </ul>
 </nav>

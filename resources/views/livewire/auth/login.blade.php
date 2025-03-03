@@ -1,11 +1,11 @@
-<div class="container-fluid bg-light d-flex align-items-center justify-content-center" style="height: 100vh;">
+<div class="container-fluid d-flex align-items-center justify-content-center" style="height: 100vh;">
     <div class="bg-white p-4 rounded shadow-lg" style="width: 25rem;">
-        <a href="https://www.youtube.com/@RonaldCodes23" target="_blank"><img
-                src="{{ asset('assets/images/RonaldCodesLogo.png') }}" alt="Ronald Codes Logo"
-                class="mx-auto d-block mb-4 rounded-circle cursor-pointer" style="width: 100px" />
-        </a>
+        <img width="{{env('LOGOMARCA_GERENCIADOR_WIDTH')}}" height="{{env('LOGOMARCA_GERENCIADOR_HEIGHT')}}" 
+            src="{{$configuracoes->getlogoadmin()}}" alt="{{$configuracoes->app_name}}"
+                class="mx-auto d-block mb-4 rounded-circle cursor-pointer" />
+       
 
-        <h3 class="font-weight-bold mb-4 text-dark text-center">Login</h3>
+        <h3 class="card-title float-none text-center">Acesso ao Gerenciador</h3>
 
         <form>
             <div class="form-group mb-4">
@@ -32,9 +32,7 @@
 
             <button type="button" wire:click="login" class="btn btn-primary w-100">
                 Login
-            </button>
-
-            <a href="{{ route('register') }}" wire:navigate>Don't have an account? Register</a>
+            </button>            
         </form>
     </div>
 </div>

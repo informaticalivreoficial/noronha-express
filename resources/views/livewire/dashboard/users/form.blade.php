@@ -260,10 +260,7 @@
                                                     <input type="text" x-mask="99.9999-999" class="form-control @error('postcode') is-invalid @enderror" id="postcode" wire:model.lazy="postcode">
                                                     @error('postcode')
                                                         <span class="error erro-feedback">{{ $message }}</span>
-                                                    @enderror
-                                                    @if (session()->has('error'))
-                                                        {{ session('message') }}
-                                                    @endif
+                                                    @enderror                                                    
                                                 </div>
                                             </div>
                                             
@@ -309,48 +306,6 @@
                                     </div>
                                 </div>
                             </div>
-
-                            @if (!$userId)
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h4>
-                                            <a style="border:none;color: #555;" data-toggle="collapse"
-                                                data-parent="#accordion" href="#collapseFour">
-                                                <i class="nav-icon fas fa-plus mr-2"></i> Acesso
-                                            </a>
-                                        </h4>
-                                    </div>
-
-                                    <div id="collapseFour" class="panel-collapse collapse show">
-                                        <div class="card-body text-muted">
-                                            <div class="row mb-2">
-                                                <div class="col-6 col-md-6 col-lg-6">
-                                                    <div class="form-group">
-                                                        <label class="labelforms"><b>*E-mail:</b></label>
-                                                        <input type="email" class="form-control"
-                                                            placeholder="Melhor e-mail" name="email"
-                                                            value="{{ old('email') }}">
-                                                    </div>
-                                                </div>
-                                                <div class="col-6 col-md-6 col-lg-6">
-                                                    <div class="form-group">
-                                                        <label class="labelforms"><b>*Senha:</b></label>
-                                                        <div class="input-group">
-                                                            <input type="password" class="form-control"
-                                                                id="senha" autocomplete="off" name="password"
-                                                                value="{{ old('senha') }}" />
-                                                            <div class="input-group-append" id="olho">
-                                                                <div class="input-group-text"><i
-                                                                        class="fa fa-eye"></i></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
                         </div>
                     </div>
 
@@ -442,10 +397,7 @@
                                         <button type="button" onclick="togglePassword('password_confirmation')" class="btn btn-default btn-flat"><i class="fa fa-eye"></i></button>
                                         </span>
                                     </div>                                
-                                </div>
-                                @if(session()->has('erro'))
-                                    <p class="text-red-500 mb-2">{{ session('erro') }}</p>
-                                @endif
+                                </div>                                
                             @endif
                             
                         </div>
@@ -513,15 +465,26 @@
     });
 </script>
 
-
 <script>
-    window.addEventListener('alert', event => {
-        toastr[event.detail.type](event.detail.message,
-            event.detail.title ?? ''), toastr.options = {
-            "closeButton": true,
-            "progressBar": true,
-        }
+
+    document.addEventListener("livewire:init", () => {
+
+        Livewire.on("toast", (event) => {
+
+            toastr[event.notify](event.message);
+
+        });
     });
+
+</script>
+<script>
+    // window.addEventListener('alert', event => {
+    //     toastr[event.detail.type](event.detail.message,
+    //         event.detail.title ?? ''), toastr.options = {
+    //         "closeButton": true,
+    //         "progressBar": true,
+    //     }
+    // });
 
     function togglePassword(id) {
         let input = document.getElementById(id);
