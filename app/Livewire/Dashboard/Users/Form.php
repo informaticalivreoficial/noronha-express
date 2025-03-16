@@ -4,6 +4,7 @@ namespace App\Livewire\Dashboard\Users;
 
 use App\Http\Requests\Admin\UserRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -131,13 +132,13 @@ class Form extends Component
         //     'password' => 'required|min:6|confirmed',
         // ]);
 
-        if ($this->password !== $this->password_confirmation) {
-            return $this->dispatch('toast', message: 'As senhas devem ser iguais', notify:'error' );
+        if ($this->password = false || $this->password !== $this->password_confirmation) {
+            return $this->dispatch('toast', message: 'O campo Senha está vazio ou as senhas não são iguais', notify:'error' );
         }
-        dd($this->password, $this->password_confirmation);
+        //dd($this->password, $this->password_confirmation);
         $data = [
             'name' => $validated['name'],                
-            'password' => $this->password,       
+            'password' => Hash::make($this->password),       
             'avatar' => $caminhoFoto,                
             'birthday' => $validated['birthday'],
             'gender' => $this->gender,

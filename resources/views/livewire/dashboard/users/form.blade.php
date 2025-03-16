@@ -106,12 +106,8 @@
                                         <div class="form-group">
                                             <label class="labelforms"><b>Genero</b></label>
                                             <select class="form-control" wire:model="gender">
-                                                <option value="masculino"
-                                                    {{ old('gender') == 'masculino' ? 'selected' : '' }}>Masculino
-                                                </option>
-                                                <option value="feminino"
-                                                    {{ old('gender') == 'feminino' ? 'selected' : '' }}>Feminino
-                                                </option>
+                                                <option value="masculino">Masculino</option>
+                                                <option value="feminino">Feminino</option>
                                             </select>
                                         </div>
                                     </div>
