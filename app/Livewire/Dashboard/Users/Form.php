@@ -168,11 +168,12 @@ class Form extends Component
             'editor' => $this->editor,
             'client' => $this->client
         ];
-        dd($data);
+        //dd($data);
         // Criar novo usuário
-        User::create($data);
-        session()->flash('mensagem', 'Usuário cadastrado com sucesso!');
+        $userCreate = User::create($data);
+        $userCreate->save();
         $this->dispatch(['cliente-cadastrado']);
+        return redirect()->route('clientes.edit', $userCreate->id);
     }
 
     public function update()
@@ -190,9 +191,7 @@ class Form extends Component
                 'avatar' => $caminhoFoto
             ]);
         }
-
-        
-                
+               
         $user->update([            
             'name' => $this->name,
             'email' => $this->email,
@@ -223,9 +222,7 @@ class Form extends Component
             'editor' => $this->editor,
             'client' => $this->client,
         ]);
-
         
-        //$this->reset(['name', 'email']);
         $this->dispatch('userId');
         $this->dispatch(['cliente-atualizado']);
         $this->reset('foto');        

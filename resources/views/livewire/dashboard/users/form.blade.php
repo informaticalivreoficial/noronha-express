@@ -94,9 +94,9 @@
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6 col-lg-4 mb-2">
-                                        <div class="form-group">
+                                        <div class="form-group" x-data="{ value: @entangle('birthday').defer }" x-init="initFlatpickr()" x-ref="datepicker">
                                             <label class="labelforms"><b>*Data de Nascimento</b></label>
-                                            <input type="text" class="form-control @error('birthday') is-invalid @enderror" wire:model="dataSelecionada" id="datepicker" />
+                                            <input type="text" class="form-control @error('birthday') is-invalid @enderror" wire:model="birthday" id="datepicker" />
                                             @error('birthday')
                                                 <span class="error erro-feedback">{{ $message }}</span>
                                             @enderror                                                                                                                                      
@@ -116,21 +116,11 @@
                                             <label class="labelforms"><b>Estado Civil</b></label>
                                             <select class="form-control" wire:model="civil_status">
                                                 <optgroup label="Cônjuge Obrigatório">
-                                                    <option value="casado"
-                                                        {{ old('civil_status') == 'casado' ? 'selected' : '' }}>
-                                                        Casado</option>
-                                                    <option value="separado"
-                                                        {{ old('civil_status') == 'separado' ? 'selected' : '' }}>
-                                                        Separado</option>
-                                                    <option value="solteiro"
-                                                        {{ old('civil_status') == 'solteiro' ? 'selected' : '' }}>
-                                                        Solteiro</option>
-                                                    <option value="divorciado"
-                                                        {{ old('civil_status') == 'divorciado' ? 'selected' : '' }}>
-                                                        Divorciado</option>
-                                                    <option value="viuvo"
-                                                        {{ old('civil_status') == 'viuvo' ? 'selected' : '' }}>
-                                                        Viúvo(a)</option>
+                                                    <option value="casado">Casado</option>
+                                                    <option value="separado">Separado</option>
+                                                    <option value="solteiro">Solteiro</option>
+                                                    <option value="divorciado">Divorciado</option>
+                                                    <option value="viuvo">Viúvo(a)</option>
                                                 </optgroup>
                                             </select>
                                         </div>
@@ -432,16 +422,19 @@
         });
     });
 
-    document.addEventListener("DOMContentLoaded", function() {
-        let input = document.getElementById('datepicker');
-        flatpickr(input, {
-            dateFormat: "d/m/Y",
-            allowInput: true,
-            maxDate: "today",
-            onChange: function(selectedDates, dateStr, instance) {
-                @this.set('birthday', dateStr);
-            },
-            locale: {
+    function initFlatpickr() {
+            let input = document.getElementById('datepicker');
+            if (!input) return;
+
+            flatpickr(input, {
+                dateFormat: "d/m/Y",
+                allowInput: true,
+                maxDate: "today",
+                //defaultDate: input.value, // Carrega a data inicial corretamente
+                onChange: function(selectedDates, dateStr) {
+                    input.dispatchEvent(new Event('input')); // Força atualização no Alpine.js
+                },
+                locale: {
                     firstDayOfWeek: 1,
                     weekdays: {
                         shorthand: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
@@ -457,8 +450,45 @@
                     scrollTitle: "Role para aumentar",
                     toggleTitle: "Clique para alternar",
                 }
+            });
+        }
+
+        document.addEventListener("livewire:load", () => {
+            initFlatpickr();
         });
-    });
+
+        document.addEventListener("livewire:updated", () => {
+            initFlatpickr();
+        });
+
+    
+    // document.addEventListener("DOMContentLoaded", function() {
+    //     let input = document.getElementById('datepicker');
+    //     flatpickr(input, {
+    //         dateFormat: "d/m/Y",
+    //         allowInput: true,
+    //         maxDate: "today",
+    //         onChange: function(selectedDates, dateStr, instance) {
+    //             @this.set('birthday', dateStr);
+    //         },
+    //         locale: {
+    //                 firstDayOfWeek: 1,
+    //                 weekdays: {
+    //                     shorthand: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+    //                     longhand: ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'],
+    //                 },
+    //                 months: {
+    //                     shorthand: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+    //                     longhand: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+    //                 },
+    //                 today: "Hoje",
+    //                 clear: "Limpar",
+    //                 weekAbbreviation: "Sem",
+    //                 scrollTitle: "Role para aumentar",
+    //                 toggleTitle: "Clique para alternar",
+    //             }
+    //     });
+    // });
 </script>
 
 <script>

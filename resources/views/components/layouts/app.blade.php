@@ -120,6 +120,7 @@
     
     
     @stack('script')
+    
 </body>
 
 </html>
