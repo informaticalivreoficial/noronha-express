@@ -2,8 +2,8 @@
 
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
+use App\Livewire\Dashboard\Companies\Companies;
 use App\Livewire\Dashboard\Dashboard;
-use App\Livewire\Dashboard\Users\Create;
 use App\Livewire\Dashboard\Users\Form;
 use App\Livewire\Dashboard\Users\Users;
 use App\Livewire\Dashboard\Users\ViewUser;
@@ -22,6 +22,8 @@ Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'admin'], functi
     Route::get('cadastrar-cliente', Form::class)->name('clientes.create');
     Route::get('editar-cliente/{userId}', Form::class)->name('clientes.edit');
     Route::get('visualizar-cliente/{user}', ViewUser::class)->name('clientes.view');
+
+    Route::get('empresas', Companies::class)->name('companies.index');
 });
 
 // Authentication routes

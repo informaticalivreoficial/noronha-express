@@ -39,7 +39,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed text-sm">
+<body class="hold-transition sidebar-mini text-sm">
     <div class="wrapper">
         <livewire:navigation.top-navigation />
 

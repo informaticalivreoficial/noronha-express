@@ -31,7 +31,7 @@
                 <!-- Add icons to the links using the .nav-icon class
         with font-awesome or any other icon font library -->
                 <li class="nav-item menu-open">
-                    <a href="#" class="nav-link active">
+                    <a href="{{route('admin')}}" class="nav-link active">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
 
                         <p>
@@ -52,133 +52,27 @@
                         </p>
                     </a>
                 </li>
-
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-copy"></i>
+                    <a href="{{--route('companies.index')--}}" class="nav-link">
+                        <i class="nav-icon fas fa-industry"></i>
 
                         <p>
-                            Layout Options
-                            <i class="fas fa-angle-left right"></i>
-
-                            <span class="badge badge-info right">71</span>
+                            Empresas
+                            <span class="badge badge-info right">{{$companyCount}}</span>
                         </p>
                     </a>
-
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="pages/layout/top-nav.html" class="nav-link">
-                                <p style="margin-left: 40px">Option One</p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="pages/layout/top-nav.html" class="nav-link">
-                                <p style="margin-left: 40px">Option Two</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="nav-header">EXAMPLES</li>
-
+                </li>     
                 <li class="nav-item">
-                    <a href="pages/calendar.html" class="nav-link">
-                        <i class="nav-icon far fa-calendar-alt"></i>
+                    <a href="{{--route('companies.index')--}}" class="nav-link">
+                        <i class="nav-icon fas fa-ship"></i>
 
                         <p>
-                            Calendar
-                            <span class="badge badge-info right">2</span>
+                            Viagens
+                            <span class="badge badge-info right">{{$companyCount}}</span>
                         </p>
                     </a>
-                </li>
+                </li>     
 
-                <li class="nav-item">
-                    <a href="pages/gallery.html" class="nav-link">
-                        <i class="nav-icon far fa-image"></i>
-
-                        <p>
-                            Gallery
-                        </p>
-                    </a>
-                </li>
-
-                <li class="nav-header">MULTI LEVEL EXAMPLE</li>
-
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-circle nav-icon"></i>
-                        <p>Level 1</p>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-circle"></i>
-
-                        <p>
-                            Level 1
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Level 2</p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-
-                                <p>
-                                    Level 2
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-dot-circle nav-icon"></i>
-                                        <p>Level 3</p>
-                                    </a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-dot-circle nav-icon"></i>
-                                        <p>Level 3</p>
-                                    </a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-dot-circle nav-icon"></i>
-                                        <p>Level 3</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Level 2</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-circle nav-icon"></i>
-                        <p>Level 1</p>
-                    </a>
-                </li>
             </ul>
         </nav>
     </div>
