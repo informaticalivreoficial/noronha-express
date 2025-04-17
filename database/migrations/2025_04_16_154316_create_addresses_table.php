@@ -24,6 +24,8 @@ return new class extends Migration
             $table->boolean('select')->nullable();
 
             $table->timestamps();
+
+            $table->foreign('user')->references('id')->on('users')->onDelete('CASCADE');
         });
     }
 

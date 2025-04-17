@@ -12,8 +12,28 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('manifests', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
+            $table->unsignedInteger('trip')->nullable();
+            $table->string('type')->nullable();
+            $table->unsignedInteger('company')->nullable();
+            $table->unsignedInteger('user')->nullable(); 
+            $table->string('status')->nullable();           
+            
+            /** address */
+            $table->string('zipcode')->nullable();
+            $table->string('street')->nullable();
+            $table->string('number')->nullable();
+            $table->string('complement')->nullable();
+            $table->string('neighborhood')->nullable();
+            $table->string('state')->nullable();
+            $table->string('city')->nullable();            
+            
+            $table->text('information')->nullable();
+            $table->string('contact')->nullable();
+
             $table->timestamps();
+
+            $table->foreign('trip')->references('id')->on('trips')->onDelete('CASCADE');
         });
     }
 

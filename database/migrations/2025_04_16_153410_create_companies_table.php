@@ -18,8 +18,24 @@ return new class extends Migration
             $table->string('alias_name');
             $table->string('document_company')->nullable();
             $table->string('document_company_secondary')->nullable();
-            $table->text('notasadicionais')->nullable();
+            $table->text('information')->nullable();
             $table->integer('status')->default('0');
+
+            /** address */
+            $table->string('zipcode')->nullable();
+            $table->string('street')->nullable();
+            $table->string('number')->nullable();
+            $table->string('complement')->nullable();
+            $table->string('neighborhood')->nullable();
+            $table->string('state')->nullable();
+            $table->string('city')->nullable();
+
+            /** contact */
+            $table->string('phone')->nullable();
+            $table->string('cell_phone')->nullable();
+            $table->string('whatsapp')->nullable();
+            $table->string('additional_email')->nullable();
+            $table->string('email')->unique();
 
             $table->timestamps();
         });
