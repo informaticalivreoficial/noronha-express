@@ -2,17 +2,17 @@
 
 namespace Database\Seeders;
 
-use App\Models\Trip;
+use App\Models\Address;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class TripSeeder extends Seeder
+class AddressSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Trip::factory()->count(5)->create();
+        Address::factory()->count(30)->create();
     }
 }

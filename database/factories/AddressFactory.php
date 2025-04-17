@@ -26,7 +26,6 @@ class AddressFactory extends Factory
             'neighborhood' => fake()->streetName,
             'state' => fake()->stateAbbr,
             'city' => fake()->city,
-            'select' => $this->faker->boolean()
         ];
     }
 }

@@ -17,10 +17,15 @@ class TripFactory extends Factory
      */
     public function definition(): array
     {
+        $startDate = $this->faker->dateTimeBetween('-1 month', '+1 month');
+        $endDate = $this->faker->dateTimeBetween($startDate, $startDate->format('Y-m-d H:i:s').' +10 days');
+        //$endDate = $this->faker->dateTimeBetween($startDate, '+10 days');
+
         return [
             'ship' => 'SLB Harmonia',
-            'start' => now(),
-            'information' => $this->faker->sentence()
+            'start' => $startDate,
+            'stop' => $endDate,
+            'information' => $this->faker->sentence(),
         ];
     }
 }
