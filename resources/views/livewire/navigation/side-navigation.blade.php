@@ -33,27 +33,24 @@
                 <li class="nav-item menu-open">
                     <a href="{{route('admin')}}" class="nav-link active">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p> Painel de Controle</p>
+                    </a>                    
+                </li>
 
-                        <p>
-                            Painel de Controle
-                        </p>
+                <li class="nav-item">
+                    <a href="{{route('settings')}}" class="nav-link"><i class="nav-icon fas fa-cog"></i> 
+                        <p> Configurações</p>
                     </a>
-
-                    
                 </li>
 
                 <li class="nav-item">
                     <a href="{{route('clientes.index')}}" class="nav-link">
                         <i class="nav-icon fas fa-users"></i>
-
-                        <p>
-                            Clientes
-                            <span class="badge badge-info right">{{$userCount}}</span>
-                        </p>
+                        <p> Clientes <span class="badge badge-info right">{{$userCount}}</span></p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{--route('companies.index')--}}" class="nav-link">
+                    <a href="{{route('companies.index')}}" class="nav-link">
                         <i class="nav-icon fas fa-industry"></i>
 
                         <p>
@@ -63,7 +60,7 @@
                     </a>
                 </li>     
                 <li class="nav-item">
-                    <a href="{{--route('companies.index')--}}" class="nav-link">
+                    <a href="{{route('trips.index')}}" class="nav-link">
                         <i class="nav-icon fas fa-ship"></i>
 
                         <p>
