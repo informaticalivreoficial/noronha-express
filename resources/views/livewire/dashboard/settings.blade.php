@@ -1,4 +1,4 @@
-<div>
+<div x-data="{ open: false }" x-cloak>
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -71,7 +71,7 @@
                                                     <input type="text" class="form-control" placeholder="URL do site"  wire:model="configData.domain"/>
                                                     <div class="input-group-append">
                                                         <div class="input-group-text">
-                                                        <a href="javascript:void(0)" title="QrCode" data-toggle="modal" data-target="#modal-qrcode"><i class="fa fa-qrcode"></i></a>
+                                                            <a href="#" @click.prevent="open = true" title="QrCode"><i class="fa fa-qrcode"></i></a>
                                                         </div>                                                            
                                                     </div>
                                                 </div>
@@ -83,7 +83,9 @@
                                                     <input type="text" class="form-control" placeholder="URL do site" wire:model="configData.domain" disabled>
                                                     <div class="input-group-append">
                                                         <div class="input-group-text">
-                                                        <a href="javascript:void(0)" title="QrCode" data-toggle="modal" data-target="#modal-qrcode"><i class="fa fa-qrcode"></i></a>
+                                                            <a href="#" @click.prevent="open = true" title="QrCode">
+                                                                <i class="fa fa-qrcode"></i>
+                                                            </a>
                                                         </div>                                                            
                                                     </div>
                                                 </div>
@@ -186,31 +188,36 @@
                 </div>
             </div>
         </div>
+        
     </form>
 
-    <div class="modal fade" id="modal-qrcode">
+        
+
+        <!-- Modal -->
+    <div 
+        x-show="open" 
+        x-transition.opacity 
+        x-cloak
+        class="modal fade show d-block" 
+        style="background-color: rgba(0, 0, 0, 0.5);"
+        @click.self="open = false"
+    >
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Copiar QrCode</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                    <h5 class="modal-title">Copiar QrCode</h5>
+                    <button type="button" class="close" @click="open = false">
+                        <span>&times;</span>
                     </button>
                 </div>
-                <div class="modal-body text-center">  
-                    <p>Este QrCode direciona para: <br> {{$config->dominio ?? 'https://informaticalivre.com.br'}}</p>
-                    @php 
-                        //$qrcode = QRCode::url($config->dominio ?? 'https://informaticalivre.com.br')
-                        //        ->setSize(8)
-                        //        ->setMargin(2)
-                        //        ->svg();
-                    @endphp             
-                    <img src="{{--$qrcode--}}">
+                <div class="modal-body text-center">
+                    <p>Este QrCode direciona para: <br> {{ $config->dominio ?? 'https://informaticalivre.com.br' }}</p>
+                    ssss
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                </div>            
-            </div>        
+                    <button type="button" class="btn btn-secondary" @click="open = false">Fechar</button>
+                </div>
+            </div>
         </div>
     </div>
 

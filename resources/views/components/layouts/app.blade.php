@@ -112,8 +112,6 @@
     
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
-   
-
     {{-- Toastr --}}
     <script src="{{ asset('theme/plugins/toastr/toastr.min.js') }}"></script>
 
