@@ -192,34 +192,54 @@
     </form>
 
         
+<!-- Modal -->
+<div x-show="open" x-cloak
+     @keydown.escape.window="open = false"
+     class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    
+    <div @click.outside="open = false"
+         class="bg-white rounded-xl shadow-lg max-w-md w-full p-6 relative transition-all duration-300"
+         x-transition:enter="ease-out duration-300"
+         x-transition:enter-start="opacity-0 scale-90"
+         x-transition:enter-end="opacity-100 scale-100"
+         x-transition:leave="ease-in duration-200"
+         x-transition:leave-start="opacity-100 scale-100"
+         x-transition:leave-end="opacity-0 scale-90">
+         
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-lg font-semibold text-gray-800">QrCode do site</h2>
+            <button @click="open = false" class="text-gray-500 hover:text-gray-700">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                     viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
 
-        <!-- Modal -->
-    <div 
-        x-show="open" 
-        x-transition.opacity 
-        x-cloak
-        class="modal fade show d-block" 
-        style="background-color: rgba(0, 0, 0, 0.5);"
-        @click.self="open = false"
-    >
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Copiar QrCode</h5>
-                    <button type="button" class="close" @click="open = false">
-                        <span>&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body text-center">
-                    <p>Este QrCode direciona para: <br> {{ $config->dominio ?? 'https://informaticalivre.com.br' }}</p>
-                    ssss
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" @click="open = false">Fechar</button>
-                </div>
+        <!-- Conteúdo -->
+        <div class="text-center">
+            <p class="mb-2 text-gray-600">Este QrCode direciona para:</p>
+            <p class="text-sm font-semibold text-blue-600 mb-4">
+                {{ $config->dominio ?? 'https://informaticalivre.com.br' }}
+            </p>
+
+            
+
+            <div class="flex justify-center">
+                img
             </div>
         </div>
+
+        <!-- Rodapé -->
+        <div class="mt-6 text-right">
+            <button @click="open = false" class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400">
+                Fechar
+            </button>
+        </div>
     </div>
+</div>
 
 </div>
 
