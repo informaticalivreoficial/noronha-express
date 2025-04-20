@@ -243,7 +243,7 @@
                                             <div class="col-12 col-md-6 col-lg-2"> 
                                                 <div class="form-group">
                                                     <label class="labelforms text-muted"><b>*CEP:</b></label>
-                                                    <input type="text" x-mask="99.9999-999" class="form-control @error('postcode') is-invalid @enderror" id="postcode" wire:model.lazy="postcode">
+                                                    <input type="text" x-mask="99.999-999" class="form-control @error('postcode') is-invalid @enderror" id="postcode" wire:model.lazy="postcode">
                                                     @error('postcode')
                                                         <span class="error erro-feedback">{{ $message }}</span>
                                                     @enderror                                                    

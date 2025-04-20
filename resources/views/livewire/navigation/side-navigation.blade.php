@@ -38,7 +38,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{route('settings')}}" class="nav-link"><i class="nav-icon fas fa-cog"></i> 
+                    <a href="{{route('settings',['config' => '1'])}}" class="nav-link"><i class="nav-icon fas fa-cog"></i> 
                         <p> Configurações</p>
                     </a>
                 </li>

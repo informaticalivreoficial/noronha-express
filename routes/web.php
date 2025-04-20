@@ -19,7 +19,7 @@ Route::get('/', function () {
 // Dashboard routes
 Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'admin'], function () {
     Route::get('/', Dashboard::class)->name('admin');
-    Route::get('configuracoes', Settings::class)->name('settings');
+    Route::get('configuracoes/{config}/edit', Settings::class)->name('settings');
 
     Route::get('clientes', Users::class)->name('clientes.index');
     Route::get('cadastrar-cliente', Form::class)->name('clientes.create');

@@ -38,8 +38,6 @@ class Config extends Model
         'phone',
         'cell_phone',
         'whatsapp',
-        'skype',
-        'telegram',
         'email',
         'additional_email',
          
