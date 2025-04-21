@@ -18,6 +18,8 @@
     {{-- JQVMap --}}
     <link rel="stylesheet" href="{{ asset('theme/plugins/jqvmap/jqvmap.min.css') }}">
 
+    <link rel="stylesheet" href="{{ asset('theme/plugins/jquery-tags-input/jquery.tagsinput.css') }}" />
+
     {{-- Theme style --}}
     <link rel="stylesheet" href="{{ asset('theme/dist/css/adminlte.min.css') }}">
     {{-- overlayScrollbars --}}
@@ -34,7 +36,6 @@
 
     {{-- General Styles --}}
     <link rel="stylesheet" href="{{ asset('theme/dist/css/styles.css') }}">
-
    
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -74,14 +75,7 @@
     </div>
 
     {{-- jQuery --}}
-    <script src="{{ asset('theme/plugins/jquery/jquery.min.js') }}"></script>
-    {{-- jQuery UI 1.11.4 --}}
-    <script src="{{ asset('theme/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
-
-    {{-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip  --}}
-    <script>
-        $.widget.bridge('uibutton', $.ui.button)
-    </script>
+    <script src="{{ asset('theme/plugins/jquery/jquery.min.js') }}"></script>    
 
     {{-- Bootstrap 4 --}}
     <script src="{{ asset('theme/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -90,7 +84,7 @@
 
     {{-- JQVMap --}}
     <script src="{{ asset('theme/plugins/jqvmap/jquery.vmap.min.js') }}"></script>
-    {{-- <script src="{{ asset('theme/plugins/jqvmap/maps/jquery.vmap.usa.js') }}"></script> --}}
+    <script src="{{ asset('theme/plugins/jquery-tags-input/jquery.tagsinput.js') }}"></script>
 
     {{-- daterangepicker --}}
     <script src="{{ asset('theme/plugins/moment/moment.min.js') }}"></script>
@@ -119,6 +113,25 @@
     
     @stack('script')
     
+    <script>
+        $(function () {
+            function onAddTag(tag) {
+                alert("Adicionar uma Tag: " + tag);
+            }
+            function onRemoveTag(tag) {
+                alert("Remover Tag: " + tag);
+            }
+            function onChangeTag(input,tag) {
+                alert("Changed a tag: " + tag);
+            }
+            $(function() {
+                $('#tags_1').tagsInput({
+                    width:'auto',
+                    height:200
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

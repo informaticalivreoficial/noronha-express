@@ -23,20 +23,14 @@
                         <a class="nav-link active" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home" aria-selected="true">INFORMAÇÕES GERAIS</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false">REDES SOCIAIS</a>
+                        <a class="nav-link text-[#007bff]" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false">SEO</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="custom-tabs-four-messages-tab" data-toggle="pill" href="#custom-tabs-four-messages" role="tab" aria-controls="custom-tabs-four-messages" aria-selected="false">INFORMAÇÕES DE CONTATO</a>
+                        <a class="nav-link text-[#007bff]" id="custom-tabs-four-messages-tab" data-toggle="pill" href="#custom-tabs-four-messages" role="tab" aria-controls="custom-tabs-four-messages" aria-selected="false">INFORMAÇÕES DE CONTATO</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="custom-tabs-four-mapas-tab" data-toggle="pill" href="#custom-tabs-four-mapas" role="tab" aria-controls="custom-tabs-four-mapas" aria-selected="false">MAPAS</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="custom-tabs-four-imagens-tab" data-toggle="pill" href="#custom-tabs-four-imagens" role="tab" aria-controls="custom-tabs-four-imagens" aria-selected="false">IMAGENS</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="custom-tabs-four-seo-tab" data-toggle="pill" href="#custom-tabs-four-seo" role="tab" aria-controls="custom-tabs-four-mapas" aria-selected="false">SEO</a>
-                    </li>                        
+                        <a class="nav-link text-[#007bff]" id="custom-tabs-four-imagens-tab" data-toggle="pill" href="#custom-tabs-four-imagens" role="tab" aria-controls="custom-tabs-four-imagens" aria-selected="false">IMAGENS</a>
+                    </li>                                            
                 </ul>
             </div>
 
@@ -95,7 +89,6 @@
                                 </div>                                           
                             </div>
                         </div>
-                       
 
                         <div id="accordion">                                        
                             <div class="card">
@@ -185,6 +178,180 @@
                             </div>
                         </div> 
                     </div>
+
+                    <div class="tab-pane fade" id="custom-tabs-four-profile" role="tabpanel" aria-labelledby="custom-tabs-four-profile-tab">                                    
+                        <div class="row mb-2 text-muted">
+                            <div class="col-12 mb-1"> 
+                                <div class="form-group">
+                                    <label class="labelforms"><b>Descrição do site</b></label>
+                                    <textarea class="form-control" rows="5" wire:model="configData.information">{{ $configData['information'] ?? '' }}</textarea>
+                                </div>
+                            </div>
+                            <div class="col-12 mb-1"> 
+                                <div class="form-group">
+                                    <label class="labelforms"><b>MetaTags</b></label>
+                                    <input id="tags_1" class="tags" rows="5" wire:model="configData.metatags">
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="mb-6">                                    
+                                    <h5 class="text-lg font-semibold text-gray-600">Redes Sociais::</h5>                                    
+                                </div>
+                            </div>                            
+                            <div class="col-12 col-md-6 col-lg-4"> 
+                                <div class="form-group">
+                                    <label class="labelforms"><b>Facebook:</b></label>
+                                    <input type="text" class="form-control" placeholder="Facebook" wire:model="configData.facebook" id="facebook">
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-4"> 
+                                <div class="form-group">
+                                    <label class="labelforms"><b>Twitter:</b></label>
+                                    <input type="text" class="form-control" placeholder="Twitter" wire:model="configData.twitter" id="twitter">
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-4"> 
+                                <div class="form-group">
+                                    <label class="labelforms"><b>Youtube:</b></label>
+                                    <input type="text" class="form-control" placeholder="Youtube" wire:model="configData.youtube" id="youtube">
+                                </div>
+                            </div>                        
+                            <div class="col-12 col-md-6 col-lg-4"> 
+                                <div class="form-group">
+                                    <label class="labelforms"><b>Instagram:</b></label>
+                                    <input type="text" class="form-control" placeholder="Instagram" wire:model="configData.instagram" id="instagram">
+                                </div>
+                            </div>                        
+                            <div class="col-12 col-md-6 col-lg-4"> 
+                                <div class="form-group">
+                                    <label class="labelforms"><b>Linkedin:</b></label>
+                                    <input type="text" class="form-control" placeholder="Linkedin" wire:model="configData.linkedin" id="linkedin">
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="mb-6 prose max-w-none">  
+                                    <hr class="h-px my-3 bg-gray-200 border-0 dark:bg-gray-700">                                  
+                                    <h5 class="text-lg font-semibold text-gray-600">Google Maps::</h5>                                    
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-sm-6 col-lg-6">   
+                                <div class="form-group">
+                                    <label class="labelforms"><b>Mapa do Google</b> <small class="text-info">(Copie o código de incorporação do Google Maps e cole abaixo)</small></label>
+                                    <textarea id="inputDescription" class="form-control" rows="14" wire:model="configData.maps_google">{{ $configData['maps_google'] ?? '' }}</textarea> 
+                                </div>                                                     
+                            </div>
+                            <div class="col-12 col-md-6 col-sm-6 col-lg-6 mapa-google mb-3"> 
+                                {!! $configData['maps_google'] ?? '' !!}
+                            </div>                 
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="custom-tabs-four-messages" role="tabpanel" aria-labelledby="custom-tabs-four-messages-tab">                                    
+                        <div class="row mb-2">
+                            <div class="col-sm-12 text-muted">
+                                <div class="mb-4">
+                                    <h5 class="text-md font-semibold text-gray-800 mb-2">Informações de Contato</h5>  
+                                    <p class="text-sm text-gray-600">Aqui você pode configurar as informações de contato da sua aplicação.</p>                                          
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="col-12 col-md-6 col-lg-4"> 
+                                <div class="form-group">
+                                    <label class="labelforms"><b>Telefone fixo:</b></label>
+                                    <input type="text" class="form-control" placeholder="(00) 0000-0000"
+                                        x-mask="(99) 9999-9999" wire:model="phone" id="phone">
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-4"> 
+                                <div class="form-group">
+                                    <label class="labelforms"><b>*Celular:</b></label>
+                                    <input type="text" class="form-control" placeholder="(00) 00000-0000"
+                                        x-mask="(99) 99999-9999" wire:model="configData.cell_phone"
+                                        id="cell_phone">                                    
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-4"> 
+                                <div class="form-group">
+                                    <label class="labelforms"><b>WhatsApp:</b></label>
+                                    <input type="text" class="form-control" placeholder="(00) 00000-0000"
+                                        x-mask="(99) 99999-9999" wire:model="configData.whatsapp"
+                                        id="whatsapp">
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-4"> 
+                                <div class="form-group">
+                                    <label class="labelforms"><b>Email:</b></label>
+                                    <input type="text" class="form-control text-muted" placeholder="Email" 
+                                        wire:model="configData.email" id="email">
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-4"> 
+                                <div class="form-group">
+                                    <label class="labelforms"><b>Email Adicional:</b></label>
+                                    <input type="text" class="form-control text-muted" placeholder="Email Alternativo" 
+                                        wire:model="configData.email_alternative" id="email_alternative">
+                                </div>
+                            </div>                            
+                        </div>                            
+                    </div>
+                    <div class="tab-pane fade" id="custom-tabs-four-imagens" role="tabpanel" aria-labelledby="custom-tabs-four-imagens-tab">
+                        <div class="row mb-2 text-muted">
+                            <div class="col-sm-12">
+                                <div class="mb-4">
+                                    <h5 class="text-md font-semibold text-gray-800 mb-2">Imagens do site</h5>  
+                                    <p class="text-sm text-gray-600">Aqui você configurar as imagens do site, fique atento ao tamanho das imagens para uma melhor experiência da sua aplicação.</p>                                          
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="col-12 col-md-6 col-sm-6 col-lg-6"> 
+                                <div class="form-group">
+                                    <label class="labelforms"><b>Logomarca do site</b> - {{env('LOGOMARCA_WIDTH')}}x{{env('LOGOMARCA_HEIGHT')}} pixels</label>
+                                    <div class="thumb_user_admin">                                                                                           
+                                        <img 
+                                        width="{{env('LOGOMARCA_WIDTH')}}" 
+                                        height="{{env('LOGOMARCA_HEIGHT')}}" 
+                                        src="{{$configData['privacy_policy']}}" alt="" title=""/>
+                                        <input type="file">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-sm-6 col-lg-6"> 
+                                <div class="form-group">
+                                    <label class="labelforms"><b>Logomarca do Gerenciador</b> - {{env('LOGOMARCA_GERENCIADOR_WIDTH')}}x{{env('LOGOMARCA_GERENCIADOR_HEIGHT')}} pixels</label>
+                                    <div class="thumb_user_admin">                                                    
+                                        <img id="preview3" width="{{env('LOGOMARCA_GERENCIADOR_WIDTH')}}" height="{{env('LOGOMARCA_GERENCIADOR_HEIGHT')}}" src="" alt="" title=""/>
+                                        <input id="img-logomarcaadmin" type="file" name="logomarca_admin">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-sm-6 col-lg-6"> 
+                                <div class="form-group">
+                                    <label class="labelforms"><b>Favicon</b> - {{env('FAVEICON_WIDTH')}}x{{env('FAVEICON_HEIGHT')}} pixels</label>
+                                    <div class="thumb_user_admin">                                                    
+                                        <img id="preview4" width="{{env('FAVEICON_WIDTH')}}" height="{{env('FAVEICON_HEIGHT')}}" src="" alt="" title=""/>
+                                        <input id="img-favicon" type="file" name="favicon">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-sm-6 col-lg-6"> 
+                                <div class="form-group">
+                                    <label class="labelforms"><b>Marca D´agua</b> - {{env('MARCADAGUA_WIDTH')}}x{{env('MARCADAGUA_HEIGHT')}} pixels</label>
+                                    <div class="thumb_user_admin">                                                    
+                                        <img id="preview5" width="{{env('MARCADAGUA_WIDTH')}}" height="{{env('MARCADAGUA_HEIGHT')}}" src="" alt="" title=""/>
+                                        <input id="img-marcadagua" type="file" name="marcadagua">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12"> 
+                                <div class="form-group">
+                                    <label class="labelforms"><b>Topo do site</b> - {{env('IMGHEADER_WIDTH')}}x{{env('IMGHEADER_HEIGHT')}} pixels</label>
+                                    <div class="thumb_user_admin">
+                                        <img id="preview6" width="{{env('IMGHEADER_WIDTH')}}" height="{{env('IMGHEADER_HEIGHT')}}" src="" alt="" title=""/>
+                                        <input id="img-imgheader" type="file" name="imgheader">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>  
+                    </div>
                 </div>
             </div>
         </div>
@@ -192,54 +359,51 @@
     </form>
 
         
-<!-- Modal -->
-<div x-show="open" x-cloak
-     @keydown.escape.window="open = false"
-     class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-    
-    <div @click.outside="open = false"
-         class="bg-white rounded-xl shadow-lg max-w-md w-full p-6 relative transition-all duration-300"
-         x-transition:enter="ease-out duration-300"
-         x-transition:enter-start="opacity-0 scale-90"
-         x-transition:enter-end="opacity-100 scale-100"
-         x-transition:leave="ease-in duration-200"
-         x-transition:leave-start="opacity-100 scale-100"
-         x-transition:leave-end="opacity-0 scale-90">
-         
-        <!-- Header -->
-        <div class="flex justify-between items-center mb-4">
-            <h2 class="text-lg font-semibold text-gray-800">QrCode do site</h2>
-            <button @click="open = false" class="text-gray-500 hover:text-gray-700">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                     viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                          stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                </svg>
-            </button>
-        </div>
-
-        <!-- Conteúdo -->
-        <div class="text-center">
-            <p class="mb-2 text-gray-600">Este QrCode direciona para:</p>
-            <p class="text-sm font-semibold text-blue-600 mb-4">
-                {{ $config->dominio ?? 'https://informaticalivre.com.br' }}
-            </p>
-
+    <!-- Modal -->
+    <div x-show="open" x-cloak
+        @keydown.escape.window="open = false"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+        
+        <div @click.outside="open = false"
+            class="bg-white rounded-xl shadow-lg max-w-md w-full p-6 relative transition-all duration-300"
+            x-transition:enter="ease-out duration-300"
+            x-transition:enter-start="opacity-0 scale-90"
+            x-transition:enter-end="opacity-100 scale-100"
+            x-transition:leave="ease-in duration-200"
+            x-transition:leave-start="opacity-100 scale-100"
+            x-transition:leave-end="opacity-0 scale-90">
             
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-semibold text-gray-800">QrCode do site</h2>
+                <button @click="open = false" class="text-gray-500 hover:text-gray-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
 
-            <div class="flex justify-center">
-                img
+            <!-- Conteúdo -->
+            <div class="text-center">
+                <p class="mb-2 text-gray-600">Este QrCode direciona para:</p>
+                <p class="text-sm font-semibold text-blue-600 mb-4">
+                    {{ $this->configData['domain'] ?? env('DESENVOLVEDOR_URL') }}
+                </p>
+                <div class="flex justify-center">
+                    <img src="data:image/svg+xml;utf8,{{ rawurlencode($this->qrCodeSvg) }}">
+                </div>
+            </div>
+
+            <!-- Rodapé -->
+            <div class="mt-6 text-right">
+                <button @click="open = false" class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400">
+                    Fechar
+                </button>
             </div>
         </div>
-
-        <!-- Rodapé -->
-        <div class="mt-6 text-right">
-            <button @click="open = false" class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400">
-                Fechar
-            </button>
-        </div>
     </div>
-</div>
 
 </div>
 
@@ -263,5 +427,6 @@
             }
         });
     });
+    
 </script>
 @endscript

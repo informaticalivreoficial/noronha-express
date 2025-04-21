@@ -6,10 +6,12 @@ use App\Models\Config;
 use Illuminate\Support\Facades\Http;
 use Livewire\Component;
 use Livewire\Attributes\Title;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class Settings extends Component
 {
     public array $configData = [];
+    public array $tags = [];
 
     public function mount(Config $config)
     {
@@ -61,5 +63,15 @@ class Settings extends Component
                 $this->dispatch('toast', message: 'CEP não encontrado!', notify: 'error');
             }
         }
+    }
+
+    public function getQrCodeSvgProperty()
+    {
+        return QrCode::size(240)
+            ->margin(2)
+            //->format('png')
+            ->color(0, 0, 255)
+            //->merge($this->configData['favicon'] ? : asset('theme/images/chave.png'), 0.3)
+            ->generate($this->configData['domain'] ?? env('DESENVOLVEDOR_URL'));
     }
 }
