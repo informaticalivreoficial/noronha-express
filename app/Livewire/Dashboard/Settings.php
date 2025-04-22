@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Http;
 use Livewire\Component;
 use Livewire\Attributes\Title;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Livewire\Attributes\On;
 
 class Settings extends Component
 {
@@ -72,6 +73,12 @@ class Settings extends Component
             ->color(0, 0, 255)
             //->merge($this->configData['favicon'] ? : asset('theme/images/chave.png'), 0.3)
             ->generate($this->configData['domain'] ?? env('DESENVOLVEDOR_URL'));
+    }
+
+    #[On('updatePrivacyPolicy')]
+    public function updatePrivacyPolicy($value)
+    {
+        $this->configData['privacy_policy'] = $value;
     }
     
 }

@@ -398,6 +398,7 @@
 
 @script
 <script type="text/javascript">
+    
     document.addEventListener("livewire:navigated", () => {
         $('#privacy_policy').summernote({
             height: 300,
