@@ -113,25 +113,7 @@
     
     @stack('script')
     
-    <script>
-        $(function () {
-            function onAddTag(tag) {
-                alert("Adicionar uma Tag: " + tag);
-            }
-            function onRemoveTag(tag) {
-                alert("Remover Tag: " + tag);
-            }
-            function onChangeTag(input,tag) {
-                alert("Changed a tag: " + tag);
-            }
-            $(function() {
-                $('#tags_1').tagsInput({
-                    width:'auto',
-                    height:200
-                });
-            });
-        });
-    </script>
+    
 </body>
 
 </html>

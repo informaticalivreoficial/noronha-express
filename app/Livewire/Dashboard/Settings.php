@@ -11,34 +11,33 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 class Settings extends Component
 {
     public array $configData = [];
+
     public array $tags = [];
 
     public function mount(Config $config)
     {
         $this->configData = $config->toArray();
+        $this->tags = explode(',', $this->configData['metatags'] ?? '');
     }
 
-    // public function save()
-    // {
-    //     $this->validate([
-            
-    //         'config.status' => 'required|boolean',
-    //         'config.init_date' => 'required|date',
-    //         'config.app_name' => 'required|string|max:255',
-    //         'config.social_name' => 'required|string|max:255',
-    //         'config.alias_name' => 'required|string|max:255',
-    //         'config.slug' => 'required|string|max:255',
-    //         'config.cnpj' => 'required|string|max:255',
-    //         'config.ie' => 'required|string|max:255',
-    //         'config.domain' => 'required|string|max:255',
-    //         'config.subdomain' => 'required|string|max:255',
-    //         // Add other validation rules as needed
-    //     ]);
-
-    //     $this->config->save();
-
-    //     session()->flash('success', 'Empresa atualizada com sucesso!');
-    // }
+    public function update()
+    {
+        $this->validate([
+            'configData.app_name' => 'required|min:3',
+            'configData.email' => 'required|email',
+            //'configData.zipcode' => 'required',
+            //'configData.street' => 'required',
+            //'configData.neighborhood' => 'required',
+            //'configData.city' => 'required',
+            //'configData.state' => 'required',
+        ]);
+        //dd($this->tags);
+        $this->configData['metatags'] = implode(',', $this->tags);
+        
+        Config::updateOrCreate(['id' => 1], $this->configData);
+        
+        $this->dispatch('toast', message: 'Configurações atualizadas com sucesso!', notify: 'success');
+    }
 
     #[Title('Configurações')]
     public function render()
@@ -74,4 +73,5 @@ class Settings extends Component
             //->merge($this->configData['favicon'] ? : asset('theme/images/chave.png'), 0.3)
             ->generate($this->configData['domain'] ?? env('DESENVOLVEDOR_URL'));
     }
+    
 }

@@ -15,7 +15,7 @@
         </div>    
     </div>
 
-    <form wire:submit.prevent="save" autocomplete="off">
+    <form wire:submit.prevent="update" autocomplete="off">
         <div class="card card-teal card-outline card-outline-tabs">
             <div class="card-header p-0 border-bottom-0">
                 <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
@@ -173,7 +173,7 @@
                             <div class="row mb-2">
                                 <div class="col-12" wire:ignore>   
                                     <label class="labelforms text-muted"><b>Política de Privacidade</b></label>
-                                    <textarea id="privacy_policy">{{ $configData['privacy_policy'] ?? '' }}</textarea>                                                                                     
+                                    <textarea id="privacy_policy" wire:model="configData.privacy_policy">{{ $configData['privacy_policy'] ?? '' }}</textarea>                                                                                     
                                 </div>                                    
                             </div>
                         </div> 
@@ -190,7 +190,46 @@
                             <div class="col-12 mb-1"> 
                                 <div class="form-group">
                                     <label class="labelforms"><b>MetaTags</b></label>
-                                    <input id="tags_1" class="tags" rows="5" wire:model="configData.metatags">
+                                    <div 
+                                        x-data="{
+                                            tags: @entangle('tags'),
+                                            input: '',
+                                            addTag() {
+                                                const trimmed = this.input.trim();
+                                                if (trimmed && !this.tags.includes(trimmed)) {
+                                                    this.tags.push(trimmed);
+                                                }
+                                                this.input = '';
+                                            },
+                                            removeTag(index) {
+                                                this.tags.splice(index, 1);
+                                            }
+                                        }"
+                                        class="p-4 border rounded shadow"
+                                    >
+                                    <div class="flex flex-wrap gap-2 mb-2">
+                                        <template x-for="(tag, index) in tags" :key="index">
+                                            <span class="flex items-center bg-blue-500 text-white px-3 py-1 rounded-full">
+                                                <span x-text="tag"></span>
+                                                <button type="button" @click="removeTag(index)" class="ml-2 hover:text-gray-200">&times;</button>
+                                            </span>
+                                        </template>
+                                    </div>
+                                
+                                    <input 
+                                        type="text" 
+                                        x-model="input" 
+                                        @keydown.enter.prevent="addTag"
+                                        placeholder="Digite uma tag e pressione Enter"
+                                        class="border border-gray-300 rounded px-3 py-2 w-full"
+                                    >
+
+
+                                </div>
+
+
+
+
                                 </div>
                             </div>
                             <div class="col-sm-12">
@@ -246,19 +285,18 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="custom-tabs-four-messages" role="tabpanel" aria-labelledby="custom-tabs-four-messages-tab">                                    
-                        <div class="row mb-2">
-                            <div class="col-sm-12 text-muted">
+                        <div class="row mb-2 text-muted">
+                            <div class="col-sm-12">
                                 <div class="mb-4">
                                     <h5 class="text-md font-semibold text-gray-800 mb-2">Informações de Contato</h5>  
                                     <p class="text-sm text-gray-600">Aqui você pode configurar as informações de contato da sua aplicação.</p>                                          
                                 </div>
                             </div>
-                            <hr>
                             <div class="col-12 col-md-6 col-lg-4"> 
                                 <div class="form-group">
                                     <label class="labelforms"><b>Telefone fixo:</b></label>
                                     <input type="text" class="form-control" placeholder="(00) 0000-0000"
-                                        x-mask="(99) 9999-9999" wire:model="phone" id="phone">
+                                        x-mask="(99) 9999-9999" wire:model="configData.phone" id="phone">
                                 </div>
                             </div>
                             <div class="col-12 col-md-6 col-lg-4"> 
@@ -280,77 +318,28 @@
                             <div class="col-12 col-md-6 col-lg-4"> 
                                 <div class="form-group">
                                     <label class="labelforms"><b>Email:</b></label>
-                                    <input type="text" class="form-control text-muted" placeholder="Email" 
+                                    <input type="text" class="form-control" placeholder="Email" 
                                         wire:model="configData.email" id="email">
                                 </div>
                             </div>
                             <div class="col-12 col-md-6 col-lg-4"> 
                                 <div class="form-group">
                                     <label class="labelforms"><b>Email Adicional:</b></label>
-                                    <input type="text" class="form-control text-muted" placeholder="Email Alternativo" 
-                                        wire:model="configData.email_alternative" id="email_alternative">
+                                    <input type="text" class="form-control" placeholder="Email Alternativo" 
+                                        wire:model="configData.additional_email" id="additional_email">
                                 </div>
                             </div>                            
                         </div>                            
                     </div>
                     <div class="tab-pane fade" id="custom-tabs-four-imagens" role="tabpanel" aria-labelledby="custom-tabs-four-imagens-tab">
-                        <div class="row mb-2 text-muted">
-                            <div class="col-sm-12">
-                                <div class="mb-4">
-                                    <h5 class="text-md font-semibold text-gray-800 mb-2">Imagens do site</h5>  
-                                    <p class="text-sm text-gray-600">Aqui você configurar as imagens do site, fique atento ao tamanho das imagens para uma melhor experiência da sua aplicação.</p>                                          
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="col-12 col-md-6 col-sm-6 col-lg-6"> 
-                                <div class="form-group">
-                                    <label class="labelforms"><b>Logomarca do site</b> - {{env('LOGOMARCA_WIDTH')}}x{{env('LOGOMARCA_HEIGHT')}} pixels</label>
-                                    <div class="thumb_user_admin">                                                                                           
-                                        <img 
-                                        width="{{env('LOGOMARCA_WIDTH')}}" 
-                                        height="{{env('LOGOMARCA_HEIGHT')}}" 
-                                        src="{{$configData['privacy_policy']}}" alt="" title=""/>
-                                        <input type="file">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-6 col-sm-6 col-lg-6"> 
-                                <div class="form-group">
-                                    <label class="labelforms"><b>Logomarca do Gerenciador</b> - {{env('LOGOMARCA_GERENCIADOR_WIDTH')}}x{{env('LOGOMARCA_GERENCIADOR_HEIGHT')}} pixels</label>
-                                    <div class="thumb_user_admin">                                                    
-                                        <img id="preview3" width="{{env('LOGOMARCA_GERENCIADOR_WIDTH')}}" height="{{env('LOGOMARCA_GERENCIADOR_HEIGHT')}}" src="" alt="" title=""/>
-                                        <input id="img-logomarcaadmin" type="file" name="logomarca_admin">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-6 col-sm-6 col-lg-6"> 
-                                <div class="form-group">
-                                    <label class="labelforms"><b>Favicon</b> - {{env('FAVEICON_WIDTH')}}x{{env('FAVEICON_HEIGHT')}} pixels</label>
-                                    <div class="thumb_user_admin">                                                    
-                                        <img id="preview4" width="{{env('FAVEICON_WIDTH')}}" height="{{env('FAVEICON_HEIGHT')}}" src="" alt="" title=""/>
-                                        <input id="img-favicon" type="file" name="favicon">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-6 col-sm-6 col-lg-6"> 
-                                <div class="form-group">
-                                    <label class="labelforms"><b>Marca D´agua</b> - {{env('MARCADAGUA_WIDTH')}}x{{env('MARCADAGUA_HEIGHT')}} pixels</label>
-                                    <div class="thumb_user_admin">                                                    
-                                        <img id="preview5" width="{{env('MARCADAGUA_WIDTH')}}" height="{{env('MARCADAGUA_HEIGHT')}}" src="" alt="" title=""/>
-                                        <input id="img-marcadagua" type="file" name="marcadagua">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12"> 
-                                <div class="form-group">
-                                    <label class="labelforms"><b>Topo do site</b> - {{env('IMGHEADER_WIDTH')}}x{{env('IMGHEADER_HEIGHT')}} pixels</label>
-                                    <div class="thumb_user_admin">
-                                        <img id="preview6" width="{{env('IMGHEADER_WIDTH')}}" height="{{env('IMGHEADER_HEIGHT')}}" src="" alt="" title=""/>
-                                        <input id="img-imgheader" type="file" name="imgheader">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>  
+                          
+                    </div>
+                </div>
+                <div class="row text-right">
+                    <div class="col-12 mb-4">
+                        <button type="submit" class="btn btn-success btn-lg">
+                            <i class="nav-icon fas fa-check mr-2"></i> Atualizar Configurações
+                        </button>
                     </div>
                 </div>
             </div>
@@ -427,6 +416,23 @@
             }
         });
     });
+
+    function tagInputComponent(tagsBinding) {
+        return {
+            tags: tagsBinding,
+            input: '',
+            addTag() {
+                const trimmed = this.input.trim();
+                if (trimmed && !this.tags.includes(trimmed)) {
+                    this.tags.push(trimmed);
+                }
+                this.input = '';
+            },
+            removeTag(index) {
+                this.tags.splice(index, 1);
+            }
+        };
+    }
     
 </script>
 @endscript
