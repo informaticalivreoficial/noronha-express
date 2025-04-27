@@ -4,13 +4,26 @@ namespace App\Livewire\Dashboard;
 
 use App\Models\Config;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\Attributes\Title;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Livewire\Attributes\On;
+use Livewire\WithFileUploads;
 
 class Settings extends Component
 {
+    use WithFileUploads;
+
+    public $currentTab = 'geral';
+
+    public $logo;
+    public $logo_admin;
+    public $favicon;
+    public $watermark;
+    public $imgheader;
+    public $metaimg;
+
     public array $configData = [];
 
     public array $tags = [];
@@ -19,6 +32,7 @@ class Settings extends Component
     {
         $this->configData = $config->toArray();
         $this->tags = explode(',', $this->configData['metatags'] ?? '');
+        $this->logo = $this->getlogo();
     }
 
     public function update()
@@ -26,12 +40,20 @@ class Settings extends Component
         $this->validate([
             'configData.app_name' => 'required|min:3',
             'configData.email' => 'required|email',
-            //'configData.zipcode' => 'required',
+            'configData.logo' => 'nullable|image|max:1024',
             //'configData.street' => 'required',
             //'configData.neighborhood' => 'required',
             //'configData.city' => 'required',
             //'configData.state' => 'required',
         ]);
+        
+        // Exclui a foto antiga (se existir)
+        if ($this->logo && Storage::disk()->exists($this->logo)) {
+            Storage::delete($this->logo);
+        }
+        $path = $this->logo->store('config', 'public');
+        $this->configData['logo'] = $path;
+        $this->logo = $path;
         //dd($this->tags);
         $this->configData['metatags'] = implode(',', $this->tags);
         
@@ -79,6 +101,14 @@ class Settings extends Component
     public function updatePrivacyPolicy($value)
     {
         $this->configData['privacy_policy'] = $value;
+    }
+
+    public function getlogo()
+    {
+        if(empty($this->configData['logo']) || !Storage::disk()->exists($this->configData['logo'])) {
+            return url(asset('theme/images/image.jpg'));
+        } 
+        return Storage::url($this->configData['logo']);
     }
     
 }
