@@ -69,6 +69,16 @@
                         </p>
                     </a>
                 </li>     
+                <li class="nav-item">
+                    <a href="{{route('manifests.index')}}" class="nav-link">
+                        <i class="nav-icon fas fa-file-alt"></i>
+
+                        <p>
+                            Manifestos
+                            <span class="badge badge-info right">{{$manifestCount}}</span>
+                        </p>
+                    </a>
+                </li>     
 
             </ul>
         </nav>

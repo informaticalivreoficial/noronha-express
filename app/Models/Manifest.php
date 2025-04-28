@@ -27,4 +27,30 @@ class Manifest extends Model
         'information',
         'contact',
     ];
+
+    /**
+     * Scopes
+    */
+
+    /**
+     * Relationships
+    */
+    public function trip()
+    {
+        return $this->belongsTo(Trip::class);
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
+    
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Accerssors and Mutators
+    */
 }

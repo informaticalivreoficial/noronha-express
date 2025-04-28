@@ -4,6 +4,7 @@ use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
 use App\Livewire\Dashboard\Companies\Companies;
 use App\Livewire\Dashboard\Dashboard;
+use App\Livewire\Dashboard\Manifests\Manifests;
 use App\Livewire\Dashboard\Settings;
 use App\Livewire\Dashboard\Trips\Trips;
 use App\Livewire\Dashboard\Users\Form;
@@ -33,6 +34,11 @@ Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'admin'], functi
 
     Route::get('viagens', Trips::class)->name('trips.index');
     Route::get('cadastrar-viagem', Form::class)->name('trips.create');
+    Route::get('editar-viagem/{companyId}', Form::class)->name('trips.edit');
+    Route::get('visualizar-viagem/{company}', ViewUser::class)->name('trips.view');
+
+    Route::get('manifestos', Manifests::class)->name('manifests.index');
+    Route::get('cadastrar-manifesto', Form::class)->name('manifests.create');
     Route::get('editar-viagem/{companyId}', Form::class)->name('trips.edit');
     Route::get('visualizar-viagem/{company}', ViewUser::class)->name('trips.view');
 });

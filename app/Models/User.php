@@ -73,6 +73,19 @@ class User extends Authenticatable
     }
 
     /**
+     * Relationships
+    */
+    public function manifests()
+    {
+        return $this->hasMany(Manifest::class, 'user', 'id');
+    }
+    
+    public function company()
+    {
+        return $this->hasMany(Company::class, 'user', 'id');
+    }
+
+    /**
      * Accerssors and Mutators
     */
 

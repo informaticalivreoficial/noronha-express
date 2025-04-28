@@ -34,6 +34,8 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('trip')->references('id')->on('trips')->onDelete('CASCADE');
+            $table->foreign('company')->references('id')->on('companies');
+            $table->foreign('user')->references('id')->on('users');
         });
     }
 

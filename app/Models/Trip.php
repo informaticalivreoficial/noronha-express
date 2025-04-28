@@ -22,6 +22,18 @@ class Trip extends Model
     ];
 
     /**
+     * Scopes
+    */
+
+    /**
+     * Relationships
+    */
+    public function manifests()
+    {
+        return $this->hasMany(Manifest::class, 'trip', 'id');
+    }
+
+    /**
      * Accerssors and Mutators
     */
     public function setStartAttribute($value)

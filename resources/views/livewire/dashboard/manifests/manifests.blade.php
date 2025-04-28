@@ -3,12 +3,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1><i class="fas fa-search mr-2"></i> Viagens</h1>
+                    <h1><i class="fas fa-search mr-2"></i> Manifestos</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">                    
                         <li class="breadcrumb-item"><a href="{{route('admin')}}">Painel de Controle</a></li>
-                        <li class="breadcrumb-item active">Viagens</li>
+                        <li class="breadcrumb-item active">Manifestos</li>
                     </ol>
                 </div>
             </div>
@@ -43,30 +43,29 @@
                     @endif
                 </div>            
             </div>
-            @if(!empty($trips) && $trips->count() > 0)
+            @if(!empty($manifests) && $manifests->count() > 0)
                 <table class="table table-bordered table-striped projects">
                     <thead>
                         <tr>
-                            <th wire:click="sortBy('id')"># <i class="expandable-table-caret fas fa-caret-down fa-fw"></i></th>
-                            <th>Início</th>
-                            <th>Término</th>
-                            <th>Navio</th>
-                            <th>Manifestos</th>
+                            <th wire:click="sortBy('trip')">Viagem <i class="expandable-table-caret fas fa-caret-down fa-fw"></i></th>
+                            <th>Tipo</th>
+                            <th>Responsável</th>
+                            <th>Itens</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($trips as $trip)                    
+                        @foreach($manifests as $manifest)                    
                         <tr>                            
-                            <td>{{$trip->id}}</td>
-                            <td>{{$trip->start}}</td>
-                            <td>{{$trip->stop}}</td>
-                            <td>{{$trip->ship}}</td>                            
-                            <td>{{$trip->manifests->count()}}</td>                            
+                            <td>{{$manifest->trip}}</td>
+                            <td></td>
+                            <td>{{$manifest->user->name}}</td>
+                            <td></td>                            
+                            <td></td>                            
                             <td>
                                 <a wire:navigate href="" class="btn btn-xs btn-info text-white"><i class="fas fa-search"></i></a>
                                 <a wire:navigate href="" class="btn btn-xs btn-default"><i class="fas fa-pen"></i></a>
-                                <button type="button" class="btn btn-xs btn-danger text-white" wire:click="setDeleteId({{$trip->id}})">
+                                <button type="button" class="btn btn-xs btn-danger text-white" wire:click="setDeleteId({{$manifest->id}})">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </td>
@@ -85,7 +84,7 @@
             @endif
         </div>
         <div class="card-footer clearfix">  
-            {{ $trips->links() }}  
+            {{ $manifests->links() }}  
         </div>
     </div>
 
