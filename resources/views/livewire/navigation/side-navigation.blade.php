@@ -1,7 +1,7 @@
 <aside class="main-sidebar sidebar-light-teal elevation-4">
     <!-- Brand Logo -->
     <a href="https://www.youtube.com/@RonaldCodes23" target="_blank" class="brand-link">
-        <img src="" alt="RonaldCodes Logo"
+        <img src="{{$config->getlogo()}}" alt="RonaldCodes Logo"
             class="brand-image img-circle elevation-3" style="opacity: .8">
 
         {{-- <a href="https://www.youtube.com/@RonaldCodes23" target="_blank"><img

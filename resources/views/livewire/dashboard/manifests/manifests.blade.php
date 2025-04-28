@@ -51,6 +51,7 @@
                             <th>Tipo</th>
                             <th>Responsável</th>
                             <th>Itens</th>
+                            <th>Valor Total</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -58,10 +59,27 @@
                         @foreach($manifests as $manifest)                    
                         <tr>                            
                             <td>{{$manifest->trip}}</td>
-                            <td></td>
-                            <td>{{$manifest->user->name}}</td>
-                            <td></td>                            
-                            <td></td>                            
+                            <td>{{$manifest->type}}</td>
+                            <td>{{$manifest->userObject->name}}</td>
+                            <td>{{$manifest->items->count()}}</td>                            
+                            <td>
+                                @if ($manifest->items && $manifest->items->count() > 0)
+                                    R$ {{
+                                        number_format(
+                                            $manifest->items->sum('horti-fruit') + 
+                                            $manifest->items->sum('cubage') +
+                                            $manifest->items->sum('secure') +
+                                            $manifest->items->sum('dry_weight') +
+                                            $manifest->items->sum('package') +
+                                            $manifest->items->sum('glace') +
+                                            $manifest->items->sum('tax'),
+                                            2,
+                                            ',',
+                                            '.'
+                                        )
+                                    }}
+                                @endif
+                            </td>                            
                             <td>
                                 <a wire:navigate href="" class="btn btn-xs btn-info text-white"><i class="fas fa-search"></i></a>
                                 <a wire:navigate href="" class="btn btn-xs btn-default"><i class="fas fa-pen"></i></a>

@@ -3,6 +3,7 @@
 namespace App\Livewire\Navigation;
 
 use App\Models\Company;
+use App\Models\Config;
 use App\Models\Manifest;
 use App\Models\Trip;
 use App\Models\User;
@@ -16,12 +17,14 @@ class SideNavigation extends Component
         $companyCount = Company::count();
         $tripCount = Trip::count();
         $manifestCount = Manifest::count();
+        $config = Config::first();
 
         return view('livewire.navigation.side-navigation',[
             'userCount' => $userCount,
             'companyCount' => $companyCount,
             'tripCount' => $tripCount,
-            'manifestCount' => $manifestCount
+            'manifestCount' => $manifestCount,
+            'config' => $config,
         ]);
     }
 }

@@ -44,10 +44,15 @@ class Manifest extends Model
     {
         return $this->belongsTo(Company::class);
     }
-    
-    public function user()
+
+    public function userObject()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasOne(User::class, 'id', 'user');
+    }
+
+    public function items()
+    {
+        return $this->hasMany(ManifestItem::class, 'manifest', 'id');
     }
 
     /**
