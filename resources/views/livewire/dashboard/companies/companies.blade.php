@@ -50,7 +50,7 @@
                 <table class="table table-bordered table-striped projects">
                     <thead>
                         <tr>
-                            <th wire:click="sortBy('alias_name')">Nome <i class="expandable-table-caret fas fa-caret-down fa-fw"></i></th>
+                            <th wire:click="sortBy('alias_name')">Nome Fantasia <i class="expandable-table-caret fas fa-caret-down fa-fw"></i></th>
                             <th>Manifestos</th>
                             <th>Faturas</th>
                             <th class="text-center">Status</th>
@@ -71,7 +71,7 @@
                             </td>
                             <td>
                                 
-                                @if($company->whatsapp != '')
+                                @if($company->whatsapp)
                                     <a target="_blank" href="{{\App\Helpers\WhatsApp::getNumZap($company->whatsapp)}}" class="btn btn-xs btn-success text-white"><i class="fab fa-whatsapp"></i></a>
                                 @endif
                                 

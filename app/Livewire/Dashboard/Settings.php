@@ -9,7 +9,9 @@ use Livewire\Component;
 use Livewire\Attributes\Title;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Livewire\Attributes\On;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\File;
 
 class Settings extends Component
 {
@@ -32,34 +34,34 @@ class Settings extends Component
     {
         $this->configData = $config->toArray();
         $this->tags = explode(',', $this->configData['metatags'] ?? '');
-        $this->logo = $this->getlogo();
+        $this->logo = $this->getLogo();
     }
 
     public function update()
-    {
+    {        
         $this->validate([
             'configData.app_name' => 'required|min:3',
             'configData.email' => 'required|email',
-            'configData.logo' => 'nullable|image|max:1024',
-            //'configData.street' => 'required',
-            //'configData.neighborhood' => 'required',
-            //'configData.city' => 'required',
-            //'configData.state' => 'required',
+            'logo' => 'nullable|image|max:1024',
         ]);
         
-        // Exclui a foto antiga (se existir)
-        if ($this->logo && Storage::disk()->exists($this->logo)) {
-            Storage::delete($this->logo);
+        if ($this->logo instanceof TemporaryUploadedFile) {
+            // Exclui a foto antiga, se existir
+            if (!empty($this->configData['logo']) && Storage::disk('public')->exists($this->configData['logo'])) {
+                Storage::disk('public')->delete($this->configData['logo']);
+            }
+            // Salva a nova imagem e atualiza o caminho
+            $path = $this->logo->store('config', 'public');            
+            $this->configData['logo'] = $path;
         }
-        $path = $this->logo->store('config', 'public');
-        $this->configData['logo'] = $path;
-        $this->logo = $path;
-        //dd($this->tags);
-        $this->configData['metatags'] = implode(',', $this->tags);
+        
+        //$this->configData['metatags'] = implode(',', $this->tags);
+        $this->configData['metatags'] = implode(',', $this->tags ?? []);
         
         Config::updateOrCreate(['id' => 1], $this->configData);
-        
+        $this->reset('logo');
         $this->dispatch('toast', message: 'Configurações atualizadas com sucesso!', notify: 'success');
+                
     }
 
     #[Title('Configurações')]
@@ -103,12 +105,16 @@ class Settings extends Component
         $this->configData['privacy_policy'] = $value;
     }
 
-    public function getlogo()
+    public function getLogo()
     {
-        if(empty($this->configData['logo']) || !Storage::disk()->exists($this->configData['logo'])) {
-            return url(asset('theme/images/image.jpg'));
-        } 
+        // Verifica se o caminho da imagem está presente e existe no disco
+        if (empty($this->configData['logo']) || !Storage::disk('public')->exists($this->configData['logo'])) {
+            return url(asset('theme/images/image.jpg')); // Imagem padrão caso não tenha uma logo
+        }
+
+        // Caso contrário, retorna a URL pública do arquivo
         return Storage::url($this->configData['logo']);
-    }
+    }     
+    
     
 }

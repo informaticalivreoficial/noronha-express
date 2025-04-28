@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Dashboard\Companies;
 
+use App\Models\Company;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\Title;
@@ -17,6 +18,8 @@ class Companies extends Component
     public string $sortField = 'social_name';
 
     public string $sortDirection = 'asc';
+
+    public bool $active;
 
     public $delete_id;
 
@@ -41,12 +44,20 @@ class Companies extends Component
     #[Title('Empresas')]
     public function render()
     {
-        $companies = \App\Models\Company::query()->when($this->search, function($query){
+        $companies = Company::query()->when($this->search, function($query){
             $query->orWhere('social_name', 'LIKE', "%{$this->search}%");
             $query->orWhere('email', "%{$this->search}%");
         })->orderBy($this->sortField, $this->sortDirection)->paginate(35);
         return view('livewire.dashboard.companies.companies',[
             'companies' => $companies
         ]);
+    }
+
+    public function toggleStatus($id)
+    {              
+        $company = Company::find($id);
+        $company->status = !$this->active;        
+        $company->save();
+        $this->active = $company->status;
     }
 }

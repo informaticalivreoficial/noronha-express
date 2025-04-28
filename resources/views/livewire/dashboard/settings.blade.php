@@ -21,8 +21,10 @@
                 <li class="mr-2">
                     <button 
                         @click="tab = 'geral'" 
-                        :class="tab === 'geral' ? 'inline-block p-3 text-blue-600 border-b-2 border-blue-600' : 'inline-block p-3 text-gray-500 hover:text-gray-600 hover:border-gray-300'"
-                        class="rounded-t-lg border-transparent focus:outline-none"
+                        :class="tab === 'geral' 
+                        ? 'inline-block p-4 text-blue-600 border-b-2 border-blue-600 bg-blue-50 transition duration-300'
+                        : 'inline-block p-4 text-gray-500 hover:text-blue-600 hover:bg-blue-50 hover:border-blue-300 transition duration-300'"
+                        class="border-transparent focus:outline-none"
                     >
                         INFORMAÇÕES GERAIS
                     </button>
@@ -30,8 +32,10 @@
                 <li class="mr-2">
                     <button 
                         @click="tab = 'seo'" 
-                        :class="tab === 'seo' ? 'inline-block p-3 text-blue-600 border-b-2 border-blue-600' : 'inline-block p-3 text-gray-500 hover:text-gray-600 hover:border-gray-300'"
-                        class="rounded-t-lg border-transparent focus:outline-none"
+                        :class="tab === 'seo' 
+                        ? 'inline-block p-4 text-blue-600 border-b-2 border-blue-600 bg-blue-50 transition duration-300'
+                        : 'inline-block p-4 text-gray-500 hover:text-blue-600 hover:bg-blue-50 hover:border-blue-300 transition duration-300'"
+                        class="border-transparent focus:outline-none"
                     >
                         SEO
                     </button>
@@ -39,8 +43,10 @@
                 <li class="mr-2">
                     <button 
                         @click="tab = 'contato'" 
-                        :class="tab === 'contato' ? 'inline-block p-3 text-blue-600 border-b-2 border-blue-600' : 'inline-block p-3 text-gray-500 hover:text-gray-600 hover:border-gray-300'"
-                        class="rounded-t-lg border-transparent focus:outline-none"
+                        :class="tab === 'contato' 
+                        ? 'inline-block p-4 text-blue-600 border-b-2 border-blue-600 bg-blue-50 transition duration-300'
+                        : 'inline-block p-4 text-gray-500 hover:text-blue-600 hover:bg-blue-50 hover:border-blue-300 transition duration-300'"
+                        class="border-transparent focus:outline-none"
                     >
                         INFORMAÇÕES DE CONTATO
                     </button>
@@ -48,8 +54,10 @@
                 <li class="mr-2">
                     <button 
                         @click="tab = 'imagens'" 
-                        :class="tab === 'imagens' ? 'inline-block p-3 text-blue-600 border-b-2 border-blue-600' : 'inline-block p-3 text-gray-500 hover:text-gray-600 hover:border-gray-300'"
-                        class="rounded-t-lg border-transparent focus:outline-none"
+                        :class="tab === 'imagens' 
+                        ? 'inline-block p-4 text-blue-600 border-b-2 border-blue-600 bg-blue-50 transition duration-300'
+                        : 'inline-block p-4 text-gray-500 hover:text-blue-600 hover:bg-blue-50 hover:border-blue-300 transition duration-300'"
+                        class="border-transparent focus:outline-none"
                     >
                         IMAGENS
                     </button>
@@ -58,17 +66,14 @@
         
             <div class="mt-1 card-body">
                 <div x-show="tab === 'geral'" x-transition>
-                    <!-- conteúdo da aba "Informações Gerais" -->                    
-                    <div class="row mb-3 text-muted">
-                        <div class="col-sm-12 bg-gray-light">                                        
-                            <!-- checkbox -->
-                            <div class="form-group p-3 mb-0">
-                                <h5><b>Informações Gerais</b></h5>  
-                                <p>{{ \Illuminate\Support\Facades\Auth::user()->name }} aqui você pode configurar as informações do sistema.</p>                                          
+                    <!-- conteúdo da aba "Informações Gerais" -->
+                    <div class="row">  
+                        <div class="col-sm-12">
+                            <div class="mb-4 bg-gray-light p-3">
+                                <h5 class="text-md font-semibold text-gray-800 mb-2">Informações Gerais</h5>  
+                                <p class="text-sm text-gray-600">{{ \Illuminate\Support\Facades\Auth::user()->name }} aqui você pode configurar as informações do sistema.</p>                                          
                             </div>
-                        </div>
-                    </div>
-                    <div class="row mt-3">                                        
+                        </div>                                      
                         <div class="col-12 col-md-6 col-lg-12"> 
                             <div class="row mb-2 text-muted">
                                 <div class="col-12 col-md-6 col-sm-6 col-lg-6 mb-2">
@@ -306,7 +311,7 @@
                     <!-- conteúdo da aba "Informações de Contato" -->
                     <div class="row mb-2 text-muted">
                         <div class="col-sm-12">
-                            <div class="mb-4 bg-gray-light">
+                            <div class="mb-4 bg-gray-light p-3">
                                 <h5 class="text-md font-semibold text-gray-800 mb-2">Informações de Contato</h5>  
                                 <p class="text-sm text-gray-600">Aqui você pode configurar as informações de contato da sua aplicação.</p>                                          
                             </div>
@@ -353,44 +358,85 @@
         
                 <div x-show="tab === 'imagens'" x-transition x-cloak>
                     <!-- conteúdo da aba "Imagens" -->
-                    <div class="w-full md:w-1/2 p-2" x-data="{ preview: '{{ $logo }}' }">
+                    <div class="w-full md:w-1/2 p-2">
                         <label class="block text-sm font-medium text-gray-700 mb-2">
                             <b>Logomarca do site</b> - {{ env('LOGOMARCA_WIDTH') }}x{{ env('LOGOMARCA_HEIGHT') }} pixels
                         </label>
+
+
+
+
+
                         
-                        <div class="flex flex-col items-start space-y-2">
-                            <img 
-                                :src="preview" 
-                                alt="Preview"
-                                class="border rounded max-w-full h-auto"
-                                width="{{ env('LOGOMARCA_WIDTH') }}" 
-                                height="{{ env('LOGOMARCA_HEIGHT') }}"
-                            >
-                    
-                            <input 
-                                type="file" 
-                                @change="
-                                    const file = $event.target.files[0];
-                                    if (file) {
-                                        const reader = new FileReader();
-                                        reader.onload = (e) => preview = e.target.result;
-                                        reader.readAsDataURL(file);
-                                    }
-                                "
-                                class="block w-full text-sm text-gray-700
-                                       file:mr-4 file:py-2 file:px-4
-                                       file:rounded file:border-0
-                                       file:text-sm file:font-semibold
-                                       file:bg-blue-50 file:text-blue-700
-                                       hover:file:bg-blue-100"
-                                id="logo" wire:model="logo"
-                            />
+                        <div 
+                        x-data="{
+                            preview: '{{ $this->getLogo() }}',
+                            updatePreview(event) {
+                                const fileInput = event.target;
+                                const file = fileInput.files[0];
+
+                                if (file) {
+                                    const reader = new FileReader();
+                                    reader.onload = (e) => {
+                                        this.preview = e.target.result; // Atualiza o preview
+                                    };
+                                    reader.readAsDataURL(file);
+                                }
+
+                                // Reseta o input para permitir o mesmo arquivo novamente
+                                fileInput.value = '';
+                            }
+                        }"
+                        class="flex flex-col items-start space-y-2">
+
+                        <img 
+                            :src="preview" 
+                            alt="Preview"
+                            class="border rounded max-w-full h-auto"
+                            width="{{ env('LOGOMARCA_WIDTH', 200) }}" 
+                            height="{{ env('LOGOMARCA_HEIGHT', 100) }}"
+                        >
+
+                        <div 
+                            wire:loading wire:target="logo" 
+                            class="absolute inset-0 bg-white bg-opacity-70 flex items-center justify-center rounded"
+                        >
+                            <svg class="animate-spin h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                            </svg>
                         </div>
+
+                        <input 
+                            type="file" 
+                            @change="updatePreview"
+                            wire:model.defer="logo"
+                            class="block w-full text-sm text-gray-700
+                                file:mr-4 file:py-2 file:px-4
+                                file:rounded file:border-0
+                                file:text-sm file:font-semibold
+                                file:bg-blue-50 file:text-blue-700
+                                hover:file:bg-blue-100"
+                            id="logo"
+                        />
+
+                        </div>
+
+
+
+
+
+
+
+
+
+
+
                     </div>
                 </div>
                 <div class="row text-right">
                     <div class="col-12 mb-4">
-                        <button type="submit" class="btn btn-success btn-lg">
+                        <button type="button" wire:click="update" class="btn btn-success btn-lg">
                             <i class="nav-icon fas fa-check mr-2"></i> Atualizar Configurações
                         </button>
                     </div>
@@ -487,6 +533,8 @@
             }
         };
     }
+
+    
     
 </script>
 @endscript

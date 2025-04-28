@@ -2,12 +2,48 @@
 
 namespace App\Livewire\Dashboard\Trips;
 
+use App\Models\Trip;
 use Livewire\Component;
+use Livewire\WithPagination;
+use Livewire\Attributes\Title;
 
 class Trips extends Component
 {
+    use WithPagination;
+
+    public string $search = '';
+
+    public string $sortField = 'id';
+
+    public string $sortDirection = 'asc';
+
+    #{Url}
+    public function updatingSearch(): void
+    {
+        $this->resetPage();
+    }
+
+    public function sortBy(string $field): void
+    {
+        if ($this->sortField === $field) {
+            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            $this->sortField = $field;
+            $this->sortDirection = 'asc';
+        }
+
+        $this->resetPage();
+    }
+
+    #[Title('Viagens')]
     public function render()
     {
-        return view('livewire.dashboard.trips.trips');
+        $trips = Trip::query()->when($this->search, function($query){
+            $query->orWhere('start', 'LIKE', "%{$this->search}%");
+            $query->orWhere('stop', "%{$this->search}%");
+        })->orderBy($this->sortField, $this->sortDirection)->paginate(50);
+        return view('livewire.dashboard.trips.trips',[
+            'trips' => $trips
+        ]);
     }
 }
