@@ -82,7 +82,7 @@
                                     <button title="Enviar Email" type="submit" class="btn btn-xs text-white bg-teal"><i class="fas fa-envelope"></i></button>
                                 </form> 
                                 <a wire:navigate href="visualizar-empresa/{{$company->id}}" class="btn btn-xs btn-info text-white"><i class="fas fa-search"></i></a>
-                                <a wire:navigate href="{{ route('companies.edit', [ 'companyId' => $company->id ]) }}" class="btn btn-xs btn-default"><i class="fas fa-pen"></i></a>
+                                <a wire:navigate href="{{ route('companies.edit', [ 'company' => $company->id ]) }}" class="btn btn-xs btn-default"><i class="fas fa-pen"></i></a>
                                 <button type="button" class="btn btn-xs btn-danger text-white" wire:click="setDeleteId({{$company->id}})">
                                     <i class="fas fa-trash"></i>
                                 </button>

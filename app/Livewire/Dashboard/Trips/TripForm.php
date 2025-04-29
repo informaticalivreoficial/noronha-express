@@ -18,8 +18,8 @@ class TripForm extends Component
     public function mount()
     {
         if ($this->trip) {
-            $this->start = optional($this->trip->start)->format('Y-m-d\TH:i');
-            $this->stop = optional($this->trip->stop)->format('Y-m-d\TH:i');
+            $this->start = optional($this->trip->start)->format('Y-m-d');
+            $this->stop = optional($this->trip->stop)->format('Y-m-d');
             $this->ship = $this->trip->ship;
             $this->information = $this->trip->information;
         }
@@ -28,19 +28,19 @@ class TripForm extends Component
     public function save()
     {
         $validated = $this->validate([
-            'start' => 'required|date',
-            'stop' => 'nullable|date|after_or_equal:start',
-            'ship' => 'required|string|max:255',
-            'information' => 'nullable|string',
+            'start' => 'required|date_format:d/m/Y',
+            //'stop' => 'nullable|date|after_or_equal:start',
+            //'ship' => 'required|string|max:255',
+            //'information' => 'nullable|string',
         ]);
 
         $data = [
-            'start' => Carbon::parse($this->start),
-            'stop' => $this->stop ? Carbon::parse($this->stop) : null,
-            'ship' => $this->ship,
-            'information' => $this->information,
+            'start' => $this->start,
+            //'stop' => $this->stop ? Carbon::parse($this->stop) : null,
+            //'ship' => $this->ship,
+            //'information' => $this->information,
         ];
-
+dd($data);
         if ($this->trip) {
             $this->trip->update($data);
             session()->flash('message', 'Viagem atualizada com sucesso!');
