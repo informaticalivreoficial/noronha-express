@@ -5,7 +5,7 @@
             class="brand-image elevation-3">        
     </a>
 
-    <div class="sidebar">
+    <div class="sidebar mt-3">
         {{-- Sidebar user panel (optional)  --}}
         {{-- <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">

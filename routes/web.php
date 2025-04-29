@@ -8,6 +8,7 @@ use App\Livewire\Dashboard\Manifests\Manifests;
 use App\Livewire\Dashboard\Reports\Companies as ReportsCompanies;
 use App\Livewire\Dashboard\Reports\Manifests as ReportsManifests;
 use App\Livewire\Dashboard\Settings;
+use App\Livewire\Dashboard\Trips\TripForm;
 use App\Livewire\Dashboard\Trips\Trips;
 use App\Livewire\Dashboard\Users\Form;
 use App\Livewire\Dashboard\Users\Users;
@@ -34,10 +35,10 @@ Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'admin'], functi
     Route::get('editar-empresa/{companyId}', Form::class)->name('companies.edit');
     Route::get('visualizar-empresa/{company}', ViewUser::class)->name('companies.view');
 
+    // Trips
     Route::get('viagens', Trips::class)->name('trips.index');
-    Route::get('cadastrar-viagem', Form::class)->name('trips.create');
-    Route::get('editar-viagem/{companyId}', Form::class)->name('trips.edit');
-    Route::get('visualizar-viagem/{company}', ViewUser::class)->name('trips.view');
+    Route::get('cadastrar-viagem', TripForm::class)->name('trips.create');
+    Route::get('editar-viagem/{trip}/editar', TripForm::class)->name('trips.edit');
 
     Route::get('manifestos', Manifests::class)->name('manifests.index');
     Route::get('cadastrar-manifesto', Form::class)->name('manifests.create');
