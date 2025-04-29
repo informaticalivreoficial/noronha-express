@@ -15,14 +15,13 @@ class TripForm extends Component
     public string $ship = '';
     public string $information = '';
 
-    public function mount(?Trip $trip = null)
+    public function mount()
     {
-        if ($trip) {
-            $this->trip = $trip;
-            $this->start = optional($trip->start)->format('Y-m-d\TH:i');
-            $this->stop = optional($trip->stop)->format('Y-m-d\TH:i');
-            $this->ship = $trip->ship;
-            $this->information = $trip->information;
+        if ($this->trip) {
+            $this->start = optional($this->trip->start)->format('Y-m-d\TH:i');
+            $this->stop = optional($this->trip->stop)->format('Y-m-d\TH:i');
+            $this->ship = $this->trip->ship;
+            $this->information = $this->trip->information;
         }
     }
 
@@ -54,6 +53,7 @@ class TripForm extends Component
 
     public function render()
     {
-        return view('livewire.dashboard.trips.trip-form');
+        $title = $this->trip ? 'Editar Viagem' : 'Cadastrar Viagem';
+        return view('livewire.dashboard.trips.trip-form')->with('title', $title);
     }
 }

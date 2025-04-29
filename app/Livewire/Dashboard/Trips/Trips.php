@@ -5,7 +5,6 @@ namespace App\Livewire\Dashboard\Trips;
 use App\Models\Trip;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Livewire\Attributes\Title;
 
 class Trips extends Component
 {
@@ -35,15 +34,15 @@ class Trips extends Component
         $this->resetPage();
     }
 
-    #[Title('Viagens')]
     public function render()
     {
+        $title = 'Gerenciar Viagens';
         $trips = Trip::query()->when($this->search, function($query){
             $query->orWhere('start', 'LIKE', "%{$this->search}%");
             $query->orWhere('stop', "%{$this->search}%");
         })->orderBy($this->sortField, $this->sortDirection)->paginate(50);
         return view('livewire.dashboard.trips.trips',[
             'trips' => $trips
-        ]);
+        ])->with('title', $title);
     }
 }
