@@ -1,15 +1,8 @@
 <aside class="main-sidebar sidebar-light-teal elevation-4">
     <!-- Brand Logo -->
-    <a href="https://www.youtube.com/@RonaldCodes23" target="_blank" class="brand-link">
-        <img src="{{$config->getlogo()}}" alt="RonaldCodes Logo"
-            class="brand-image img-circle elevation-3" style="opacity: .8">
-
-        {{-- <a href="https://www.youtube.com/@RonaldCodes23" target="_blank"><img
-                src="{{ asset('assets/images/RonaldCodesLogo.png') }}" alt="Ronald Codes Logo"
-                class="brand-image img-circle elevation-3 rounded-circle cursor-pointer" style="width: 50px" />
-        </a> --}}
-
-        <span class="brand-text font-weight-light">Laravel AdminLTE v3</span>
+    <a href="#" class="">
+        <img src="{{$config->getlogo()}}" alt="{{$config->app_name}}"
+            class="brand-image elevation-3">        
     </a>
 
     <div class="sidebar">
@@ -79,7 +72,38 @@
                         </p>
                     </a>
                 </li>     
-
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-chart-bar"></i>
+                        <p> Relatórios <i class="fas fa-angle-left right"></i></p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Relatório de Viagens</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('manifestReport.index')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Relatório de Manifestos</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Relatório de Clientes</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('companyReport.index')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Relatório de Empresas</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </nav>
     </div>

@@ -18,8 +18,7 @@
     {{-- JQVMap --}}
     <link rel="stylesheet" href="{{ asset('theme/plugins/jqvmap/jqvmap.min.css') }}">
 
-    <link rel="stylesheet" href="{{ asset('theme/plugins/jquery-tags-input/jquery.tagsinput.css') }}" />
-
+    
     {{-- Theme style --}}
     <link rel="stylesheet" href="{{ asset('theme/dist/css/adminlte.min.css') }}">
     {{-- overlayScrollbars --}}
@@ -84,8 +83,7 @@
 
     {{-- JQVMap --}}
     <script src="{{ asset('theme/plugins/jqvmap/jquery.vmap.min.js') }}"></script>
-    <script src="{{ asset('theme/plugins/jquery-tags-input/jquery.tagsinput.js') }}"></script>
-
+    
     {{-- daterangepicker --}}
     <script src="{{ asset('theme/plugins/moment/moment.min.js') }}"></script>
     <script src="{{ asset('theme/plugins/daterangepicker/daterangepicker.js') }}"></script>
@@ -105,6 +103,8 @@
 
     
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     {{-- Toastr --}}
     <script src="{{ asset('theme/plugins/toastr/toastr.min.js') }}"></script>
