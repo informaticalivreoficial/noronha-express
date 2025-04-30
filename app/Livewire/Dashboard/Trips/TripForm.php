@@ -35,7 +35,7 @@ class TripForm extends Component
             //'ship' => $this->ship,
             //'information' => $this->information,
         ]);
-        $validated = validator($request->all(), $request->rules())->validate();        
+        $validated = validator($request->all(), $request->rules())->validate(); 
 
         $data = [
             'start' => $this->start,
@@ -46,11 +46,26 @@ class TripForm extends Component
 
         if ($this->trip) {
             $this->trip->update($data);
-            session()->flash('message', 'Viagem atualizada com sucesso!');
+            $this->dispatch(['atualizado']);
         } else {
-            Trip::create($data);
-            session()->flash('message', 'Viagem criada com sucesso!');
-            //$this->reset(['start', 'stop', 'ship', 'information']);
+
+            $startDate = Carbon::createFromFormat('d/m/Y', $this->start)->startOfDay();
+
+            $query = Trip::whereDate('start', $startDate)->where('ship', $this->ship);
+
+            if ($this->trip) {
+                $query->where('id', '!=', $this->trip->id);
+            }
+
+            if ($query->exists()) {
+                $this->addError('start', 'Já existe uma viagem cadastrada para essa data e navio.');
+                return;
+            }
+
+            $tripCreate = Trip::create($data);            
+            $this->dispatch(['cadastrado']);
+            $this->trip = $tripCreate;
+            //return redirect()->route('trips.edit', $tripCreate->id);
         }
     }
 

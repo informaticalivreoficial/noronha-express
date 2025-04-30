@@ -48,8 +48,7 @@
                 <table class="table table-bordered table-striped projects">
                     <thead>
                         <tr>
-                            <th wire:click="sortBy('id')"># <i class="expandable-table-caret fas fa-caret-down fa-fw"></i></th>
-                            <th>Início</th>
+                            <th wire:click="sortBy('start')">Início <i class="expandable-table-caret fas fa-caret-down fa-fw"></i></th>
                             <th>Término</th>
                             <th>Navio</th>
                             <th>Manifestos</th>
@@ -59,19 +58,18 @@
                     <tbody>
                         @foreach($trips as $trip)                    
                         <tr>                            
-                            <td>{{$trip->id}}</td>
                             <td>{{$trip->start}}</td>
                             <td>{{$trip->stop}}</td>
                             <td>{{$trip->ship}}</td>                            
                             <td>{{$trip->manifests->count()}}</td>                            
                             <td>
-                                <a wire:navigate href="" class="btn btn-xs btn-info text-white"><i class="fas fa-search"></i></a>
+                                <button type="button" class="btn btn-xs btn-info text-white" wire:click="show({{ $trip->id }})"><i class="fas fa-search"></i></button>
                                 <a wire:navigate href="{{ route('trips.edit', [ 'trip' => $trip->id ]) }}" class="btn btn-xs btn-default"><i class="fas fa-pen"></i></a>
                                 <button type="button" class="btn btn-xs btn-danger text-white" wire:click="setDeleteId({{$trip->id}})">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </td>
-                        </tr>
+                        </tr>                        
                         @endforeach
                     </tbody>                
                 </table>
@@ -89,6 +87,29 @@
             {{ $trips->links() }}  
         </div>
     </div>
+    @if($showModal && $selectedTrip)
+        <div class="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50">
+            <div class="bg-white w-full max-w-md mx-4 p-6 rounded-lg shadow-lg relative">
+                <h2 class="text-xl font-bold mb-4 text-gray-800">Detalhes</h2>
+
+                @if($selectedTrip)
+                    <div class="space-y-2">
+                        <p><strong>ID:</strong> {{ $selectedTrip->id }}</p>
+                        <p><strong>Início da viagem:</strong> {{ $selectedTrip->start }}</p>
+                        <p><strong>Fim da viagem:</strong> {{ $selectedTrip->stop ?? '—' }}</p>
+                        <p><strong>Embarcação:</strong> {{ $selectedTrip->ship }}</p>
+                        <p><strong>Informações:</strong> {{ $selectedTrip->information ?? '—' }}</p>
+                    </div>
+                @endif
+
+                <div class="mt-6 text-right">
+                    <button wire:click="closeModal" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">
+                        Fechar
+                    </button>
+                </div>
+            </div>
+        </div>
+    @endif    
 
 </div>
 

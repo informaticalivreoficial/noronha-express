@@ -65,6 +65,30 @@
 </div>
 
 <script>
+    document.addEventListener('atualizado', function() {
+        Swal.fire({
+            title: 'Sucesso!',
+            text: "Viagem atualizada com sucesso!",
+            icon: 'success',
+            timerProgressBar: true,
+            showConfirmButton: false,
+            timer: 3000 // Fecha automaticamente após 3 segundos
+        });
+    });
+
+    document.addEventListener('cadastrado', function() {
+        Swal.fire({
+            title: 'Sucesso!',
+            text: "Viagem cadastrada com sucesso!",
+            icon: 'success',
+            timerProgressBar: true,
+            showConfirmButton: true,
+            timer: 3000 // Fecha automaticamente após 3 segundos
+        }).then(() => {
+            window.location.href = `/admin/viagens/editar-viagem/${tripId}/editar`;
+        });
+    });
+    
     function initFlatpickr() {
         document.querySelectorAll('.flatpickr-input').forEach((input) => {
             if (input._flatpickr) {
@@ -74,7 +98,7 @@
             flatpickr(input, {
                 dateFormat: "d/m/Y",
                 allowInput: true,
-                maxDate: "today",
+                //maxDate: "today",
                 onChange: function(selectedDates, dateStr) {
                     input.dispatchEvent(new Event('input')); // Atualiza Livewire/Alpine
                 },

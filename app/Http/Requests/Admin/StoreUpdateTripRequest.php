@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreUpdateTripRequest extends FormRequest
 {
@@ -22,7 +23,7 @@ class StoreUpdateTripRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'start' => 'required|date_format:d/m/Y',
+            'start' => 'required|date_format:d/m/Y',            
             'stop' => 'nullable|date_format:d/m/Y|after_or_equal:start',
             //'ship' => 'required|string|max:255',
             //'information' => 'nullable|string',

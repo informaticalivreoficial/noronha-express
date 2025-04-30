@@ -168,7 +168,6 @@ class Form extends Component
             'editor' => $this->editor,
             'client' => $this->client
         ];
-        //dd($data);
         // Criar novo usuário
         $userCreate = User::create($data);
         $userCreate->save();

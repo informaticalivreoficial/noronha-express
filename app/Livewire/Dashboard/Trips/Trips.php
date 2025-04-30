@@ -13,11 +13,15 @@ class Trips extends Component
 
     public string $search = '';
 
-    public string $sortField = 'id';
+    public string $sortField = 'start';
 
     public string $sortDirection = 'desc';
 
     public $delete_id;
+
+    public ?Trip $selectedTrip = null;
+
+    public bool $showModal = false;
 
     #{Url}
     public function updatingSearch(): void
@@ -40,9 +44,13 @@ class Trips extends Component
     public function render()
     {
         $title = 'Gerenciar Viagens';
-        $trips = Trip::query()->when($this->search, function($query){
-            $query->orWhere('start', 'LIKE', "%{$this->search}%");
-            $query->orWhere('stop', "%{$this->search}%");
+        $trips = Trip::query()
+            ->when($this->search, function($query){
+                $query->where(function($q) {
+                    $q->where('start', 'LIKE', "%{$this->search}%")
+                      ->orWhere('stop', 'LIKE', "%{$this->search}%")
+                      ->orWhere('ship', 'LIKE', "%{$this->search}%");
+                });
         })->orderBy($this->sortField, $this->sortDirection)->paginate(50);
         return view('livewire.dashboard.trips.trips',[
             'trips' => $trips
@@ -76,5 +84,19 @@ class Trips extends Component
                 'text' => 'Viagem não encontrada!'
             ]);
         }
+    }
+
+    public function show($id)
+    {
+        $this->selectedTrip = Trip::find($id);
+
+        if ($this->selectedTrip) {
+            $this->showModal = true;
+        }
+    }
+
+    public function closeModal()
+    {
+        $this->showModal = false;
     }
 }
