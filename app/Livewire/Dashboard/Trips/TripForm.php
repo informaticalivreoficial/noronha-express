@@ -13,8 +13,8 @@ class TripForm extends Component
 
     public string $start = '';
     public ?string $stop = null;
-    public string $ship = '';
-    public string $information = '';
+    public ?string $ship = null;
+    public ?string $information = null;
 
     public function mount()
     {
@@ -40,8 +40,8 @@ class TripForm extends Component
         $data = [
             'start' => $this->start,
             'stop' => $this->stop ? $this->stop : null,
-            //'ship' => $this->ship,
-            //'information' => $this->information,
+            'ship' => $this->ship,
+            'information' => $this->information,
         ];
 
         if ($this->trip) {
@@ -58,5 +58,5 @@ class TripForm extends Component
     {
         $title = $this->trip ? 'Editar Viagem' : 'Cadastrar Viagem';
         return view('livewire.dashboard.trips.trip-form')->with('title', $title);
-    }
+    }    
 }

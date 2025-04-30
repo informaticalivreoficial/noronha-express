@@ -16,7 +16,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="login-body" style="background: #65cea7 url({{url(asset('theme/images/login-bg.jpg'))}}) no-repeat fixed;">
+<body class="login-body bg-cover bg-center bg-fixed" style="background-image: url({{url(asset('theme/images/login-bg.jpg'))}});">
     {{ $slot }}
 </body>
 

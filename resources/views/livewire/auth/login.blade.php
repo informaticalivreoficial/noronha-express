@@ -1,11 +1,9 @@
 <div class="container-fluid d-flex align-items-center justify-content-center" style="height: 100vh;">
     <div class="bg-white p-4 rounded shadow-lg" style="width: 25rem;">
         <img width="{{env('LOGOMARCA_GERENCIADOR_WIDTH')}}" height="{{env('LOGOMARCA_GERENCIADOR_HEIGHT')}}" 
-            src="{{$configuracoes->getlogoadmin()}}" alt="{{$configuracoes->app_name}}"
-                class="mx-auto d-block mb-4 rounded-circle cursor-pointer" />
+            src="{{$configuracoes->getlogo()}}" alt="{{$configuracoes->app_name}}"
+                class="mx-auto d-block mb-4 cursor-pointer" />
        
-
-        <h3 class="card-title float-none text-center">Acesso ao Gerenciador</h3>
 
         <form>
             <div class="form-group mb-4">
