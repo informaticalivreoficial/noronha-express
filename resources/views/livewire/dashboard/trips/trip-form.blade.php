@@ -28,14 +28,15 @@
                             <div class="col-12 col-sm-6 col-md-4 col-lg-4">
                                 <div class="form-group" x-data="{ value: @entangle('start').defer }" x-init="initFlatpickr()" x-ref="datepicker">
                                     <label class="labelforms"><b>*Data de início</b></label>
-                                    <input type="text" class="form-control @error('start') is-invalid @enderror" wire:model="start" id="datepicker" /> 
+                                    <input type="text" class="form-control @error('start') is-invalid @enderror flatpickr-input" wire:model="start" /> 
                                     @error('start') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror                                                                                                                                                                         
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-                                <div class="form-group">
+                                <div class="form-group" x-data="{ value: @entangle('start').defer }" x-init="initFlatpickr()" x-ref="datepicker">
                                     <label class="labelforms"><b>Data de término</b></label>
-                                    <input type="text" class="form-control" id="stop" wire:model="stop">                                    
+                                    <input type="text" class="form-control @error('stop') is-invalid @enderror flatpickr-input" wire:model="stop">
+                                    @error('stop') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror                                    
                                 </div>
                             </div>
                             <div class="col-12 col-sm-12 col-md-4 col-lg-4">
@@ -65,16 +66,17 @@
 
 <script>
     function initFlatpickr() {
-            let input = document.getElementById('datepicker');
-            if (!input) return;
+        document.querySelectorAll('.flatpickr-input').forEach((input) => {
+            if (input._flatpickr) {
+                input._flatpickr.destroy(); // Evita reinicialização duplicada
+            }
 
             flatpickr(input, {
                 dateFormat: "d/m/Y",
                 allowInput: true,
                 maxDate: "today",
-                //defaultDate: input.value, // Carrega a data inicial corretamente
                 onChange: function(selectedDates, dateStr) {
-                    input.dispatchEvent(new Event('input')); // Força atualização no Alpine.js
+                    input.dispatchEvent(new Event('input')); // Atualiza Livewire/Alpine
                 },
                 locale: {
                     firstDayOfWeek: 1,
@@ -93,7 +95,8 @@
                     toggleTitle: "Clique para alternar",
                 }
             });
-        }
+        });
+    }
 
         document.addEventListener("livewire:load", () => {
             initFlatpickr();

@@ -66,7 +66,7 @@
                             <td>{{$trip->manifests->count()}}</td>                            
                             <td>
                                 <a wire:navigate href="" class="btn btn-xs btn-info text-white"><i class="fas fa-search"></i></a>
-                                <a wire:navigate href="" class="btn btn-xs btn-default"><i class="fas fa-pen"></i></a>
+                                <a wire:navigate href="{{ route('trips.edit', [ 'trip' => $trip->id ]) }}" class="btn btn-xs btn-default"><i class="fas fa-pen"></i></a>
                                 <button type="button" class="btn btn-xs btn-danger text-white" wire:click="setDeleteId({{$trip->id}})">
                                     <i class="fas fa-trash"></i>
                                 </button>

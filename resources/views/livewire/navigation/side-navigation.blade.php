@@ -58,7 +58,7 @@
 
                         <p>
                             Viagens
-                            <span class="badge badge-info right">{{$companyCount}}</span>
+                            <span class="badge badge-info right">{{$tripCount}}</span>
                         </p>
                     </a>
                 </li>     

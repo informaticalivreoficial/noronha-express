@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -11,7 +11,7 @@ class StoreUpdateTripRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class StoreUpdateTripRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'start' => 'required|date_format:d/m/Y',
+            'stop' => 'nullable|date_format:d/m/Y|after_or_equal:start',
+            //'ship' => 'required|string|max:255',
+            //'information' => 'nullable|string',
         ];
     }
 }

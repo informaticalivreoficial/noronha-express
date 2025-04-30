@@ -214,6 +214,8 @@ return [
         'category' => 'categoria',
         'blood_type' => 'tipo sanguíneo',
         'birth_date' => 'data de nascimento',
+        'start' => 'data de início',
+        'stop' => 'data de término',
         'birthday' => 'data de nascimento',
         'cell_phone'    => 'celular',
         'postcode' => 'cep',

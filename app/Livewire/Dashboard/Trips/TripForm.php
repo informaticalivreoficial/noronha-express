@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Dashboard\Trips;
 
+use App\Http\Requests\Admin\StoreUpdateTripRequest;
 use App\Models\Trip;
 use Carbon\Carbon;
 use Livewire\Component;
@@ -18,8 +19,8 @@ class TripForm extends Component
     public function mount()
     {
         if ($this->trip) {
-            $this->start = optional($this->trip->start)->format('Y-m-d');
-            $this->stop = optional($this->trip->stop)->format('Y-m-d');
+            $this->start = $this->trip->start;
+            $this->stop = $this->trip->stop;
             $this->ship = $this->trip->ship;
             $this->information = $this->trip->information;
         }
@@ -27,27 +28,29 @@ class TripForm extends Component
 
     public function save()
     {
-        $validated = $this->validate([
-            'start' => 'required|date_format:d/m/Y',
-            //'stop' => 'nullable|date|after_or_equal:start',
-            //'ship' => 'required|string|max:255',
-            //'information' => 'nullable|string',
+        $request = new StoreUpdateTripRequest();
+        $request->merge([
+            'start' => $this->start,
+            'stop' => $this->stop,
+            //'ship' => $this->ship,
+            //'information' => $this->information,
         ]);
+        $validated = validator($request->all(), $request->rules())->validate();        
 
         $data = [
             'start' => $this->start,
-            //'stop' => $this->stop ? Carbon::parse($this->stop) : null,
+            'stop' => $this->stop ? $this->stop : null,
             //'ship' => $this->ship,
             //'information' => $this->information,
         ];
-dd($data);
+
         if ($this->trip) {
             $this->trip->update($data);
             session()->flash('message', 'Viagem atualizada com sucesso!');
         } else {
             Trip::create($data);
             session()->flash('message', 'Viagem criada com sucesso!');
-            $this->reset(['start', 'stop', 'ship', 'information']);
+            //$this->reset(['start', 'stop', 'ship', 'information']);
         }
     }
 
