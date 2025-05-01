@@ -45,7 +45,7 @@ Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'admin'], functi
 
     // Manifests
     Route::get('manifestos', Manifests::class)->name('manifests.index');
-    Route::get('cadastrar-manifesto', ManifestForm::class)->name('manifests.create');
+    Route::get('manifestos/cadastrar-manifesto', ManifestForm::class)->name('manifests.create');
     Route::get('editar-manifesto/{manifest}/editar', ManifestForm::class)->name('manifests.edit');
 
     // Reports

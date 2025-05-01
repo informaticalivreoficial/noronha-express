@@ -2,14 +2,19 @@
 
 namespace App\Livewire\Dashboard;
 
-use Livewire\Attributes\Title;
+use App\Models\Trip;
 use Livewire\Component;
 
 class Dashboard extends Component
 {
-    #[Title('Dashboard')]
     public function render()
     {
-        return view('livewire.dashboard.dashboard');
+        $tripCount = Trip::count();
+        $tripYearCount = Trip::whereYear('start', now()->year)->count();
+
+        return view('livewire.dashboard.dashboard',[
+            'tripCount' => $tripCount,
+            'tripYearCount' => $tripYearCount,
+        ]);
     }
 }

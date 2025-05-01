@@ -18,40 +18,37 @@
         </div>
     </div>
 
-    <form wire:submit.prevent="save" autocomplete="off">
-        @if (session()->has('message'))
-            <div class="p-2 bg-green-100 text-green-700 rounded">{{ session('message') }}</div>
-        @endif
+    <form wire:submit.prevent="save" autocomplete="off">        
         <div class="card card-teal card-outline">            
             <div class="card-body text-muted"> 
-                        <div class="row">
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-                                <div class="form-group" x-data="{ value: @entangle('start').defer }" x-init="initFlatpickr()" x-ref="datepicker">
-                                    <label class="labelforms"><b>*Data de início</b></label>
-                                    <input type="text" class="form-control @error('start') is-invalid @enderror flatpickr-input" wire:model="start" /> 
-                                    @error('start') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror                                                                                                                                                                         
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
-                                <div class="form-group" x-data="{ value: @entangle('start').defer }" x-init="initFlatpickr()" x-ref="datepicker">
-                                    <label class="labelforms"><b>Data de término</b></label>
-                                    <input type="text" class="form-control @error('stop') is-invalid @enderror flatpickr-input" wire:model="stop">
-                                    @error('stop') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror                                    
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-12 col-md-4 col-lg-4">
-                                <div class="form-group">
-                                    <label class="labelforms"><b>*Embarcação</b></label>
-                                    <input type="text" class="form-control" id="ship" placeholder="Nome da embarcação" wire:model="ship">                                    
-                                </div>
-                            </div>
-                            <div class="col-12"> 
-                                <div class="form-group">
-                                    <label class="labelforms"><b>Informações</b></label>
-                                    <textarea class="form-control" rows="5" wire:model="information">{{ $information ?? '' }}</textarea>
-                                </div>
-                            </div>
+                <div class="row">
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                        <div class="form-group" x-data="{ value: @entangle('start').defer }" x-init="initFlatpickr()" x-ref="datepicker">
+                            <label class="labelforms"><b>*Data de início</b></label>
+                            <input type="text" class="form-control @error('start') is-invalid @enderror flatpickr-input" wire:model="start" /> 
+                            @error('start') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror                                                                                                                                                                         
                         </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                        <div class="form-group" x-data="{ value: @entangle('start').defer }" x-init="initFlatpickr()" x-ref="datepicker">
+                            <label class="labelforms"><b>Data de término</b></label>
+                            <input type="text" class="form-control @error('stop') is-invalid @enderror flatpickr-input" wire:model="stop">
+                            @error('stop') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror                                    
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-4 col-lg-4">
+                        <div class="form-group">
+                            <label class="labelforms"><b>*Embarcação</b></label>
+                            <input type="text" class="form-control" id="ship" placeholder="Nome da embarcação" wire:model="ship">                                    
+                        </div>
+                    </div>
+                    <div class="col-12"> 
+                        <div class="form-group">
+                            <label class="labelforms"><b>Informações</b></label>
+                            <textarea class="form-control" rows="5" wire:model="information">{{ $information ?? '' }}</textarea>
+                        </div>
+                    </div>
+                </div>
                 <div class="row text-right">
                     <div class="col-12 mb-4">
                         <button type="submit" class="btn btn-success"><i class="nav-icon fas fa-check mr-2"></i>{{ $trip ? 'Atualizar Agora' : 'Cadastrar Agora' }}</button>

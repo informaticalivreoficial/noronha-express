@@ -28,7 +28,7 @@
                       </div>
                 </div>
                 <div class="col-12 col-sm-6 my-2 text-right">
-                    <a wire:navigate href="cadastrar-cliente" class="btn btn-sm btn-default"><i class="fas fa-plus mr-2"></i> Cadastrar Novo</a>
+                    <a wire:navigate href="{{route('manifests.create')}}" class="btn btn-sm btn-default"><i class="fas fa-plus mr-2"></i> Cadastrar Manifesto</a>
                 </div>
             </div>
         </div>        
