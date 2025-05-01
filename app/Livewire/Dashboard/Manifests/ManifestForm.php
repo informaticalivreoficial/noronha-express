@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Dashboard\Manifests;
 
+use App\Http\Requests\Admin\StoreUpdateManifestRequest;
 use App\Models\Company;
 use App\Models\Manifest;
 use App\Models\Trip;
@@ -32,8 +33,8 @@ class ManifestForm extends Component
     public ?string $information = null;
     public ?string $contact = null;
 
-    public string $type = 'Jurídica';
-    public array $types = ['Física', 'Jurídica'];
+    public string $type = 'fisica';
+    public array $types = ['fisica', 'juridica'];
 
     public function render()
     {
@@ -69,8 +70,27 @@ class ManifestForm extends Component
 
     public function save()
     {
+        $request = new StoreUpdateManifestRequest();
+        $request->merge([
+            'trip' => $this->trip,
+            'type' => $this->type,
+            'company' => $this->company,
+            'user' => $this->user,
+            'status' => $this->status,
+            'zipcode' => $this->zipcode,
+            'street' => $this->street,
+            'number' => $this->number,
+            'complement' => $this->complement,
+            'neighborhood' => $this->neighborhood,
+            'city' => $this->city,
+            'state' => $this->state,
+            'information' => $this->information,
+            'contact' => $this->contact,
+        ]);
+        $validated = validator($request->all(), $request->rules())->validate();
+        
         //$this->validate([
-            // 'trip' => 'required|exists:trips,id',
+            //'trip' => 'required|exists:trips,id',
             // 'type' => 'required|in:normal,express',
             // 'company' => 'required|exists:companies,id',
             // 'user' => 'required|exists:users,id',

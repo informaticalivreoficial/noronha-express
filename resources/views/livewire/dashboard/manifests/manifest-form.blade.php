@@ -32,43 +32,55 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div x-show="type === 'Jurídica'" x-cloak class="col-12 col-sm-6 col-md-6 col-lg-4"> 
+                    <div x-show="type === 'juridica'" x-cloak class="col-12 col-sm-6 col-md-6 col-lg-4"> 
                         <div class="form-group">
                             <label class="labelforms"><b>Empresa:</b></label>
-                            <select class="form-control" wire:model.defer="company">
+                            <select class="form-control @error('company') is-invalid @enderror" wire:model.defer="company">
                                 <option value="" selected>Selecione uma empresa</option> 
                                 @foreach($companies as $company)
                                     <option value="{{ $company['id'] }}">{{ $company['social_name'] }}</option>
                                 @endforeach
                             </select>
+                            @error('company')
+                                <span class="error erro-feedback">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
-                    <div x-show="type === 'Física'" x-cloak class="col-12 col-sm-6 col-md-6 col-lg-4">
+                    <div x-show="type === 'fisica'" x-cloak class="col-12 col-sm-6 col-md-6 col-lg-4">
                         <div class="form-group">
-                            <label class="labelforms"><b>Cliente</b></label>
-                            <select class="form-control" wire:model.defer="user">
+                            <label class="labelforms"><b>Cliente:</b></label>
+                            <select class="form-control @error('user') is-invalid @enderror" wire:model.defer="user">
                                 <option value="" selected>Selecione um cliente</option> 
                                 @foreach($clients as $client)
                                     <option value="{{ $client['id'] }}">{{ $client['name'] }}</option>
                                 @endforeach
-                            </select>                                    
+                            </select>
+                            @error('user')
+                                <span class="error erro-feedback">{{ $message }}</span>
+                            @enderror                                    
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-4">
                         <div class="form-group">
-                            <label class="labelforms"><b>Viagem</b></label>
-                            <select class="form-control" wire:model.defer="trip">
+                            <label class="labelforms"><b>Viagem:</b></label>
+                            <select class="form-control @error('trip') is-invalid @enderror" wire:model.defer="trip">
                                 <option value="" selected>Selecione uma viagem</option> 
                                 @foreach($trips as $trip)
                                     <option value="{{ $trip['id'] }}">{{ $trip['start'] }} á {{ $trip['stop'] ?? '' }}</option>
                                 @endforeach
-                            </select>                                    
+                            </select> 
+                            @error('trip')
+                                <span class="error erro-feedback">{{ $message }}</span>
+                            @enderror                                   
                         </div>
                     </div>
                     <div class="col-12 col-sm-12 col-md-12 col-lg-4"> 
                         <div class="form-group">
                             <label class="labelforms"><b>Contato:</b></label>
-                            <input type="text" class="form-control" id="contact" wire:model="contact">
+                            <input type="text" class="form-control @error('contact') is-invalid @enderror" id="contact" wire:model="contact">
+                            @error('contact')
+                                <span class="error erro-feedback">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
                 </div>
@@ -97,19 +109,28 @@
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3"> 
                         <div class="form-group">
                             <label class="labelforms"><b>*Rua:</b></label>
-                            <input type="text" class="form-control" id="street" wire:model="street" readonly>
+                            <input type="text" class="form-control @error('street') is-invalid @enderror" id="street" wire:model="street">
+                            @error('street')
+                                <span class="error erro-feedback">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3"> 
                         <div class="form-group">
                             <label class="labelforms"><b>*Bairro:</b></label>
-                            <input type="text" class="form-control" id="neighborhood" wire:model="neighborhood" readonly>
+                            <input type="text" class="form-control @error('neighborhood') is-invalid @enderror" id="neighborhood" wire:model="neighborhood">
+                            @error('neighborhood')
+                                <span class="error erro-feedback">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div> 
                     <div class="col-12 col-sm-6 col-md-6 col-lg-2"> 
                         <div class="form-group">
                             <label class="labelforms"><b>*Número:</b></label>
-                            <input type="text" class="form-control" placeholder="Número do Endereço" id="number" wire:model="number">
+                            <input type="text" class="form-control @error('number') is-invalid @enderror" id="number" wire:model="number">
+                            @error('number')
+                                <span class="error erro-feedback">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3"> 
@@ -123,7 +144,10 @@
                     <div class="col-12"> 
                         <div class="form-group">
                             <label class="labelforms"><b>Informações</b></label>
-                            <textarea class="form-control" rows="5" wire:model="information"></textarea>
+                            <textarea class="form-control @error('information') is-invalid @enderror" rows="5" wire:model="information"></textarea>
+                            @error('information')
+                                <span class="error erro-feedback">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
                 </div>
