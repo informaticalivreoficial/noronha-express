@@ -5,8 +5,11 @@ use App\Livewire\Auth\Register;
 use App\Livewire\Dashboard\Companies\Companies;
 use App\Livewire\Dashboard\Companies\CompanyForm;
 use App\Livewire\Dashboard\Dashboard;
-use App\Livewire\Dashboard\Manifests\ManifestForm;
-use App\Livewire\Dashboard\Manifests\Manifests;
+use App\Livewire\Dashboard\Manifests\{
+    ManifestForm,
+    ManifestView,
+    Manifests
+};
 use App\Livewire\Dashboard\Reports\Companies as ReportsCompanies;
 use App\Livewire\Dashboard\Reports\Manifests as ReportsManifests;
 use App\Livewire\Dashboard\Settings;
@@ -47,6 +50,7 @@ Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'admin'], functi
     Route::get('manifestos', Manifests::class)->name('manifests.index');
     Route::get('manifestos/cadastrar-manifesto', ManifestForm::class)->name('manifests.create');
     Route::get('manifestos/{manifest}/editar', ManifestForm::class)->name('manifests.edit');
+    Route::get('manifestos/{manifest}/visualizar', ManifestView::class)->name('manifests.view');
 
     // Reports
     Route::get('relatorios-empresas', ReportsCompanies::class)->name('companyReport.index');

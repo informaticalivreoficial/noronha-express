@@ -81,7 +81,7 @@
                             <td>
                                 {{ $manifest->status->label() }}                            
                             <td>
-                                <a wire:navigate href="" class="btn btn-xs btn-info text-white" title="Visualizar"><i class="fas fa-search"></i></a>
+                                <a wire:navigate href="{{route('manifests.view', [ 'manifest' => $manifest->id ])}}" class="btn btn-xs btn-info text-white" title="Visualizar"><i class="fas fa-search"></i></a>
                                 <a wire:navigate href="{{ route('manifests.edit', [ 'manifest' => $manifest->id ]) }}" class="btn btn-xs btn-default" title="Editar"><i class="fas fa-pen"></i></a>
                                 <button type="button" class="btn btn-xs btn-danger text-white" wire:click="setDeleteId({{$manifest->id}})" title="Excluir">
                                     <i class="fas fa-trash"></i>
