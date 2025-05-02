@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Enums\StatusOfManifestEnum;
 use Illuminate\Database\Eloquent\Model;
 
 class Manifest extends Model
@@ -28,6 +29,10 @@ class Manifest extends Model
         'contact',
     ];
 
+    protected $casts = [
+        'status' => StatusOfManifestEnum::class,
+    ];
+
     /**
      * Scopes
     */
@@ -35,14 +40,14 @@ class Manifest extends Model
     /**
      * Relationships
     */
-    public function trip()
+    public function tripObject()
     {
         return $this->belongsTo(Trip::class);
     }
 
-    public function company()
+    public function companyObject()
     {
-        return $this->belongsTo(Company::class);
+        return $this->hasOne(Company::class, 'id', 'company');
     }
 
     public function userObject()

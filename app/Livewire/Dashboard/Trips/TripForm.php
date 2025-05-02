@@ -65,7 +65,6 @@ class TripForm extends Component
             $tripCreate = Trip::create($data);            
             $this->dispatch(['cadastrado']);
             $this->trip = $tripCreate;
-            //return redirect()->route('trips.edit', $tripCreate->id);
         }
     }
 

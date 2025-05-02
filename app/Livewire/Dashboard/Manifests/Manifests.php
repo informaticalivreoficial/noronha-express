@@ -5,7 +5,7 @@ namespace App\Livewire\Dashboard\Manifests;
 use App\Models\Manifest;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Livewire\Attributes\Title;
+use Livewire\Attributes\On;
 
 class Manifests extends Component
 {
@@ -16,6 +16,8 @@ class Manifests extends Component
     public string $sortField = 'trip';
 
     public string $sortDirection = 'asc';
+
+    public $delete_id;
 
     #{Url}
     public function updatingSearch(): void
@@ -35,15 +37,56 @@ class Manifests extends Component
         $this->resetPage();
     }
 
-    #[Title('Viagens')]
     public function render()
     {
-        $manifests = Manifest::query()->when($this->search, function($query){
-            $query->orWhere('trip', 'LIKE', "%{$this->search}%");
-            $query->orWhere('user', "%{$this->search}%");
+        $title = 'Gerenciar Manifestos';
+        $manifests = Manifest::query()
+            ->when($this->search, function($query){
+                $query->where(function($q) {
+                    $q->where('trip', 'LIKE', "%{$this->search}%")
+                        //->orWhere('status', 'LIKE', "%{$this->search}%")
+                        ->orWhere('type', 'LIKE', "%{$this->search}%")
+                        ->orWhereRaw("LOWER(status) LIKE ?", ['%' . strtolower($this->search) . '%'])
+                        //->orWhereHas('company', function ($q) {
+                        //    $q->where('social_name', 'LIKE', "%{$this->search}%");
+                        //})
+                        ->orWhereHas('userObject', function ($q) {
+                            $q->where('name', 'LIKE', "%{$this->search}%");
+                        });
+                });
         })->orderBy($this->sortField, $this->sortDirection)->paginate(50);
+        
         return view('livewire.dashboard.manifests.manifests',[
             'manifests' => $manifests
-        ]);
+        ])->with('title', $title);
+    }
+
+    public function setDeleteId($id)
+    {
+        $this->delete_id = $id;
+        $this->dispatch('delete-prompt');        
+    }
+
+    #[On('goOn-Delete')]
+    public function delete()
+    {
+        $manifest = Manifest::find($this->delete_id);
+        
+        if ($manifest) {
+            $manifest->delete();
+            $this->delete_id = null;
+
+            $this->dispatch('swal', [
+                'title' => 'Sucesso!',
+                'icon' => 'success',
+                'text' => 'Manifesto removido com sucesso!'
+            ]);
+        } else {
+            $this->dispatch('swal', [
+                'title' => 'Error!',
+                'icon' => 'error',
+                'text' => 'Manifesto não encontrado!'
+            ]);
+        }
     }
 }

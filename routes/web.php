@@ -41,12 +41,12 @@ Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'admin'], functi
     // Trips
     Route::get('viagens', Trips::class)->name('trips.index');
     Route::get('viagens/cadastrar-viagem', TripForm::class)->name('trips.create');
-    Route::get('viagens/editar-viagem/{trip}/editar', TripForm::class)->name('trips.edit');
+    Route::get('viagens/{trip}/editar', TripForm::class)->name('trips.edit');
 
     // Manifests
     Route::get('manifestos', Manifests::class)->name('manifests.index');
     Route::get('manifestos/cadastrar-manifesto', ManifestForm::class)->name('manifests.create');
-    Route::get('editar-manifesto/{manifest}/editar', ManifestForm::class)->name('manifests.edit');
+    Route::get('manifestos/{manifest}/editar', ManifestForm::class)->name('manifests.edit');
 
     // Reports
     Route::get('relatorios-empresas', ReportsCompanies::class)->name('companyReport.index');

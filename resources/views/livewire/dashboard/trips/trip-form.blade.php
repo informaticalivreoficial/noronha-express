@@ -82,7 +82,7 @@
             showConfirmButton: true,
             timer: 3000 // Fecha automaticamente após 3 segundos
         }).then(() => {
-            window.location.href = `/admin/viagens/editar-viagem/${tripId}/editar`;
+            window.location.href = `/admin/viagens/${tripId}/editar`;
         });
     });
     

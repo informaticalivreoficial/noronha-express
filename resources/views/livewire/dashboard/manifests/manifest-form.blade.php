@@ -35,7 +35,7 @@
                     <div x-show="type === 'juridica'" x-cloak class="col-12 col-sm-6 col-md-6 col-lg-4"> 
                         <div class="form-group">
                             <label class="labelforms"><b>Empresa:</b></label>
-                            <select class="form-control @error('company') is-invalid @enderror" wire:model.defer="company">
+                            <select class="form-control @error('company') is-invalid @enderror" wire:model="company">
                                 <option value="" selected>Selecione uma empresa</option> 
                                 @foreach($companies as $company)
                                     <option value="{{ $company['id'] }}">{{ $company['social_name'] }}</option>
@@ -49,7 +49,7 @@
                     <div x-show="type === 'fisica'" x-cloak class="col-12 col-sm-6 col-md-6 col-lg-4">
                         <div class="form-group">
                             <label class="labelforms"><b>Cliente:</b></label>
-                            <select class="form-control @error('user') is-invalid @enderror" wire:model.defer="user">
+                            <select class="form-control @error('user') is-invalid @enderror" wire:model="user">
                                 <option value="" selected>Selecione um cliente</option> 
                                 @foreach($clients as $client)
                                     <option value="{{ $client['id'] }}">{{ $client['name'] }}</option>
@@ -63,7 +63,7 @@
                     <div class="col-12 col-sm-6 col-md-6 col-lg-4">
                         <div class="form-group">
                             <label class="labelforms"><b>Viagem:</b></label>
-                            <select class="form-control @error('trip') is-invalid @enderror" wire:model.defer="trip">
+                            <select class="form-control @error('trip') is-invalid @enderror" wire:model="trip">
                                 <option value="" selected>Selecione uma viagem</option> 
                                 @foreach($trips as $trip)
                                     <option value="{{ $trip['id'] }}">{{ $trip['start'] }} á {{ $trip['stop'] ?? '' }}</option>
@@ -74,13 +74,18 @@
                             @enderror                                   
                         </div>
                     </div>
-                    <div class="col-12 col-sm-12 col-md-12 col-lg-4"> 
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-4">
                         <div class="form-group">
-                            <label class="labelforms"><b>Contato:</b></label>
-                            <input type="text" class="form-control @error('contact') is-invalid @enderror" id="contact" wire:model="contact">
-                            @error('contact')
+                            <label class="labelforms"><b>Status:</b></label>
+                            <select class="form-control @error('status') is-invalid @enderror" wire:model="status">
+                                <option value="">Selecione o status</option>
+                                @foreach(\App\Enums\StatusOfManifestEnum::cases() as $option)
+                                    <option value="{{ $option->value }}">{{ $option->label() }}</option>
+                                @endforeach
+                            </select>
+                            @error('status')
                                 <span class="error erro-feedback">{{ $message }}</span>
-                            @enderror
+                            @enderror                                 
                         </div>
                     </div>
                 </div>
@@ -138,6 +143,15 @@
                             <label class="labelforms"><b>Complemento:</b></label>
                             <input type="text" class="form-control" id="complement" wire:model="complement">
                         </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-4"> 
+                        <div class="form-group">
+                            <label class="labelforms"><b>Contato:</b></label>
+                            <input type="text" class="form-control @error('contact') is-invalid @enderror" id="contact" wire:model="contact">
+                            @error('contact')
+                                <span class="error erro-feedback">{{ $message }}</span>
+                            @enderror
+                        </div>
                     </div>                                           
                 </div>
                 <div class="row">
@@ -160,3 +174,30 @@
         </div>
     </form> 
 </div>
+
+<script>
+    document.addEventListener('atualizado', function() {
+        Swal.fire({
+            title: 'Sucesso!',
+            text: "Manifesto atualizado com sucesso!",
+            icon: 'success',
+            timerProgressBar: true,
+            showConfirmButton: false,
+            timer: 3000 // Fecha automaticamente após 3 segundos
+        });
+    });
+
+    document.addEventListener('cadastrado', function() {
+        Swal.fire({
+            title: 'Sucesso!',
+            text: "Manifesto cadastrado com sucesso!",
+            icon: 'success',
+            timerProgressBar: true,
+            showConfirmButton: true,
+            timer: 3000 // Fecha automaticamente após 3 segundos
+        }).then(() => {
+            window.location.href = `/admin/manifestos/${tripId}/editar`;
+        });
+    });    
+    
+</script>

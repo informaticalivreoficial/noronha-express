@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum Status: string
+enum StatusOfManifestEnum: string
 {
     case Recebido = 'recebido';
     case Carregando = 'carregando';
@@ -19,6 +19,14 @@ enum Status: string
             self::Descarregando => 'Descarregando',
             self::Entregue => 'Entregue',
         };
+    }
+
+    public static function options(): array
+    {
+        return array_map(fn($status) => [
+            'value' => $status->value,
+            'label' => $status->label(),
+        ], self::cases());
     }
 }
 

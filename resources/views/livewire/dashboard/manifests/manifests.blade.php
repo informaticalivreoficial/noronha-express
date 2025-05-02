@@ -33,25 +33,17 @@
             </div>
         </div>        
         <!-- /.card-header -->
-        <div class="card-body">
-            <div class="row">
-                <div class="col-12">                
-                    @if(session()->exists('message'))
-                        @message(['color' => session()->get('color')])
-                            {{ session()->get('mensagem') }}
-                        @endmessage
-                    @endif
-                </div>            
-            </div>
+        <div class="card-body">            
             @if(!empty($manifests) && $manifests->count() > 0)
                 <table class="table table-bordered table-striped projects">
                     <thead>
                         <tr>
                             <th wire:click="sortBy('trip')">Viagem <i class="expandable-table-caret fas fa-caret-down fa-fw"></i></th>
                             <th>Tipo</th>
-                            <th>Responsável</th>
+                            <th>Cliente</th>
                             <th>Itens</th>
                             <th>Valor Total</th>
+                            <th>Status</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -60,7 +52,13 @@
                         <tr>                            
                             <td>{{$manifest->trip}}</td>
                             <td>{{$manifest->type}}</td>
-                            <td>{{$manifest->userObject->name}}</td>
+                            @if ($manifest->userObject && $manifest->companyObject == null)
+                                <td>{{$manifest->userObject->name}} ({{$manifest->userObject->cpf ?? ''}})</td>
+                            @elseif ($manifest->companyObject && $manifest->userObject == null)
+                                <td>{{$manifest->companyObject->alias_name}}</td>
+                            @else
+                                <td>Não informado</td>
+                            @endif
                             <td>{{$manifest->items->count()}}</td>                            
                             <td>
                                 @if ($manifest->items && $manifest->items->count() > 0)
@@ -79,11 +77,13 @@
                                         )
                                     }}
                                 @endif
-                            </td>                            
+                            </td>
                             <td>
-                                <a wire:navigate href="" class="btn btn-xs btn-info text-white"><i class="fas fa-search"></i></a>
-                                <a wire:navigate href="" class="btn btn-xs btn-default"><i class="fas fa-pen"></i></a>
-                                <button type="button" class="btn btn-xs btn-danger text-white" wire:click="setDeleteId({{$manifest->id}})">
+                                {{ $manifest->status->label() }}                            
+                            <td>
+                                <a wire:navigate href="" class="btn btn-xs btn-info text-white" title="Visualizar"><i class="fas fa-search"></i></a>
+                                <a wire:navigate href="{{ route('manifests.edit', [ 'manifest' => $manifest->id ]) }}" class="btn btn-xs btn-default" title="Editar"><i class="fas fa-pen"></i></a>
+                                <button type="button" class="btn btn-xs btn-danger text-white" wire:click="setDeleteId({{$manifest->id}})" title="Excluir">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </td>
@@ -125,7 +125,7 @@
             swal.fire({
                 icon: 'warning',
                 title: 'Atenção',
-                text: 'Você tem certeza que deseja excluir este Cliente?',
+                text: 'Você tem certeza que deseja excluir este Manifesto?',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',

@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
+use App\Enums\StatusOfManifestEnum;
 
 class StoreUpdateManifestRequest extends FormRequest
 {
@@ -25,15 +27,14 @@ class StoreUpdateManifestRequest extends FormRequest
             'type' => 'required|in:fisica,juridica',
             'trip' => 'required|exists:trips,id',  
             'user' => 'required_if:type,fisica',
-            'company' => 'required_if:type,juridica',  
+            'company' => 'required_if:type,juridica',
+            'status' => ['required', new Enum(StatusOfManifestEnum::class)],
             'zipcode' => 'required|string|max:10',
             'street' => 'required|string|max:255',
             'number' => 'required|string|max:10',
             'neighborhood' => 'required|string|max:255',        
-            'contact' => 'nullable||string|min:3',
+            'contact' => 'nullable|string|min:3',
             'information' => 'nullable|string|min:3|max:255',
-            //'ship' => 'required|string|max:255',
-            //'information' => 'nullable|string',
         ];
     }
 }

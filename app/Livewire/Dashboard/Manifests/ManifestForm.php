@@ -8,6 +8,7 @@ use App\Models\Manifest;
 use App\Models\Trip;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use App\Enums\StatusOfManifestEnum;
 use Illuminate\Support\Facades\Http;
 use Livewire\Component;
 
@@ -22,7 +23,7 @@ class ManifestForm extends Component
     public ?int $trip = null;
     public ?int $company = null;
     public ?int $user = null;
-    public ?string $status = null;
+    public string $status = '';
     public ?string $zipcode = null;
     public ?string $street = null;
     public ?string $number = null;
@@ -44,7 +45,7 @@ class ManifestForm extends Component
         ]);
     }
 
-    public function mount()
+    public function mount(Manifest $manifest)
     {
         $this->companies = Company::orderBy('social_name')->get();
         $this->clients = User::orderBy('name')->where('client', 1)->get();
@@ -55,7 +56,9 @@ class ManifestForm extends Component
             $this->type = $this->manifest->type;
             $this->company = $this->manifest->company;
             $this->user = $this->manifest->user;
-            $this->status = $this->manifest->status;
+            $this->status = $manifest->status instanceof \App\Enums\StatusOfManifestEnum
+            ? $manifest->status->value
+            : (string) $manifest->status;
             $this->zipcode = $this->manifest->zipcode;
             $this->street = $this->manifest->street;
             $this->number = $this->manifest->number;
@@ -80,31 +83,14 @@ class ManifestForm extends Component
             'zipcode' => $this->zipcode,
             'street' => $this->street,
             'number' => $this->number,
-            'complement' => $this->complement,
+            //'complement' => $this->complement,
             'neighborhood' => $this->neighborhood,
-            'city' => $this->city,
-            'state' => $this->state,
+            //'city' => $this->city,
+            //'state' => $this->state,
             'information' => $this->information,
             'contact' => $this->contact,
         ]);
         $validated = validator($request->all(), $request->rules())->validate();
-        
-        //$this->validate([
-            //'trip' => 'required|exists:trips,id',
-            // 'type' => 'required|in:normal,express',
-            // 'company' => 'required|exists:companies,id',
-            // 'user' => 'required|exists:users,id',
-            // 'status' => 'required|in:pending,completed,canceled',
-            // 'zipcode' => 'required|string|max:10',
-            // 'street' => 'required|string|max:255',
-            // 'number' => 'required|string|max:10',
-            // 'complement' => 'nullable|string|max:255',
-            // 'neighborhood' => 'required|string|max:255',
-            // 'city' => 'required|string|max:255',
-            // 'state' => 'required|string|max:2',
-            // 'information' => 'nullable|string|max:255',
-            // 'contact' => 'nullable|string|max:255',
-        //]);
 
         $data = [
             'trip' => $this->trip,
@@ -123,15 +109,14 @@ class ManifestForm extends Component
             'contact' => $this->contact,
         ];
 
-        dd($data);
         if ($this->manifest) {
-            $this->manifest->update($this->getManifestData());
+            $this->manifest->update($data);
+            $this->dispatch(['atualizado']);
         } else {
-            Manifest::create($this->getManifestData());
+            $manifestCreate = Manifest::create($data);            
+            $this->dispatch(['cadastrado']);
+            $this->manifest = $manifestCreate;
         }
-
-        session()->flash('message', $this->manifest ? __('Manifesto atualizado com sucesso!') : __('Manifesto criado com sucesso!'));
-        
     }
 
     public function updatedZipcode(string $value)
