@@ -9,6 +9,7 @@ use App\Models\Trip;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use App\Enums\StatusOfManifestEnum;
+use App\Http\Requests\Admin\StoreUpdateManifestItemRequest;
 use Illuminate\Support\Facades\Http;
 use Livewire\Component;
 
@@ -19,6 +20,8 @@ class ManifestForm extends Component
     public Collection $companies;
     public Collection $clients;
     public Collection $trips;
+
+    public array $items = [];
 
     public ?int $trip = null;
     public ?int $company = null;
@@ -68,6 +71,8 @@ class ManifestForm extends Component
             $this->state = $this->manifest->state;
             $this->information = $this->manifest->information;
             $this->contact = $this->manifest->contact;
+            //Items
+            $this->items = $manifest->items->toArray();
         }        
     }
 
@@ -83,37 +88,56 @@ class ManifestForm extends Component
             'zipcode' => $this->zipcode,
             'street' => $this->street,
             'number' => $this->number,
-            //'complement' => $this->complement,
-            'neighborhood' => $this->neighborhood,
-            //'city' => $this->city,
-            //'state' => $this->state,
-            'information' => $this->information,
-            'contact' => $this->contact,
-        ]);
-        $validated = validator($request->all(), $request->rules())->validate();
-
-        $data = [
-            'trip' => $this->trip,
-            'type' => $this->type,
-            'company' => $this->company,
-            'user' => $this->user,
-            'status' => $this->status,
-            'zipcode' => $this->zipcode,
-            'street' => $this->street,
-            'number' => $this->number,
             'complement' => $this->complement,
             'neighborhood' => $this->neighborhood,
             'city' => $this->city,
             'state' => $this->state,
             'information' => $this->information,
             'contact' => $this->contact,
-        ];
+        ]);
+        $validated = validator($request->all(), $request->rules())->validate();
 
+        // $data = [
+        //     'trip' => $this->trip,
+        //     'type' => $this->type,
+        //     'company' => $this->company,
+        //     'user' => $this->user,
+        //     'status' => $this->status,
+        //     'zipcode' => $this->zipcode,
+        //     'street' => $this->street,
+        //     'number' => $this->number,
+        //     'complement' => $this->complement,
+        //     'neighborhood' => $this->neighborhood,
+        //     'city' => $this->city,
+        //     'state' => $this->state,
+        //     'information' => $this->information,
+        //     'contact' => $this->contact,
+        // ];
+
+        // Validação antecipada dos itens
+        $validatedItems = collect($this->items)->map(function ($item) {
+            $itemRequest = new StoreUpdateManifestItemRequest();
+            $itemRequest->merge($item);
+            return validator($itemRequest->all(), $itemRequest->rules())->validate();
+        });
+        
         if ($this->manifest) {
-            $this->manifest->update($data);
+            //$this->manifest->update($data);
+            //dd($validatedItems);
+            $this->manifest->update($validated);
+            
+            $this->manifest->items()->delete();
+            foreach ($validatedItems as $item) {
+                $this->manifest->items()->create($item);
+            }
             $this->dispatch(['atualizado']);
         } else {
-            $manifestCreate = Manifest::create($data);            
+            //$manifestCreate = Manifest::create($data);
+            $manifestCreate = Manifest::create($validated);
+
+            foreach ($validatedItems as $item) {
+                $manifestCreate->items()->create($item);
+            }            
             $this->dispatch(['cadastrado']);
             $this->manifest = $manifestCreate;
         }
@@ -137,5 +161,27 @@ class ManifestForm extends Component
                 return;
             }
         }
+    }
+
+    public function addItem()
+    {
+        $this->items[] = [
+            'unit' => '',
+            'description' => '',
+            'quantity' => '',
+            'horti_fruit' => null,
+            'cubage' => null,
+            'secure' => null,
+            'dry_weight' => null,
+            'package' => null,
+            'glace' => null,
+            'tax' => null,
+        ];
+    }
+
+    public function removeItem($index)
+    {
+        unset($this->items[$index]);
+        $this->items = array_values($this->items); // reindexa
     }
 }

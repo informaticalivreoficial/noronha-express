@@ -35,6 +35,9 @@ class StoreUpdateManifestRequest extends FormRequest
             'neighborhood' => 'required|string|max:255',        
             'contact' => 'nullable|string|min:3',
             'information' => 'nullable|string|min:3|max:255',
+            'complement' => 'nullable|string|max:255',
+            'city' => 'nullable|string|max:255',
+            'state' => 'nullable|string|max:255',
         ];
     }
 }

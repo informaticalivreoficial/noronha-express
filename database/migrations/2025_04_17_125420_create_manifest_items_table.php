@@ -15,15 +15,15 @@ return new class extends Migration
             $table->increments('id');
             $table->unsignedInteger('manifest')->nullable();
             $table->string('unit')->nullable();
-            $table->string('description')->nullable();
-            $table->string('quantity')->nullable();
-            $table->decimal('horti-fruit', 10, 2)->nullable();            
-            $table->decimal('cubage', 10, 2)->nullable();            
-            $table->decimal('secure', 10, 2)->nullable();            
-            $table->decimal('dry_weight', 10, 2)->nullable();            
-            $table->decimal('package', 10, 2)->nullable();            
-            $table->decimal('glace', 10, 2)->nullable();            
-            $table->decimal('tax', 10, 2)->nullable();         
+            $table->string('description');
+            $table->integer('quantity')->nullable();
+            $table->decimal('horti_fruit', 10, 2)->nullable()->default(0);            
+            $table->decimal('cubage', 10, 2)->nullable()->default(0);            
+            $table->decimal('secure', 10, 2)->nullable()->default(0);            
+            $table->decimal('dry_weight', 10, 2)->nullable()->default(0);            
+            $table->decimal('package', 10, 2)->nullable()->default(0);            
+            $table->decimal('glace', 10, 2)->nullable()->default(0);            
+            $table->decimal('tax', 10, 2)->nullable()->default(0);         
             
             $table->timestamps();
 

@@ -165,6 +165,55 @@
                         </div>
                     </div>
                 </div>
+                <div class="row shadow p-3 mb-4 bg-white rounded">
+                    @foreach($items as $index => $item)
+                        <div class="col-lg-1 mb-2">
+                            <label class="labelforms"><b>Qtd.</b></label>
+                            <input type="text" wire:model="items.{{ $index }}.quantity" class="form-control" />
+                        </div>
+                        <div class="col-lg-1 mb-2">
+                            <label class="labelforms"><b>Unid.</b></label>
+                            <input type="text" wire:model="items.{{ $index }}.unit" class="form-control" />
+                        </div>
+                        <div class="col-lg-3 mb-2">
+                            <label class="labelforms"><b>Descrição</b></label>
+                            <input type="text" wire:model="items.{{ $index }}.description" class="form-control" />
+                            @error('items.' . $index . '.description')
+                                <span class="error erro-feedback">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="col-lg-1 mb-2">
+                            <label class="labelforms"><b>Horti-Fruti</b></label>
+                            <input type="text" wire:model="items.{{ $index }}.horti_fruit" class="form-control" />
+                        </div>
+                        <div class="col-lg-1 mb-2">
+                            <label class="labelforms"><b>Peso Seco</b></label>
+                            <input type="text" wire:model="items.{{ $index }}.dry_weight" class="form-control" />
+                        </div>
+                        <div class="col-lg-1 mb-2">
+                            <label class="labelforms"><b>Seguro</b></label>
+                            <input type="text" wire:model="items.{{ $index }}.secure" class="form-control" />
+                        </div>
+                        <div class="col-lg-1 mb-2">
+                            <label class="labelforms"><b>Embalagem</b></label>
+                            <input type="text" wire:model="items.{{ $index }}.package" class="form-control" />
+                        </div>
+                        <div class="col-lg-1 mb-2">
+                            <label class="labelforms"><b>Congelados</b></label>
+                            <input type="text" wire:model="items.{{ $index }}.glace" class="form-control" />
+                        </div>
+                        <div class="col-lg-1 mb-2">
+                            <label class="labelforms"><b>Taxas</b></label>
+                            <input type="text" wire:model="items.{{ $index }}.tax" class="form-control" />
+                        </div>
+                        <div class="col-lg-1 mb-2">
+                            <button type="button" wire:click="removeItem({{ $index }})" class="btn btn-danger position-absolute bottom-0"><i class="fas fa-ban"></i></button>
+                        </div>
+                    @endforeach      
+                    <div class="col-12 mt-2 mb-2">
+                        <button type="button" wire:click="addItem" class="btn btn-primary bottom-0 left-0">Adicionar Item</button>
+                    </div> 
+                </div>
                 <div class="row text-right">
                     <div class="col-12 mb-4">
                         <button type="submit" class="btn btn-success"><i class="nav-icon fas fa-check mr-2"></i>{{ $manifest ? 'Atualizar Agora' : 'Cadastrar Agora' }}</button>
