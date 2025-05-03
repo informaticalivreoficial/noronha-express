@@ -223,6 +223,7 @@ return [
         'user' => 'cliente',
         'trip' => 'viagem',
         'type' => 'tipo',
+        'object' => 'finalidade',
         'birthday' => 'data de nascimento',
         'cell_phone'    => 'celular',
         'postcode' => 'cep',

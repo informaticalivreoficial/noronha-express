@@ -15,6 +15,7 @@ class Manifest extends Model
     protected $fillable = [
         'trip',
         'type',
+        'object',
         'company',
         'user',
         'status',
@@ -27,6 +28,7 @@ class Manifest extends Model
         'state',
         'information',
         'contact',
+        'created',
     ];
 
     protected $casts = [
@@ -42,7 +44,7 @@ class Manifest extends Model
     */
     public function tripObject()
     {
-        return $this->belongsTo(Trip::class);
+        return $this->hasOne(Trip::class, 'id', 'trip');
     }
 
     public function companyObject()
@@ -63,4 +65,11 @@ class Manifest extends Model
     /**
      * Accerssors and Mutators
     */
+    public function getCreatedAtAttribute($value)
+    {
+        if (empty($value)) {
+            return null;
+        }
+        return date('d/m/Y', strtotime($value));
+    }
 }

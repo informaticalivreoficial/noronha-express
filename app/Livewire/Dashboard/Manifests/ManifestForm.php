@@ -26,14 +26,15 @@ class ManifestForm extends Component
     public ?int $trip = null;
     public ?int $company = null;
     public ?int $user = null;
+    public ?string $object = null;
     public string $status = '';
-    public ?string $zipcode = null;
+    public ?string $zipcode = '53.990-000';
     public ?string $street = null;
     public ?string $number = null;
     public ?string $complement = null;
     public ?string $neighborhood = null;
-    public ?string $city = null;
-    public ?string $state = null;
+    public ?string $city = 'Fernando de Noronha';
+    public ?string $state = 'PE';
     public ?string $information = null;
     public ?string $contact = null;
 
@@ -57,11 +58,13 @@ class ManifestForm extends Component
         if ($this->manifest) {
             $this->trip = $this->manifest->trip;
             $this->type = $this->manifest->type;
+            $this->object = $this->manifest->object;
             $this->company = $this->manifest->company;
             $this->user = $this->manifest->user;
             $this->status = $manifest->status instanceof \App\Enums\StatusOfManifestEnum
             ? $manifest->status->value
             : (string) $manifest->status;
+            //$this->zipcode = $this->manifest->zipcode ?? '53.990-000'; // Valor padrão se não for passado
             $this->zipcode = $this->manifest->zipcode;
             $this->street = $this->manifest->street;
             $this->number = $this->manifest->number;
@@ -82,6 +85,7 @@ class ManifestForm extends Component
         $request->merge([
             'trip' => $this->trip,
             'type' => $this->type,
+            'object' => $this->object,
             'company' => $this->company,
             'user' => $this->user,
             'status' => $this->status,
@@ -95,24 +99,7 @@ class ManifestForm extends Component
             'information' => $this->information,
             'contact' => $this->contact,
         ]);
-        $validated = validator($request->all(), $request->rules())->validate();
-
-        // $data = [
-        //     'trip' => $this->trip,
-        //     'type' => $this->type,
-        //     'company' => $this->company,
-        //     'user' => $this->user,
-        //     'status' => $this->status,
-        //     'zipcode' => $this->zipcode,
-        //     'street' => $this->street,
-        //     'number' => $this->number,
-        //     'complement' => $this->complement,
-        //     'neighborhood' => $this->neighborhood,
-        //     'city' => $this->city,
-        //     'state' => $this->state,
-        //     'information' => $this->information,
-        //     'contact' => $this->contact,
-        // ];
+        $validated = validator($request->all(), $request->rules())->validate();        
 
         // Validação antecipada dos itens
         $validatedItems = collect($this->items)->map(function ($item) {
@@ -123,7 +110,6 @@ class ManifestForm extends Component
         
         if ($this->manifest) {
             //$this->manifest->update($data);
-            //dd($validatedItems);
             $this->manifest->update($validated);
             
             $this->manifest->items()->delete();
@@ -141,27 +127,7 @@ class ManifestForm extends Component
             $this->dispatch(['cadastrado']);
             $this->manifest = $manifestCreate;
         }
-    }
-
-    public function updatedZipcode(string $value)
-    {
-        $cep = preg_replace('/[^0-9]/', '', $value);
-
-        if (strlen($cep) === 8) {
-            $response = Http::get("https://viacep.com.br/ws/{$cep}/json/")->json();
-
-            if (!isset($response['erro'])) {
-                $this->street = $response['logradouro'] ?? '';
-                $this->neighborhood = $response['bairro'] ?? '';
-                $this->state = $response['uf'] ?? '';
-                $this->city = $response['localidade'] ?? '';
-                $this->complement = $response['complemento'] ?? '';
-            } else {
-                $this->addError('zipcode', 'CEP não encontrado.');
-                return;
-            }
-        }
-    }
+    }    
 
     public function addItem()
     {
@@ -184,4 +150,5 @@ class ManifestForm extends Component
         unset($this->items[$index]);
         $this->items = array_values($this->items); // reindexa
     }
+    
 }

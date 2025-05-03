@@ -21,6 +21,7 @@ class ManifestFactory extends Factory
         return [
             'trip' => Trip::factory(),
             'type' => $this->faker->randomElement(['fisica', 'juridica']),
+            'object' => $this->faker->randomElement(['carga', 'reposição']),
             'user' => User::factory(),
             'status' => $this->faker->boolean(),
             'zipcode' => fake()->postcode,

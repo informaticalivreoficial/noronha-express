@@ -15,6 +15,7 @@ return new class extends Migration
             $table->increments('id');
             $table->unsignedInteger('trip')->nullable();
             $table->string('type')->nullable();
+            $table->string('object')->nullable();
             $table->unsignedInteger('company')->nullable();
             $table->unsignedInteger('user')->nullable(); 
             $table->string('status')->nullable();           
@@ -30,6 +31,7 @@ return new class extends Migration
             
             $table->text('information')->nullable();
             $table->string('contact')->nullable();
+            $table->string('created')->nullable();
 
             $table->timestamps();
 

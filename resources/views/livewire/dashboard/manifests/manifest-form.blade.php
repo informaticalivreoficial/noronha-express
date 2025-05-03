@@ -21,18 +21,32 @@
     <form wire:submit.prevent="save" autocomplete="off">
         <div class="card card-teal card-outline">
             <div x-data="{ type: @entangle('type') }" class="card-body text-muted">
-                <div class="row">
-                    <div class="col-12 flex gap-3 mt-2 mb-3">
-                        @foreach($types as $option)
-                            <label class="inline-flex items-center space-x-2">
-                                <input type="radio" x-model="type" wire:model="type" value="{{ $option }}" class="form-radio text-blue-600">
-                                <span class="ml-2"> {{ $option }} </span>
-                            </label>
-                        @endforeach
+                <div class="row mt-2 mb-3">
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-2"> 
+                        <label class="labelforms"><b>Tipo de cliente:</b></label>
+                        <div class="flex gap-3">
+                            @foreach($types as $option)
+                                <label class="inline-flex items-center space-x-2">
+                                    <input type="radio" x-model="type" wire:model="type" value="{{ $option }}" class="form-radio text-blue-600">
+                                    <span class="ml-2"> {{ $option }} </span>
+                                </label>
+                            @endforeach
+                        </div> 
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                        <label class="labelforms"><b>Finalidade:</b></label>
+                        <select class="form-control @error('object') is-invalid @enderror" wire:model="object">
+                            <option value="" selected>Selecione uma opção</option>                            
+                            <option value="carga" selected>Manifesto de Carga</option>                            
+                            <option value="reposição" selected>Manifesto de Reposição</option>                            
+                        </select>
+                        @error('object')
+                            <span class="error erro-feedback">{{ $message }}</span>
+                        @enderror
                     </div>
                 </div>
                 <div class="row">
-                    <div x-show="type === 'juridica'" x-cloak class="col-12 col-sm-6 col-md-6 col-lg-4"> 
+                    <div x-show="type === 'juridica'" x-cloak class="col-12 col-sm-12 col-md-6 col-lg-4"> 
                         <div class="form-group">
                             <label class="labelforms"><b>Empresa:</b></label>
                             <select class="form-control @error('company') is-invalid @enderror" wire:model="company">
@@ -46,7 +60,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div x-show="type === 'fisica'" x-cloak class="col-12 col-sm-6 col-md-6 col-lg-4">
+                    <div x-show="type === 'fisica'" x-cloak class="col-12 col-sm-12 col-md-4 col-lg-4">
                         <div class="form-group">
                             <label class="labelforms"><b>Cliente:</b></label>
                             <select class="form-control @error('user') is-invalid @enderror" wire:model="user">
@@ -60,7 +74,7 @@
                             @enderror                                    
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-4">
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-4">
                         <div class="form-group">
                             <label class="labelforms"><b>Viagem:</b></label>
                             <select class="form-control @error('trip') is-invalid @enderror" wire:model="trip">
@@ -74,7 +88,7 @@
                             @enderror                                   
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-4">
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-4">
                         <div class="form-group">
                             <label class="labelforms"><b>Status:</b></label>
                             <select class="form-control @error('status') is-invalid @enderror" wire:model="status">
@@ -92,26 +106,26 @@
                 <div class="row">
                     <div class="col-12 col-sm-6 col-md-2 col-lg-2"> 
                         <div class="form-group">
-                            <label class="labelforms"><b>*CEP:</b></label>
-                            <input type="text" x-mask="99.999-999" class="form-control @error('zipcode') is-invalid @enderror" id="zipcode" wire:model.lazy="zipcode">
+                            <label class="labelforms"><b>CEP:</b></label>
+                            <input type="text" x-mask="99.999-999" class="form-control @error('zipcode') is-invalid @enderror" id="zipcode" wire:model="zipcode" readonly>
                             @error('zipcode')
                                 <span class="error erro-feedback">{{ $message }}</span>
                             @enderror                                                    
                         </div>
                     </div>                    
-                    <div class="col-12 col-sm-6 col-md-5 col-lg-3"> 
+                    <div class="col-12 col-sm-6 col-md-2 col-lg-1"> 
                         <div class="form-group">
-                            <label class="labelforms"><b>*Estado:</b></label>
-                            <input type="text" class="form-control" id="state" wire:model="state" readonly>
+                            <label class="labelforms"><b>Estado:</b></label>
+                            <input type="text" class="form-control" id="state" wire:model="state" readonly value="PE"/>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-md-5 col-lg-4"> 
+                    <div class="col-12 col-sm-6 col-md-3 col-lg-3"> 
                         <div class="form-group">
-                            <label class="labelforms"><b>*Cidade:</b></label>
+                            <label class="labelforms"><b>Cidade:</b></label>
                             <input type="text" class="form-control" id="city" wire:model="city" readonly>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-3"> 
+                    <div class="col-12 col-sm-6 col-md-5 col-lg-4"> 
                         <div class="form-group">
                             <label class="labelforms"><b>*Rua:</b></label>
                             <input type="text" class="form-control @error('street') is-invalid @enderror" id="street" wire:model="street">
@@ -120,16 +134,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-3"> 
-                        <div class="form-group">
-                            <label class="labelforms"><b>*Bairro:</b></label>
-                            <input type="text" class="form-control @error('neighborhood') is-invalid @enderror" id="neighborhood" wire:model="neighborhood">
-                            @error('neighborhood')
-                                <span class="error erro-feedback">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div> 
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-2"> 
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-1"> 
                         <div class="form-group">
                             <label class="labelforms"><b>*Número:</b></label>
                             <input type="text" class="form-control @error('number') is-invalid @enderror" id="number" wire:model="number">
@@ -138,13 +143,23 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-3"> 
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3"> 
+                        <div class="form-group">
+                            <label class="labelforms"><b>*Bairro:</b></label>
+                            <input type="text" class="form-control @error('neighborhood') is-invalid @enderror" id="neighborhood" wire:model="neighborhood">
+                            @error('neighborhood')
+                                <span class="error erro-feedback">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div> 
+                    
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3"> 
                         <div class="form-group">
                             <label class="labelforms"><b>Complemento:</b></label>
                             <input type="text" class="form-control" id="complement" wire:model="complement">
                         </div>
                     </div>
-                    <div class="col-12 col-sm-12 col-md-12 col-lg-4"> 
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-6"> 
                         <div class="form-group">
                             <label class="labelforms"><b>Contato:</b></label>
                             <input type="text" class="form-control @error('contact') is-invalid @enderror" id="contact" wire:model="contact">
@@ -207,7 +222,8 @@
                             <input type="text" wire:model="items.{{ $index }}.tax" class="form-control" />
                         </div>
                         <div class="col-lg-1 mb-2">
-                            <button type="button" wire:click="removeItem({{ $index }})" class="btn btn-danger position-absolute bottom-0"><i class="fas fa-ban"></i></button>
+                            <label class="labelforms">&nbsp;</label>
+                            <button type="button" wire:click="removeItem({{ $index }})" class="btn btn-danger"><i class="fas fa-ban"></i></button>
                         </div>
                     @endforeach      
                     <div class="col-12 mt-2 mb-2">

@@ -28,6 +28,7 @@ class StoreUpdateManifestRequest extends FormRequest
             'trip' => 'required|exists:trips,id',  
             'user' => 'required_if:type,fisica',
             'company' => 'required_if:type,juridica',
+            'object' => 'required|string|max:255',
             'status' => ['required', new Enum(StatusOfManifestEnum::class)],
             'zipcode' => 'required|string|max:10',
             'street' => 'required|string|max:255',
