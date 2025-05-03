@@ -23,15 +23,15 @@ class StoreUpdateManifestItemRequest extends FormRequest
     {
         return [
             'quantity' => 'nullable|numeric',
-            'unit' => 'nullable|string',
+            //'unit' => 'nullable|string',
             'description' => 'nullable|string',
-            'horti_fruit' => 'nullable|numeric',
-            'cubage' => 'nullable|numeric',
-            'secure' => 'nullable|numeric',
-            'dry_weight' => 'nullable|numeric',
-            'package' => 'nullable|numeric',
-            'glace' => 'nullable|numeric',
-            'tax' => 'nullable|numeric',
+            //'horti_fruit' => 'nullable|numeric',
+            //'cubage' => 'nullable|numeric',
+            //'secure' => 'nullable|numeric',
+            //'dry_weight' => 'nullable|numeric',
+            //'package' => 'nullable|numeric',
+            //'glace' => 'nullable|numeric',
+            //'tax' => 'nullable|numeric',
         ];
     }
 }

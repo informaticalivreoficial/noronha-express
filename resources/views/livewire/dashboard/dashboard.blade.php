@@ -30,6 +30,17 @@
                         </div>            
                     </div>
                 </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-teal"><a href="{{ route('manifests.index') }}" title="Manifestos"><i class="fa far fa-file-alt"></i></a></span>
+            
+                        <div class="info-box-content">
+                            <span class="info-box-text"><b>Manifestos</b></span>
+                            <span class="info-box-text">{{ now()->year }}: {{ $manifestYearCount }}</span>
+                            <span class="info-box-text">Total: {{ $manifestCount }}</span>
+                        </div>            
+                    </div>
+                </div>
             </div>
         </div>
     </div>

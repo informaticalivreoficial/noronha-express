@@ -62,6 +62,11 @@ class Manifest extends Model
         return $this->hasMany(ManifestItem::class, 'manifest', 'id');
     }
 
+    public function images()
+    {
+        return $this->hasMany(ManifestGb::class, 'manifest', 'id')->orderBy('cover', 'ASC');
+    }
+
     /**
      * Accerssors and Mutators
     */
