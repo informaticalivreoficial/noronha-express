@@ -41,6 +41,7 @@ class Manifests extends Component
     {
         $title = 'Gerenciar Manifestos';
         $manifests = Manifest::query()
+            ->where('object', 'carga')
             ->when($this->search, function($query){
                 $query->where(function($q) {
                     $q->where('trip', 'LIKE', "%{$this->search}%")

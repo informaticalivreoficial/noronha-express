@@ -261,7 +261,7 @@
             <!-- Conteúdo da aba Imagens -->
             <div x-show="tab === 'imagens'" x-cloak x-transition>
                 <div class="bg-white p-4">
-                    <label class="block font-semibold mb-2">📁 Upload de Imagem:</label>
+                    <label class="block font-semibold mb-2 mt-2">📁 Upload de Imagem:</label>
                     <input type="file" wire:model="images" class="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4
                         file:rounded-full file:border-0 file:text-sm file:font-semibold
                         file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" multiple/>
@@ -271,30 +271,46 @@
                     @enderror
         
                     
-                    <div class="flex flex-wrap gap-4 mt-3">
-                        {{-- Imagens já salvas (vindas do banco) --}}
-                            @foreach ($manifest->images ?? [] as $savedImage)
+                    <div x-data="{ showModal: false, imageUrl: null }">
+                        <div class="flex flex-wrap gap-4 mt-4">
+                            {{-- Imagens já salvas (vindas do banco) --}}
+                                @foreach ($manifest->images ?? [] as $savedImage)
+                                <div class="relative">
+                                    <img src="{{ Storage::url($savedImage->path) }}" class="w-40 h-40 object-cover rounded border cursor-pointer"
+                                        @click="showModal = true; imageUrl = '{{ Storage::url($savedImage->path) }}'">
+                                    <button type="button"
+                                            wire:click="removeSavedImage({{ $savedImage->id }})"
+                                            class="absolute top-1 right-1 w-6 h-6 flex items-center justify-center bg-red-500 text-white rounded-full text-xs hover:bg-red-600">
+                                        ✕
+                                    </button>
+                                </div>
+                            @endforeach
+    
+                            {{-- Imagens recém-uploadadas via Livewire --}}
+                            @foreach ($images as $index => $image)
+                                <div class="relative">
+                                    <img src="{{ $image->temporaryUrl() }}" class="w-32 h-32 object-cover rounded border cursor-pointer"
+                                        @click="showModal = true; imageUrl = '{{ $image->temporaryUrl() }}'">
+                                    <button type="button"
+                                            wire:click="removeTempImage({{ $index }})"
+                                            class="absolute top-1 right-1 w-6 h-6 flex items-center justify-center bg-red-500 text-white rounded-full text-xs hover:bg-red-600">
+                                        ✕
+                                    </button>
+                                </div>
+                            @endforeach
+                        </div>
+                        <!-- Modal de imagem -->
+                        <div x-show="showModal" x-cloak
+                            class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-[9999]"
+                            x-transition>
                             <div class="relative">
-                                <img src="{{ Storage::url($savedImage->path) }}" class="w-32 h-32 object-cover rounded border">
-                                <button type="button"
-                                        wire:click="removeSavedImage({{ $savedImage->id }})"
-                                        class="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 text-xs">
+                                <img :src="imageUrl" class="max-w-[70vw] max-h-[70vh] object-contain mx-auto rounded shadow-lg">
+                                <button type="button" @click="showModal = false"
+                                        class="absolute top-2 right-2 text-white text-xl bg-black bg-opacity-50 rounded-full px-2 py-1">
                                     ✕
                                 </button>
                             </div>
-                        @endforeach
-
-                        {{-- Imagens recém-uploadadas via Livewire --}}
-                        @foreach ($images as $index => $image)
-                            <div class="relative">
-                                <img src="{{ $image->temporaryUrl() }}" class="w-32 h-32 object-cover rounded border">
-                                <button type="button"
-                                        wire:click="removeTempImage({{ $index }})"
-                                        class="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 text-xs">
-                                    ✕
-                                </button>
-                            </div>
-                        @endforeach
+                        </div>
                     </div>
                 
                 </div>

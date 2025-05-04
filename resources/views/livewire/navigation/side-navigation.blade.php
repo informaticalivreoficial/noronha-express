@@ -63,14 +63,26 @@
                     </a>
                 </li>     
                 <li class="nav-item">
-                    <a href="{{route('manifests.index')}}" class="nav-link">
+                    <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-file-alt"></i>
-
                         <p>
-                            Manifestos
-                            <span class="badge badge-info right">{{$manifestCount}}</span>
-                        </p>
+                            Manifestos <i class="fas fa-angle-left right"></i>                            
+                        </p>                        
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('manifests.index')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Carga</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Reposição</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>     
                 <li class="nav-item">
                     <a href="#" class="nav-link">
