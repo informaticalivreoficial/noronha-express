@@ -10,6 +10,8 @@ use App\Livewire\Dashboard\Manifests\{
     ManifestView,
     Manifests
 };
+use App\Livewire\Dashboard\Permissions\Index as PermissionIndex;
+use App\Livewire\Dashboard\Roles\Index as RoleIndex;
 use App\Livewire\Dashboard\Reports\Companies as ReportsCompanies;
 use App\Livewire\Dashboard\Reports\Manifests as ReportsManifests;
 use App\Livewire\Dashboard\Settings;
@@ -29,6 +31,9 @@ Route::get('/', function () {
 Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'admin'], function () {
     Route::get('/', Dashboard::class)->name('admin');
     Route::get('configuracoes/{config}/edit', Settings::class)->name('settings');
+
+    Route::get('/regras', RoleIndex::class)->name('admin.roles');
+    Route::get('/permissoes', PermissionIndex::class)->name('admin.permissions');
 
     Route::get('clientes', Users::class)->name('clientes.index');
     Route::get('cadastrar-cliente', Form::class)->name('clientes.create');
