@@ -20,8 +20,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //$configuracoes = \App\Models\Config::find(1); 
-        //View()->share('configuracoes', $configuracoes);
+        $configuracoes = \App\Models\Config::find(1); 
+        View()->share('configuracoes', $configuracoes);
         //Paginator::useBootstrap();
     }
 }
