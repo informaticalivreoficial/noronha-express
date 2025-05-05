@@ -32,7 +32,7 @@ Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'admin'], functi
     Route::get('/', Dashboard::class)->name('admin');
     Route::get('configuracoes/{config}/edit', Settings::class)->name('settings');
 
-    Route::get('/regras', RoleIndex::class)->name('admin.roles');
+    Route::get('/cargos', RoleIndex::class)->name('admin.roles');
     Route::get('/permissoes', PermissionIndex::class)->name('admin.permissions');
 
     Route::get('clientes', Users::class)->name('clientes.index');

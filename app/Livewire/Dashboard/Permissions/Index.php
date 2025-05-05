@@ -17,9 +17,10 @@ class Index extends Component
 
     public function render()
     {
+        $title = 'Permissões';
         return view('livewire.dashboard.permissions.index', [
             'permissions' => Permission::all(),
-        ]);
+        ])->with('title', $title);
     }
 
     public function save()
@@ -57,5 +58,10 @@ class Index extends Component
     {
         Permission::findOrFail($id)->delete();
         session()->flash('success', 'Permissão excluída!');
+    }
+
+    public function resetForm()
+    {
+        $this->reset(['name', 'permission_id', 'isEditing']);
     }
 }

@@ -17,10 +17,11 @@ class Index extends Component
 
     public function render()
     {
+        $title = 'Cargos';
         return view('livewire.dashboard.roles.index', [
             'roles' => Role::with('permissions')->get(),
             'permissions' => Permission::all(),
-        ]);
+        ])->with('title', $title);
     }
 
     public function save()
