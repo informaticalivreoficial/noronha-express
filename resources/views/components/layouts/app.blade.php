@@ -37,6 +37,7 @@
     <link rel="stylesheet" href="{{ asset('theme/dist/css/styles.css') }}">
    
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles
 </head>
 
 <body class="hold-transition sidebar-mini text-sm">
@@ -112,8 +113,7 @@
     
     
     @stack('script')
-    
-    
+    @livewireScripts    
 </body>
 
 </html>

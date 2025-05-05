@@ -1,35 +1,18 @@
-# Projeto Laravel 10 com as configurações iniciais pt_BR (português brasileiro).
+<p align="center">
+	<a href="#"  target="_blank" title="Sistema CRM de transporte marítimo de mercadorias">
+		<img src="public/images/brands/logo.png" alt="Sistema CRM de transporte marítimo de mercadorias" width="280px">
+	</a>
+</p>
 
-1.  sssssss
+<br>
 
-```shell
-
-```
-
-2.  ssssssssss
-
-```shell
-
-```
-
-3.  sssss
-
-```shell
-
-```
-
-## About Laravel
-
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
-
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+<p align="center">
+	<img src="https://img.shields.io/badge/version project-1.0-brightgreen" alt="version project">
+    <img src="https://img.shields.io/badge/Php-8.1-informational" alt="stack php">
+    <img src="https://img.shields.io/badge/Laravel-10.10-informational&color=brightgreen" alt="stack laravel">
+    <img src="https://img.shields.io/badge/Livewire-3.0-informational" alt="stack Livewire">
+    <img src="https://img.shields.io/badge/TailwindCss-3.1-informational" alt="stack Tailwind">
+	<a href="https://opensource.org/licenses/GPL-3.0">
+		<img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="GPLv3 License">
+	</a>
+</p>
