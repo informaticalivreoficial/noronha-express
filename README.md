@@ -16,3 +16,12 @@
 		<img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="GPLv3 License">
 	</a>
 </p>
+
+### :sparkles: Colaboradores
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/informaticalivreoficial">
+        <img style="border-radius: 70%;" src="https://avatars.githubusercontent.com/u/28687748?v" width="100px;" alt=""/>
+    <br /><sub><b>Renato Montanari</b></sub></a></td>    
+  </tr>  
+</table>
