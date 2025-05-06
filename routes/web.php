@@ -35,10 +35,11 @@ Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'admin'], functi
     Route::get('/cargos', RoleIndex::class)->name('admin.roles');
     Route::get('/permissoes', PermissionIndex::class)->name('admin.permissions');
 
-    Route::get('clientes', Users::class)->name('clientes.index');
-    Route::get('cadastrar-cliente', Form::class)->name('clientes.create');
-    Route::get('editar-cliente/{userId}', Form::class)->name('clientes.edit');
-    Route::get('visualizar-cliente/{user}', ViewUser::class)->name('clientes.view');
+    Route::get('usuarios/clientes', Users::class)->name('users.index');
+    Route::get('usuarios/time', Users::class)->name('users.time');
+    Route::get('usuarios/cadastrar', Form::class)->name('users.create');
+    Route::get('usuarios/{userId}/editar', Form::class)->name('users.edit');
+    Route::get('usuarios/{user}/visualizar', ViewUser::class)->name('users.view');
 
     // Companies
     Route::get('empresas', Companies::class)->name('companies.index');

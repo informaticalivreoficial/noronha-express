@@ -9,7 +9,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ route('admin') }}">Painel de Controle</a></li>
-                        <li class="breadcrumb-item"><a wire:navigate href="{{ route('clientes.index') }}">Clientes</a>
+                        <li class="breadcrumb-item"><a wire:navigate href="{{ route('users.index') }}">Usuários</a>
                         </li>
                         <li class="breadcrumb-item active">{{ $userId ? 'Editar' : 'Cadastrar' }}</li>
                     </ol>
@@ -17,12 +17,6 @@
             </div>
         </div>
     </div>
-
-    @if (session()->has('message'))
-        <div class="alert alert-success">
-            {{ session('message') }}
-        </div>
-    @endif
 
     <form wire:submit.prevent="save" autocomplete="off">
         <div class="card card-teal card-outline card-outline-tabs">
@@ -161,137 +155,126 @@
 
                         </div>
 
-                        <div id="accordion">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4>
-                                        <a style="border:none;color: #555;" data-toggle="collapse"
-                                            data-parent="#accordion" href="#collapseContato">
-                                            <i class="nav-icon fas fa-plus mr-2"></i> Contato
-                                        </a>
-                                    </h4>
-                                </div>
-                                <div id="collapseContato" class="panel-collapse collapse show">
-                                    <div class="card-body text-muted">
-                                        <div class="row mb-2">
-                                            <div class="col-12 col-md-6 col-lg-4">
-                                                <div class="form-group">
-                                                    <label class="labelforms"><b>Telefone fixo:</b></label>
-                                                    <input type="text" class="form-control" placeholder="(00) 0000-0000"
-                                                        x-mask="(99) 9999-9999" wire:model="phone" id="phone">
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-6 col-lg-4">
-                                                <div class="form-group">
-                                                    <label class="labelforms"><b>*Celular:</b></label>
-                                                    <input type="text" class="form-control @error('cell_phone') is-invalid @enderror" placeholder="(00) 00000-0000"
-                                                        x-mask="(99) 99999-9999" wire:model="cell_phone"
-                                                        id="cell_phone">
-                                                    @error('cell_phone')
-                                                        <span class="error erro-feedback">{{ $message }}</span>
-                                                    @enderror
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-6 col-lg-4">
-                                                <div class="form-group">
-                                                    <label class="labelforms"><b>WhatsApp:</b></label>
-                                                    <input type="text" class="form-control" placeholder="(00) 00000-0000"
-                                                        x-mask="(99) 99999-9999" wire:model="whatsapp"
-                                                        id="whatsapp">
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-6 col-lg-4">
-                                                <div class="form-group">
-                                                    <label class="labelforms"><b>E-mail:</b></label>
-                                                    <input type="text" class="form-control @error('email') is-invalid @enderror" placeholder="Email" wire:model="email" id="email">
-                                                    @error('email')
-                                                        <span class="error erro-feedback">{{ $message }}</span>
-                                                    @enderror
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-6 col-lg-4">
-                                                <div class="form-group">
-                                                    <label class="labelforms"><b>E-mail Alternativo:</b></label>
-                                                    <input type="text" class="form-control"
-                                                        placeholder="Email Alternativo" wire:model="additional_email"
-                                                        id="additional_email">
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-6 col-lg-4">
-                                                <div class="form-group">
-                                                    <label class="labelforms"><b>Telegram:</b></label>
-                                                    <input type="text" class="form-control" placeholder="Telegram"
-                                                        wire:model="telegram" id="telegram">
-                                                </div>
-                                            </div>
+                        
+                        <div class="card text-muted">
+                            <div class="card-header">
+                                <h4>
+                                    <strong>Contato</strong>
+                                </h4>
+                            </div>                                
+                            <div class="card-body">
+                                <div class="row mb-2">
+                                    <div class="col-12 col-md-6 col-lg-4">
+                                        <div class="form-group">
+                                            <label class="labelforms"><b>Telefone fixo:</b></label>
+                                            <input type="text" class="form-control" placeholder="(00) 0000-0000"
+                                                x-mask="(99) 9999-9999" wire:model="phone" id="phone">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-lg-4">
+                                        <div class="form-group">
+                                            <label class="labelforms"><b>*Celular:</b></label>
+                                            <input type="text" class="form-control @error('cell_phone') is-invalid @enderror" placeholder="(00) 00000-0000"
+                                                x-mask="(99) 99999-9999" wire:model="cell_phone"
+                                                id="cell_phone">
+                                            @error('cell_phone')
+                                                <span class="error erro-feedback">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-lg-4">
+                                        <div class="form-group">
+                                            <label class="labelforms"><b>WhatsApp:</b></label>
+                                            <input type="text" class="form-control" placeholder="(00) 00000-0000"
+                                                x-mask="(99) 99999-9999" wire:model="whatsapp"
+                                                id="whatsapp">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-lg-4">
+                                        <div class="form-group">
+                                            <label class="labelforms"><b>E-mail:</b></label>
+                                            <input type="text" class="form-control @error('email') is-invalid @enderror" placeholder="Email" wire:model="email" id="email">
+                                            @error('email')
+                                                <span class="error erro-feedback">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-lg-4">
+                                        <div class="form-group">
+                                            <label class="labelforms"><b>E-mail Alternativo:</b></label>
+                                            <input type="text" class="form-control"
+                                                placeholder="Email Alternativo" wire:model="additional_email"
+                                                id="additional_email">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-lg-4">
+                                        <div class="form-group">
+                                            <label class="labelforms"><b>Telegram:</b></label>
+                                            <input type="text" class="form-control" placeholder="Telegram"
+                                                wire:model="telegram" id="telegram">
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4>
-                                        <a style="border:none;color: #555;" data-toggle="collapse"
-                                            data-parent="#accordion" href="#collapseEndereco">
-                                            <i class="nav-icon fas fa-plus mr-2"></i> Endereço
-                                        </a>
-                                    </h4>
-                                </div>
-                                <div id="collapseEndereco" class="panel-collapse collapse show">
-                                    <div class="card-body">
-                                        <div class="row mb-2">
-                                            <div class="col-12 col-md-6 col-lg-2"> 
-                                                <div class="form-group">
-                                                    <label class="labelforms text-muted"><b>*CEP:</b></label>
-                                                    <input type="text" x-mask="99.999-999" class="form-control @error('postcode') is-invalid @enderror" id="postcode" wire:model.lazy="postcode">
-                                                    @error('postcode')
-                                                        <span class="error erro-feedback">{{ $message }}</span>
-                                                    @enderror                                                    
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="col-12 col-md-4 col-lg-3"> 
-                                                <div class="form-group">
-                                                    <label class="labelforms text-muted"><b>*Estado:</b></label>
-                                                    <input type="text" class="form-control" id="state" wire:model="state" readonly>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-4 col-lg-4"> 
-                                                <div class="form-group">
-                                                    <label class="labelforms text-muted"><b>*Cidade:</b></label>
-                                                    <input type="text" class="form-control" id="city" wire:model="city" readonly>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-6 col-lg-3"> 
-                                                <div class="form-group">
-                                                    <label class="labelforms text-muted"><b>*Rua:</b></label>
-                                                    <input type="text" class="form-control" id="street" wire:model="street" readonly>
-                                                </div>
-                                            </div>                                            
-                                        </div>
-                                        <div class="row mb-2">
-                                            <div class="col-12 col-md-4 col-lg-3"> 
-                                                <div class="form-group">
-                                                    <label class="labelforms text-muted"><b>*Bairro:</b></label>
-                                                    <input type="text" class="form-control" id="neighborhood" wire:model="neighborhood" readonly>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-6 col-lg-2"> 
-                                                <div class="form-group">
-                                                    <label class="labelforms text-muted"><b>*Número:</b></label>
-                                                    <input type="text" class="form-control" placeholder="Número do Endereço" id="number" wire:model="number">
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-6 col-lg-3"> 
-                                                <div class="form-group">
-                                                    <label class="labelforms text-muted"><b>Complemento:</b></label>
-                                                    <input type="text" class="form-control" id="complement" wire:model="complement">
-                                                </div>
-                                            </div>   
+                            </div>                                
+                        </div>
+                        <div class="card text-muted">
+                            <div class="card-header">
+                                <h4>
+                                    <strong>Endereço</strong>
+                                </h4>
+                            </div>                                
+                            <div class="card-body">
+                                <div class="row mb-2">
+                                    <div class="col-12 col-md-6 col-lg-2"> 
+                                        <div class="form-group">
+                                            <label class="labelforms"><b>*CEP:</b></label>
+                                            <input type="text" x-mask="99.999-999" class="form-control @error('postcode') is-invalid @enderror" id="postcode" wire:model.lazy="postcode">
+                                            @error('postcode')
+                                                <span class="error erro-feedback">{{ $message }}</span>
+                                            @enderror                                                    
                                         </div>
                                     </div>
+                                    
+                                    <div class="col-12 col-md-4 col-lg-3"> 
+                                        <div class="form-group">
+                                            <label class="labelforms"><b>*Estado:</b></label>
+                                            <input type="text" class="form-control" id="state" wire:model="state" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-4 col-lg-4"> 
+                                        <div class="form-group">
+                                            <label class="labelforms"><b>*Cidade:</b></label>
+                                            <input type="text" class="form-control" id="city" wire:model="city" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-lg-3"> 
+                                        <div class="form-group">
+                                            <label class="labelforms"><b>*Rua:</b></label>
+                                            <input type="text" class="form-control" id="street" wire:model="street" readonly>
+                                        </div>
+                                    </div>                                            
                                 </div>
-                            </div>
+                                <div class="row mb-2">
+                                    <div class="col-12 col-md-4 col-lg-3"> 
+                                        <div class="form-group">
+                                            <label class="labelforms"><b>*Bairro:</b></label>
+                                            <input type="text" class="form-control" id="neighborhood" wire:model="neighborhood" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-lg-2"> 
+                                        <div class="form-group">
+                                            <label class="labelforms"><b>*Número:</b></label>
+                                            <input type="text" class="form-control" placeholder="Número do Endereço" id="number" wire:model="number">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-lg-3"> 
+                                        <div class="form-group">
+                                            <label class="labelforms"><b>Complemento:</b></label>
+                                            <input type="text" class="form-control" id="complement" wire:model="complement">
+                                        </div>
+                                    </div>   
+                                </div>
+                            </div>                                
                         </div>
                     </div>
 

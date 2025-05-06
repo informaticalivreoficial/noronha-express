@@ -114,9 +114,6 @@ class Form extends Component
 
     public function create()
     {
-        //dd($this->foto);
-        //$validated = app(UserRequest::class)->validated();
-        
         $validated = $this->validate();
         
         if($this->foto){
@@ -168,7 +165,7 @@ class Form extends Component
             'editor' => $this->editor,
             'client' => $this->client
         ];
-        // Criar novo usuário
+        dd($data);
         $userCreate = User::create($data);
         $userCreate->save();
         $this->dispatch(['cliente-cadastrado']);

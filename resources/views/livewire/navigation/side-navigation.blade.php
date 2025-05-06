@@ -21,26 +21,44 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                 data-accordion="false">
-                <!-- Add icons to the links using the .nav-icon class
-        with font-awesome or any other icon font library -->
-                <li class="nav-item menu-open">
-                    <a href="{{route('admin')}}" class="nav-link active">
+                <li class="nav-item">
+                    <a href="{{route('admin')}}" class="nav-link {{ Route::is('admin') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p> Painel de Controle</p>
                     </a>                    
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{route('settings',['config' => '1'])}}" class="nav-link"><i class="nav-icon fas fa-cog"></i> 
+                    <a href="{{route('settings',['config' => '1'])}}" class="nav-link {{ Route::is('settings') ? 'active' : '' }}"><i class="nav-icon fas fa-cog"></i> 
                         <p> Configurações</p>
                     </a>
                 </li>
 
-                <li class="nav-item">
-                    <a href="{{route('clientes.index')}}" class="nav-link">
+                <li class="nav-item {{ Route::is('users.*') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ Route::is('users.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-users"></i>
-                        <p> Clientes <span class="badge badge-info right">{{$userCount}}</span></p>
+                        <p> Usuários <i class="fas fa-angle-left right"></i></p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('users.index')}}" class="nav-link {{ Route::is('users.index') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Clientes <span class="badge badge-info right">{{$clientCount}}</span></p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('users.time')}}" class="nav-link {{ Route::is('users.time') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Time <span class="badge badge-info right">{{$timeCount}}</span></p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('users.create')}}" class="nav-link {{ Route::is('users.create') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Cadastrar Novo</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a href="{{route('companies.index')}}" class="nav-link">

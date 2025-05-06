@@ -1,10 +1,4 @@
 <div>     
-    @if (session()->has('message'))
-        <div class="alert alert-success">
-            {{ session('message') }}
-        </div>
-    @endif
-
     <form wire:submit.prevent="save">    
         <div class="card card-teal card-outline card-outline-tabs">
 

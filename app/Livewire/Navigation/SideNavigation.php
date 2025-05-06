@@ -13,14 +13,16 @@ class SideNavigation extends Component
 {
     public function render()
     {
-        $userCount = User::where('client', 1)->count();
+        $clientCount = User::where('client', 1)->count();
+        $timeCount = User::where('editor', 1)->orWhere('admin', 1)->orWhere('superadmin', 1)->count();
         $companyCount = Company::count();
         $tripCount = Trip::count();
         $manifestCount = Manifest::count();
         $config = Config::first();
 
         return view('livewire.navigation.side-navigation',[
-            'userCount' => $userCount,
+            'clientCount' => $clientCount,
+            'timeCount' => $timeCount,            
             'companyCount' => $companyCount,
             'tripCount' => $tripCount,
             'manifestCount' => $manifestCount,
