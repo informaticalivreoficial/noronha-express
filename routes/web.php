@@ -18,6 +18,7 @@ use App\Livewire\Dashboard\Settings;
 use App\Livewire\Dashboard\Trips\TripForm;
 use App\Livewire\Dashboard\Trips\Trips;
 use App\Livewire\Dashboard\Users\Form;
+use App\Livewire\Dashboard\Users\Time;
 use App\Livewire\Dashboard\Users\Users;
 use App\Livewire\Dashboard\Users\ViewUser;
 use Illuminate\Support\Facades\Route;
@@ -36,7 +37,7 @@ Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'admin'], functi
     Route::get('/permissoes', PermissionIndex::class)->name('admin.permissions');
 
     Route::get('usuarios/clientes', Users::class)->name('users.index');
-    Route::get('usuarios/time', Users::class)->name('users.time');
+    Route::get('usuarios/time', Time::class)->name('users.time');
     Route::get('usuarios/cadastrar', Form::class)->name('users.create');
     Route::get('usuarios/{userId}/editar', Form::class)->name('users.edit');
     Route::get('usuarios/{user}/visualizar', ViewUser::class)->name('users.view');

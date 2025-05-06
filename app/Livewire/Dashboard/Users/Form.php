@@ -27,8 +27,8 @@ class Form extends Component
         'cpf' => 'required|cpf|unique:users,cpf',
         'cell_phone' => 'required|celular_com_ddd',
         'email' => 'required|email|unique:users,email',
-        'postcode' => 'required',
-        //'password' => 'required|min:6|confirmed',        
+        'postcode' => 'required|string|max:10',
+        'password' => 'required|confirmed|min:6',        
     ];       
 
     //Informations about
@@ -38,7 +38,7 @@ class Form extends Component
     public $cpf, $rg, $rg_expedition;
 
     //Address
-    public $postcode, $street, $neighborhood, $city, $state, $complement, $number;
+    public $postcode = '', $street, $neighborhood, $city, $state, $complement, $number;
 
     //Contact
     public $phone, $cell_phone, $whatsapp, $email, $additional_email, $telegram;
@@ -115,7 +115,7 @@ class Form extends Component
     public function create()
     {
         $validated = $this->validate();
-        
+
         if($this->foto){
             $this->validate([
                 'foto' => 'image|max:1024'
@@ -125,13 +125,11 @@ class Form extends Component
             $caminhoFoto = null;
         }
 
-        // $this->validate([
-        //     'password' => 'required|min:6|confirmed',
-        // ]);
-
-        if ($this->password = false || $this->password !== $this->password_confirmation) {
-            return $this->dispatch('toast', message: 'O campo Senha está vazio ou as senhas não são iguais', notify:'error' );
-        }
+        //if (empty($this->password) || $this->password !== $this->password_confirmation) {
+           // $this->addError('password', 'CEP não encontrado.');
+           // return;
+            //return $this->dispatch('toast', message: 'O campo Senha está vazio ou as senhas não são iguais', notify:'error' );
+       // }
         //dd($this->password, $this->password_confirmation);
         $data = [
             'name' => $validated['name'],                
@@ -165,11 +163,11 @@ class Form extends Component
             'editor' => $this->editor,
             'client' => $this->client
         ];
-        dd($data);
+        //dd($data);
         $userCreate = User::create($data);
         $userCreate->save();
         $this->dispatch(['cliente-cadastrado']);
-        return redirect()->route('clientes.edit', $userCreate->id);
+        return redirect()->route('users.edit', $userCreate->id);
     }
 
     public function update()
@@ -227,16 +225,17 @@ class Form extends Component
     public function updatedPostcode(string $value)
     {        
         $this->postcode = preg_replace('/[^0-9]/', '', $value);
+
         if(strlen($this->postcode) === 8){
             $response = Http::get("https://viacep.com.br/ws/{$this->postcode}/json/")->json();            
-            if(isset($response['erro']) && $response['erro'] === true){
-                return $this->dispatch('toast', message: 'CEP não encontrado!', notify:'error' );                
-            }else{
+            if(!isset($response['erro'])){                
                 $this->street = $response['logradouro'] ?? '';
                 $this->neighborhood = $response['bairro'] ?? '';
                 $this->state = $response['uf'] ?? '';
                 $this->city = $response['localidade'] ?? '';
-                $this->complement = $response['complemento'] ?? '';
+                $this->complement = $response['complemento'] ?? '';      
+            }else{                
+                $this->addError('postcode', 'CEP não encontrado.'); 
             }
         }
     }
