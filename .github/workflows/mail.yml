@@ -16,7 +16,7 @@ jobs:
         with:
           host: ${{ secrets.ftp_host }}
           username: ${{ secrets.ftp_user }}
-          key: ${{ secrets.ftp_password }}
+          password: ${{ secrets.ftp_password }}
           source: "."
           target: "/sistema"
 
@@ -25,7 +25,7 @@ jobs:
         with:
           host: ${{ secrets.ftp_host }}
           username: ${{ secrets.ftp_user }}
-          key: ${{ secrets.ftp_password }}
+          password: ${{ secrets.ftp_password }}
           script: |
             cd /app
             composer install --no-dev --no-progress -a
