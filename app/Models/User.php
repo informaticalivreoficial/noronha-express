@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Traits\HasRoles;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -99,6 +100,14 @@ class User extends Authenticatable
         }else{
             return 'Super Administrador'; 
         }
+    }
+
+    public function getUrlAvatarAttribute()
+    {
+        if (!empty($this->avatar)) {
+            return Storage::url($this->avatar);
+        }
+        return '';
     }
 
     // public function setCpfAttribute($value)

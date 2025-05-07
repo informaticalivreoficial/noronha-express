@@ -22,21 +22,28 @@
         <div class="card card-teal card-outline">            
             <div class="card-body text-muted"> 
                 <div class="row">
-                    <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="form-group">
+                            <label class="labelforms"><b>*Viagem</b></label>
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" wire:model="name" /> 
+                            @error('name') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror                                                                                                                                                                         
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                         <div class="form-group" x-data="{ value: @entangle('start').defer }" x-init="initFlatpickr()" x-ref="datepicker">
                             <label class="labelforms"><b>*Data de início</b></label>
                             <input type="text" class="form-control @error('start') is-invalid @enderror flatpickr-input" wire:model="start" /> 
                             @error('start') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror                                                                                                                                                                         
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                         <div class="form-group" x-data="{ value: @entangle('start').defer }" x-init="initFlatpickr()" x-ref="datepicker">
                             <label class="labelforms"><b>Data de término</b></label>
                             <input type="text" class="form-control @error('stop') is-invalid @enderror flatpickr-input" wire:model="stop">
                             @error('stop') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror                                    
                         </div>
                     </div>
-                    <div class="col-12 col-sm-12 col-md-4 col-lg-4">
+                    <div class="col-12 col-sm-12 col-md-4 col-lg-3">
                         <div class="form-group">
                             <label class="labelforms"><b>*Embarcação</b></label>
                             <input type="text" class="form-control" id="ship" placeholder="Nome da embarcação" wire:model="ship">                                    

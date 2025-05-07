@@ -48,7 +48,8 @@
                 <table class="table table-bordered table-striped projects">
                     <thead>
                         <tr>
-                            <th wire:click="sortBy('start')">Início <i class="expandable-table-caret fas fa-caret-down fa-fw"></i></th>
+                            <th  wire:click="sortBy('name')">Viagem <i class="expandable-table-caret fas fa-caret-down fa-fw"></i></th>
+                            <th>Início</th>
                             <th>Término</th>
                             <th>Navio</th>
                             <th>Manifestos</th>
@@ -58,6 +59,7 @@
                     <tbody>
                         @foreach($trips as $trip)                    
                         <tr>                            
+                            <td>{{$trip->name}}</td>
                             <td>{{$trip->start}}</td>
                             <td>{{$trip->stop}}</td>
                             <td>{{$trip->ship}}</td>                            

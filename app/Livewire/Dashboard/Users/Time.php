@@ -2,7 +2,9 @@
 
 namespace App\Livewire\Dashboard\Users;
 
+use App\Models\User;
 use Livewire\Component;
+use Livewire\Attributes\On;
 use Livewire\WithPagination;
 
 class Time extends Component
@@ -24,11 +26,21 @@ class Time extends Component
     public function render()
     {
         $title = 'Time de Usuários';
-        $users = \App\Models\User::query()->when($this->search, function($query){
-            $query->orWhere('name', 'LIKE', "%{$this->search}%");
-            $query->orWhere('email', "%{$this->search}%");
-        })->where('editor', 1)->orWhere('superadmin', 1)->orderBy($this->sortField, $this->sortDirection)->paginate(15);
-        return view('livewire.dashboard.users.time',[
+
+        $users = User::query()
+            ->where(function($query) {
+                $query->where('editor', 1)->orWhere('superadmin', 1);
+            })
+            ->when($this->search, function($query) {
+                $query->where(function($q) {
+                    $q->where('name', 'LIKE', "%{$this->search}%")
+                    ->orWhere('email', 'LIKE', "%{$this->search}%");
+                });
+            })
+            ->orderBy($this->sortField, $this->sortDirection)
+            ->paginate(15);
+
+        return view('livewire.dashboard.users.time', [
             'users' => $users
         ])->with('title', $title);
     }
@@ -49,5 +61,33 @@ class Time extends Component
         }
 
         $this->resetPage();
+    }
+
+    public function toggleStatus($id)
+    {              
+        $user = User::find($id);
+        $user->status = !$this->active;        
+        $user->save();
+        $this->active = $user->status;
+    }
+
+    public function setDeleteId($id)
+    {
+        $this->delete_id = $id;
+        $this->dispatch('delete-prompt');        
+    }
+    #[On('goOn-Delete')]
+    public function delete()
+    {
+        $user = \App\Models\User::where('id', $this->delete_id)->first();
+        if(!empty($user)){
+            $user->delete();
+            
+            $this->dispatch('swal', [
+                'title' =>  'Success!',
+                'icon' => 'success',
+                'text' => 'Cliente removido com sucesso!'
+            ]);
+        }
     }
 }

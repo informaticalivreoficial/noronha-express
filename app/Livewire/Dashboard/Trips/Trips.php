@@ -11,9 +11,11 @@ class Trips extends Component
 {
     use WithPagination;
 
+    protected $paginationTheme = 'bootstrap';
+
     public string $search = '';
 
-    public string $sortField = 'start';
+    public string $sortField = 'name';
 
     public string $sortDirection = 'desc';
 
@@ -47,7 +49,8 @@ class Trips extends Component
         $trips = Trip::query()
             ->when($this->search, function($query){
                 $query->where(function($q) {
-                    $q->where('start', 'LIKE', "%{$this->search}%")
+                    $q->where('name', 'LIKE', "%{$this->search}%")
+                      ->orWhere('start', 'LIKE', "%{$this->search}%")
                       ->orWhere('stop', 'LIKE', "%{$this->search}%")
                       ->orWhere('ship', 'LIKE', "%{$this->search}%");
                 });

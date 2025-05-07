@@ -28,8 +28,13 @@
                 <p class="text-sm text-danger mt-1">{{ $message }}</p>
             @enderror
 
-            <button type="button" wire:click="login" class="btn btn-primary w-100">
-                Login
+            <button type="button" 
+                    wire:loading.attr="disabled"
+                    wire:target="login"     
+                    wire:click="login" 
+                    class="btn btn-primary w-100">
+                    <span wire:loading.remove wire:target="login">Entrar</span>
+                    <span wire:loading wire:target="login" class="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></span>
             </button>            
         </form>
     </div>

@@ -22,6 +22,7 @@ class TripFactory extends Factory
         //$endDate = $this->faker->dateTimeBetween($startDate, '+10 days');
 
         return [
+            'name' => fake()->title,
             'ship' => 'SLB Harmonia',
             'start' => $startDate,
             'stop' => $endDate,

@@ -5,12 +5,14 @@ namespace App\Livewire\Dashboard\Trips;
 use App\Http\Requests\Admin\StoreUpdateTripRequest;
 use App\Models\Trip;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 
 class TripForm extends Component
 {
     public ?Trip $trip = null;
 
+    public ?string $name;
     public string $start = '';
     public ?string $stop = null;
     public ?string $ship = null;
@@ -19,6 +21,7 @@ class TripForm extends Component
     public function mount()
     {
         if ($this->trip) {
+            $this->name = $this->trip->name;
             $this->start = $this->trip->start;
             $this->stop = $this->trip->stop;
             $this->ship = $this->trip->ship;
@@ -28,44 +31,61 @@ class TripForm extends Component
 
     public function save()
     {
-        $request = new StoreUpdateTripRequest();
-        $request->merge([
+        $validated = Validator::make([
+            'name' => $this->name,
             'start' => $this->start,
             'stop' => $this->stop,
-            //'ship' => $this->ship,
-            //'information' => $this->information,
-        ]);
-        $validated = validator($request->all(), $request->rules())->validate(); 
-
-        $data = [
-            'start' => $this->start,
-            'stop' => $this->stop ? $this->stop : null,
             'ship' => $this->ship,
             'information' => $this->information,
-        ];
+        ], (new StoreUpdateTripRequest())->rules())->validate();
+        
+        // $data = [
+        //     'name' => $validated['name'],
+        //     'start' => $validated['start'],
+        //     'stop' => $validated['stop'] ? $validated['stop'] : null,
+        //     'ship' => $validated['ship'],
+        //     'information' => $validated['information'],
+        // ];
 
-        if ($this->trip) {
-            $this->trip->update($data);
-            $this->dispatch(['atualizado']);
-        } else {
-
+        if(!$this->trip){
             $startDate = Carbon::createFromFormat('d/m/Y', $this->start)->startOfDay();
 
-            $query = Trip::whereDate('start', $startDate)->where('ship', $this->ship);
+            $exists = Trip::whereDate('start', $startDate)->where('ship', $validated['ship'])->exists();
 
-            if ($this->trip) {
-                $query->where('id', '!=', $this->trip->id);
-            }
-
-            if ($query->exists()) {
+            if ($exists) {
                 $this->addError('start', 'Já existe uma viagem cadastrada para essa data e navio.');
                 return;
             }
 
-            $tripCreate = Trip::create($data);            
+            $this->trip = Trip::create($validated);            
             $this->dispatch(['cadastrado']);
-            $this->trip = $tripCreate;
+        }else{
+            $this->trip->update($validated);
+            $this->dispatch(['atualizado']);
         }
+        
+        // if ($this->trip) {
+        //     $this->trip->update($data);
+        //     $this->dispatch(['atualizado']);
+        // } else {
+
+        //     $startDate = Carbon::createFromFormat('d/m/Y', $this->start)->startOfDay();
+
+        //     $query = Trip::whereDate('start', $startDate)->where('ship', $this->ship);
+
+        //     if ($this->trip) {
+        //         $query->where('id', '!=', $this->trip->id);
+        //     }
+
+        //     if ($query->exists()) {
+        //         $this->addError('start', 'Já existe uma viagem cadastrada para essa data e navio.');
+        //         return;
+        //     }
+
+        //     $tripCreate = Trip::create($data);            
+        //     $this->dispatch(['cadastrado']);
+        //     $this->trip = $tripCreate;
+        // }
     }
 
     public function render()

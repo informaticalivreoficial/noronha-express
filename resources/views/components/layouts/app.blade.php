@@ -37,7 +37,6 @@
     <link rel="stylesheet" href="{{ asset('theme/dist/css/styles.css') }}">
    
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @livewireStyles
 </head>
 
 <body class="hold-transition sidebar-mini text-sm">
@@ -110,10 +109,6 @@
     {{-- Toastr --}}
     <script src="{{ asset('theme/plugins/toastr/toastr.min.js') }}"></script>
 
-    
-    
-    @stack('script')
-    @livewireScripts    
+    @stack('script') 
 </body>
-
 </html>

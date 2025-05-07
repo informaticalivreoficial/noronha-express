@@ -23,10 +23,11 @@ class StoreUpdateTripRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'name' => 'required|min:3|max:191',
             'start' => 'required|date_format:d/m/Y',            
             'stop' => 'nullable|date_format:d/m/Y|after_or_equal:start',
-            //'ship' => 'required|string|max:255',
-            //'information' => 'nullable|string',
+            'ship' => 'nullable|min:3|string|max:255',
+            'information' => 'nullable|string',
         ];
     }
 }
