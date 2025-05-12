@@ -80,13 +80,37 @@
                         </p>
                     </a>
                 </li>     
-                <li class="nav-item">
-                    <a href="{{route('manifests.index')}}" class="nav-link">
+                <li class="nav-item {{ Route::is('manifests.*') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ Route::is('manifests.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-file-alt"></i>
-                        <p>
-                            Manifestos <span class="badge badge-info right">{{$manifestCount}}</span>                            
-                        </p>                        
-                    </a>                    
+                        <p>Manifestos <i class="fas fa-angle-left right"></i></p>                        
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item ">
+                            <a href="{{route('manifests.index')}}" class="nav-link {{ Route::is('manifests.index') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Na Conferência <span class="badge badge-info right">{{$manifestCount}}</span></p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>No Comercial</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Finalizados <span class="badge badge-info right">{{$manifestFinishCount}}</span></p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('manifests.create')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Cadastrar Novo</p>
+                            </a>
+                        </li>
+                    </ul>                    
                 </li>     
                 <li class="nav-item">
                     <a href="#" class="nav-link">

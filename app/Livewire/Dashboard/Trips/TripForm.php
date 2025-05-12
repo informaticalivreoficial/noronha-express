@@ -57,8 +57,9 @@ class TripForm extends Component
                 return;
             }
 
-            $this->trip = Trip::create($validated);            
+            $tripCreate = Trip::create($validated);            
             $this->dispatch(['cadastrado']);
+            $this->trip = $tripCreate;
         }else{
             $this->trip->update($validated);
             $this->dispatch(['atualizado']);

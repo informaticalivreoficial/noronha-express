@@ -12,6 +12,7 @@ class Trip extends Model
     protected $table = 'trips';
 
     protected $fillable = [
+        'name',
         'start',
         'stop',
         'ship',        

@@ -17,7 +17,9 @@ class SideNavigation extends Component
         $timeCount = User::where('editor', 1)->orWhere('admin', 1)->orWhere('superadmin', 1)->count();
         $companyCount = Company::count();
         $tripCount = Trip::count();
+        // Manifest count
         $manifestCount = Manifest::count();
+        $manifestFinishCount = Manifest::where('status', 'entregue')->count();
         $config = Config::first();
 
         return view('livewire.navigation.side-navigation',[
@@ -26,6 +28,7 @@ class SideNavigation extends Component
             'companyCount' => $companyCount,
             'tripCount' => $tripCount,
             'manifestCount' => $manifestCount,
+            'manifestFinishCount' => $manifestFinishCount,
             'config' => $config,
         ]);
     }

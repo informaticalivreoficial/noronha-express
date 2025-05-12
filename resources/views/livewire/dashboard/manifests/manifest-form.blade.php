@@ -104,7 +104,7 @@
                                     <select class="form-control @error('trip') is-invalid @enderror" wire:model="trip">
                                         <option value="" selected>Selecione uma viagem</option> 
                                         @foreach($trips as $trip)
-                                            <option value="{{ $trip['id'] }}">{{ $trip['start'] }} á {{ $trip['stop'] ?? '' }}</option>
+                                            <option value="{{ $trip['id'] }}">{{ $trip['name'] }}</option>
                                         @endforeach
                                     </select> 
                                     @error('trip')
@@ -204,56 +204,66 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row shadow p-3 mb-4 bg-white rounded">
-                            @foreach($items as $index => $item)
-                                <div class="col-lg-1 mb-2">
-                                    <label class="labelforms"><b>Qtd.</b></label>
-                                    <input type="text" wire:model="items.{{ $index }}.quantity" class="form-control" />
-                                </div>
-                                <div class="col-lg-1 mb-2">
-                                    <label class="labelforms"><b>Unid.</b></label>
-                                    <input type="text" wire:model="items.{{ $index }}.unit" class="form-control" />
-                                </div>
-                                <div class="col-lg-3 mb-2">
-                                    <label class="labelforms"><b>Descrição</b></label>
-                                    <input type="text" wire:model="items.{{ $index }}.description" class="form-control" />
-                                    @error('items.' . $index . '.description')
-                                        <span class="error erro-feedback">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <div class="col-lg-1 mb-2">
-                                    <label class="labelforms"><b>Horti-Fruti</b></label>
-                                    <input type="text" wire:model="items.{{ $index }}.horti_fruit" class="form-control" />
-                                </div>
-                                <div class="col-lg-1 mb-2">
-                                    <label class="labelforms"><b>Peso Seco</b></label>
-                                    <input type="text" wire:model="items.{{ $index }}.dry_weight" class="form-control" />
-                                </div>
-                                <div class="col-lg-1 mb-2">
-                                    <label class="labelforms"><b>Seguro</b></label>
-                                    <input type="text" wire:model="items.{{ $index }}.secure" class="form-control" />
-                                </div>
-                                <div class="col-lg-1 mb-2">
-                                    <label class="labelforms"><b>Embalagem</b></label>
-                                    <input type="text" wire:model="items.{{ $index }}.package" class="form-control" />
-                                </div>
-                                <div class="col-lg-1 mb-2">
-                                    <label class="labelforms"><b>Congelados</b></label>
-                                    <input type="text" wire:model="items.{{ $index }}.glace" class="form-control" />
-                                </div>
-                                <div class="col-lg-1 mb-2">
-                                    <label class="labelforms"><b>Taxas</b></label>
-                                    <input type="text" wire:model="items.{{ $index }}.tax" class="form-control" />
-                                </div>
-                                <div class="col-lg-1 mb-2">
-                                    <label class="labelforms">&nbsp;</label>
-                                    <button type="button" wire:click="removeItem({{ $index }})" class="btn btn-danger"><i class="fas fa-ban"></i></button>
-                                </div>
-                            @endforeach      
-                            <div class="col-12 mt-2 mb-2">
-                                <button type="button" wire:click="addItem" class="btn btn-primary bottom-0 left-0">Adicionar Item</button>
-                            </div> 
-                        </div>                        
+                        <div class="bg-white p-4 shadow rounded-md space-y-6 overflow-x-auto">
+    @foreach($items as $index => $item)
+        <div class="grid grid-cols-2 md:grid-cols-6 lg:grid-cols-12 gap-4 items-end">
+            <div class="col-span-2 lg:col-span-1">
+                <label class="block text-sm font-medium">Qtd.</label>
+                <input type="text" wire:model="items.{{ $index }}.quantity" class="input-form" />
+            </div>
+            <div class="col-span-2 lg:col-span-1">
+                <label class="block text-sm font-medium">Unid.</label>
+                <input type="text" wire:model="items.{{ $index }}.unit" class="input-form" />
+            </div>
+            <div class="col-span-2 md:col-span-3 lg:col-span-3">
+                <label class="block text-sm font-medium">Descrição</label>
+                <input type="text" wire:model="items.{{ $index }}.description" class="input-form" />
+                @error('items.' . $index . '.description')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+            <div class="col-span-1">
+                <label class="block text-sm font-medium">Horti-Fruti</label>
+                <input type="text" wire:model="items.{{ $index }}.horti_fruit" class="input-form" />
+            </div>
+            <div class="col-span-1">
+                <label class="block text-sm font-medium">Cubagem</label>
+                <input type="text" wire:model="items.{{ $index }}.cubage" class="input-form" />
+            </div>
+            <div class="col-span-1">
+                <label class="block text-sm font-medium">Peso Seco</label>
+                <input type="text" wire:model="items.{{ $index }}.dry_weight" class="input-form" />
+            </div>
+            <div class="col-span-1">
+                <label class="block text-sm font-medium">Seguro</label>
+                <input type="text" wire:model="items.{{ $index }}.secure" class="input-form" />
+            </div>
+            <div class="col-span-1">
+                <label class="block text-sm font-medium">Embalagem</label>
+                <input type="text" wire:model="items.{{ $index }}.package" class="input-form" />
+            </div>
+            <div class="col-span-1">
+                <label class="block text-sm font-medium">Congelados</label>
+                <input type="text" wire:model="items.{{ $index }}.glace" class="input-form" />
+            </div>
+            <div class="col-span-1">
+                <label class="block text-sm font-medium">Taxas</label>
+                <input type="text" wire:model="items.{{ $index }}.tax" class="input-form" />
+            </div>
+            <div class="col-span-1 flex items-end">
+                <button type="button" wire:click="removeItem({{ $index }})" class="btn-danger w-full">
+                    <i class="fas fa-ban"></i>
+                </button>
+            </div>
+        </div>
+    @endforeach
+
+    <div class="pt-4">
+        <button type="button" wire:click="addItem" class="btn-primary">
+            <i class="fas fa-plus-circle mr-2"></i> Adicionar Item
+        </button>
+    </div>
+</div>                        
                     </div>
                 </div>            
             </div>
