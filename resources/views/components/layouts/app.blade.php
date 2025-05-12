@@ -74,7 +74,7 @@
     </div>
 
     {{-- jQuery --}}
-    <script src="{{ asset('theme/plugins/jquery/jquery.min.js') }}"></script>    
+    <script src="{{ asset('theme/plugins/jquery/jquery.min.js') }}"></script> 
 
     {{-- Bootstrap 4 --}}
     <script src="{{ asset('theme/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -110,5 +110,6 @@
     <script src="{{ asset('theme/plugins/toastr/toastr.min.js') }}"></script>
 
     @stack('script') 
+    
 </body>
 </html>

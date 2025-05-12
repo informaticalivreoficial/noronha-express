@@ -35,7 +35,7 @@
                 </li>
 
                 <li class="nav-item {{ Route::is('users.*') ? 'menu-open' : '' }}">
-                    <a href="#" class="nav-link {{ Route::is('users.*') ? 'active' : '' }}">
+                    <a href="javascript:void(0)" class="nav-link {{ Route::is('users.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-users"></i>
                         <p> Usuários <i class="fas fa-angle-left right"></i></p>
                     </a>

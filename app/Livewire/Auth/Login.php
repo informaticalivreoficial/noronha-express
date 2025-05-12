@@ -50,7 +50,13 @@ class Login extends Component
         // Login the user
         Auth::login($user);
 
-        return $this->redirect('/admin', navigate: true);
+        session()->flash('toastr', [
+            'type' => 'success',
+            'message' => 'Bem-vindo de volta, ' . \App\Helpers\Renato::getPrimeiroNome($user->name) . '!',
+            'title' => 'Login realizado'
+        ]);
+
+        return redirect()->route('admin');
     }
 
 
