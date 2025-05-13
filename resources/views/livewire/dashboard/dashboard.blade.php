@@ -49,17 +49,17 @@
 
 @if(session()->has('toastr'))
     @push('script')
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            toastr["{{ session('toastr.type') }}"](
-                "{{ session('toastr.message') }}",
-                "{{ session('toastr.title') }}"
-            );
-            toastr.options = {
-                "closeButton": true,
-                "progressBar": true,
-            };
-        });
-    </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                toastr["{{ session('toastr.type') }}"](
+                    "{{ session('toastr.message') }}",
+                    "{{ session('toastr.title') }}"
+                );
+                toastr.options = {
+                    "closeButton": true,
+                    "progressBar": true,
+                };
+            });
+        </script>
     @endpush
 @endif

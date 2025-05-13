@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Dashboard;
 
+use App\Http\Requests\Admin\SettingsRequest;
 use App\Models\Config;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
@@ -12,6 +13,7 @@ use Livewire\Attributes\On;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Validator;
 
 class Settings extends Component
 {
@@ -39,12 +41,18 @@ class Settings extends Component
 
     public function update()
     {        
-        $this->validate([
-            'configData.app_name' => 'required|min:3',
-            'configData.email' => 'required|email',
-            'logo' => 'nullable|image|max:1024',
-        ]);
-        
+        $validated = Validator::make([
+            'app_name' => $this->app_name,
+            'email' => $this->email,
+            'logo' => $this->logo,
+        ], (new SettingsRequest())->rules())->validate();
+
+        // $this->validate([
+        //     'configData.app_name' => 'required|min:3',
+        //     'configData.email' => 'required|email',
+        //     'logo' => 'nullable|image|max:1024',
+        // ]);
+        dd($validated);
         if ($this->logo instanceof TemporaryUploadedFile) {
             // Exclui a foto antiga, se existir
             if (!empty($this->configData['logo']) && Storage::disk('public')->exists($this->configData['logo'])) {
