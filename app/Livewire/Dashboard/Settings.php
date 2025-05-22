@@ -7,7 +7,6 @@ use App\Models\Config;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
-use Livewire\Attributes\Title;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Livewire\Attributes\On;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
@@ -19,7 +18,9 @@ class Settings extends Component
 {
     use WithFileUploads;
 
-    public $currentTab = 'geral';
+    public $configData;
+
+    public string $currentTab = 'dados';
 
     public $logo;
     public $logo_admin;
@@ -28,15 +29,19 @@ class Settings extends Component
     public $imgheader;
     public $metaimg;
 
-    public array $configData = [];
-
     public array $tags = [];
 
-    public function mount(Config $config)
+    public function mount()
     {
-        $this->configData = $config->toArray();
-        $this->tags = explode(',', $this->configData['metatags'] ?? '');
+        $this->configData = Config::findOrFail(1)->toArray();
+        $this->tags = explode(',', $this->configData->metatags ?? '');
         $this->logo = $this->getLogo();
+    }
+
+    public function render()
+    {
+        $title = 'Configurações';
+        return view('livewire.dashboard.settings')->with('title', $title);
     }
 
     public function update()
@@ -70,13 +75,7 @@ class Settings extends Component
         $this->reset('logo');
         $this->dispatch('toast', message: 'Configurações atualizadas com sucesso!', notify: 'success');
                 
-    }
-
-    #[Title('Configurações')]
-    public function render()
-    {
-        return view('livewire.dashboard.settings');
-    }
+    }    
 
     public function updatedConfigDataZipcode(string $value)
     {

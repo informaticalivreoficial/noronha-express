@@ -35,11 +35,7 @@ class Config extends Model
         'watermark',
 
         //contact 
-        'phone',
-        'cell_phone',
-        'whatsapp',
-        'email',
-        'additional_email',
+        'phone', 'cell_phone', 'whatsapp', 'telegram', 'email', 'additional_email',
          
         //Address      
         'zipcode', 'street', 'number', 'complement', 'neighborhood', 'state', 'city',

@@ -29,13 +29,13 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{route('settings',['config' => '1'])}}" class="nav-link {{ Route::is('settings') ? 'active' : '' }}"><i class="nav-icon fas fa-cog"></i> 
+                    <a href="{{route('settings')}}" class="nav-link {{ Route::is('settings') ? 'active' : '' }}"><i class="nav-icon fas fa-cog"></i> 
                         <p> Configurações</p>
                     </a>
                 </li>
 
                 <li class="nav-item {{ Route::is('users.*') ? 'menu-open' : '' }}">
-                    <a href="javascript:void(0)" class="nav-link {{ Route::is('users.*') ? 'active' : '' }}">
+                    <a href="#" class="nav-link {{ Route::is('users.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-users"></i>
                         <p> Usuários <i class="fas fa-angle-left right"></i></p>
                     </a>
@@ -144,12 +144,18 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
+                <li class="nav-item {{ Route::is('finances.*') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ Route::is('finances.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-file-invoice"></i>
                         <p> Financeiro <i class="fas fa-angle-left right"></i></p>
                     </a>
                     <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('finances.tableofvalue')}}" class="nav-link {{ Route::is('finances.tableofvalue') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Tabela de valores</p>
+                            </a>
+                        </li>                        
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>

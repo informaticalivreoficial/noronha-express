@@ -14,7 +14,10 @@ use App\Livewire\Dashboard\Permissions\Index as PermissionIndex;
 use App\Livewire\Dashboard\Roles\Index as RoleIndex;
 use App\Livewire\Dashboard\Reports\Companies as ReportsCompanies;
 use App\Livewire\Dashboard\Reports\Manifests as ReportsManifests;
-use App\Livewire\Dashboard\Settings;
+use App\Livewire\Dashboard\{
+    Settings,
+    TableOfValues
+};
 use App\Livewire\Dashboard\Trips\TripForm;
 use App\Livewire\Dashboard\Trips\Trips;
 use App\Livewire\Dashboard\Users\Form;
@@ -31,7 +34,8 @@ Route::get('/', function () {
 // Dashboard routes
 Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'admin'], function () {
     Route::get('/', Dashboard::class)->name('admin');
-    Route::get('configuracoes/{config}/edit', Settings::class)->name('settings');
+    Route::get('configuracoes', Settings::class)->name('settings');
+    Route::get('tabela-de-precos', TableOfValues::class)->name('finances.tableofvalue');
 
     Route::get('/cargos', RoleIndex::class)->name('admin.roles');
     Route::get('/permissoes', PermissionIndex::class)->name('admin.permissions');

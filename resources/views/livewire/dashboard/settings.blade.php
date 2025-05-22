@@ -1,4 +1,5 @@
 <div x-data="{ open: false }" x-cloak>
+    @section('title', $title)
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -15,70 +16,51 @@
         </div>    
     </div>
 
-    <form wire:submit.prevent="update" autocomplete="off">
-        <div x-data="{ tab: @entangle('currentTab') }" class="w-full card card-teal card-outline card-outline-tabs">
-            <ul class="flex flex-wrap border-b border-gray-200">
-                <li class="mr-2">
-                    <button 
-                        @click="tab = 'geral'" 
-                        :class="tab === 'geral' 
-                        ? 'inline-block p-4 text-blue-600 border-b-2 border-blue-600 bg-blue-50 transition duration-300'
-                        : 'inline-block p-4 text-gray-500 hover:text-blue-600 hover:bg-blue-50 hover:border-blue-300 transition duration-300'"
-                        class="border-transparent focus:outline-none"
-                    >
-                        INFORMAÇÕES GERAIS
-                    </button>
-                </li>
-                <li class="mr-2">
-                    <button 
-                        @click="tab = 'seo'" 
-                        :class="tab === 'seo' 
-                        ? 'inline-block p-4 text-blue-600 border-b-2 border-blue-600 bg-blue-50 transition duration-300'
-                        : 'inline-block p-4 text-gray-500 hover:text-blue-600 hover:bg-blue-50 hover:border-blue-300 transition duration-300'"
-                        class="border-transparent focus:outline-none"
-                    >
-                        SEO
-                    </button>
-                </li>
-                <li class="mr-2">
-                    <button 
-                        @click="tab = 'contato'" 
-                        :class="tab === 'contato' 
-                        ? 'inline-block p-4 text-blue-600 border-b-2 border-blue-600 bg-blue-50 transition duration-300'
-                        : 'inline-block p-4 text-gray-500 hover:text-blue-600 hover:bg-blue-50 hover:border-blue-300 transition duration-300'"
-                        class="border-transparent focus:outline-none"
-                    >
-                        INFORMAÇÕES DE CONTATO
-                    </button>
-                </li>
-                <li class="mr-2">
-                    <button 
-                        @click="tab = 'imagens'" 
-                        :class="tab === 'imagens' 
-                        ? 'inline-block p-4 text-blue-600 border-b-2 border-blue-600 bg-blue-50 transition duration-300'
-                        : 'inline-block p-4 text-gray-500 hover:text-blue-600 hover:bg-blue-50 hover:border-blue-300 transition duration-300'"
-                        class="border-transparent focus:outline-none"
-                    >
-                        IMAGENS
-                    </button>
-                </li>
-            </ul>
-        
-            <div class="mt-1 card-body">
-                <div x-show="tab === 'geral'" x-transition>
-                    <!-- conteúdo da aba "Informações Gerais" -->
+    
+    <div x-data="{
+        tab: @entangle('currentTab'),
+            init() {
+                if (!this.tab) this.tab = 'dados';
+            }
+        }" class="w-full">
+        <!-- Abas -->
+        <div class="flex space-x-2 border-b border-green-300">
+            <button type="button"
+                    class="px-4 py-4 text-sm font-medium rounded-t-lg focus:outline-none transition-all duration-200"
+                    :class="tab === 'dados' ? 'bg-white border-l border-t border-r text-blue-600' : 'text-gray-500 hover:text-blue-500'"
+                    @click="tab = 'dados'">
+                📝 Dados
+            </button>
+            <button type="button"
+                    class="px-4 py-2 text-sm font-medium rounded-t-lg focus:outline-none transition-all duration-200"
+                    :class="tab === 'seo' ? 'bg-white border-l border-t border-r text-blue-600' : 'text-gray-500 hover:text-blue-500'"
+                    @click="tab = 'seo'">
+                📷 Seo
+            </button>
+            <button type="button"
+                    class="px-4 py-2 text-sm font-medium rounded-t-lg focus:outline-none transition-all duration-200"
+                    :class="tab === 'contato' ? 'bg-white border-l border-t border-r text-blue-600' : 'text-gray-500 hover:text-blue-500'"
+                    @click="tab = 'contato'">
+                📷 Informações de Contato
+            </button>
+            <button type="button"
+                    class="px-4 py-2 text-sm font-medium rounded-t-lg focus:outline-none transition-all duration-200"
+                    :class="tab === 'imagens' ? 'bg-white border-l border-t border-r text-blue-600' : 'text-gray-500 hover:text-blue-500'"
+                    @click="tab = 'imagens'">
+                📷 Imagens
+            </button>
+        </div>
+
+        <div class="card-body text-muted bg-white">
+            <form wire:submit.prevent="update" autocomplete="off"> 
+                <!-- Conteúdo da aba Dados -->
+                <div x-show="tab === 'dados'" class="bg-white" x-transition>                    
                     <div class="row">  
-                        <div class="col-sm-12">
-                            <div class="mb-4 bg-gray-light p-3">
-                                <h5 class="text-md font-semibold text-gray-800 mb-2">Informações Gerais</h5>  
-                                <p class="text-sm text-gray-600">{{ \Illuminate\Support\Facades\Auth::user()->name }} aqui você pode configurar as informações do sistema.</p>                                          
-                            </div>
-                        </div>                                      
                         <div class="col-12 col-md-6 col-lg-12"> 
                             <div class="row mb-2 text-muted">
                                 <div class="col-12 col-md-6 col-sm-6 col-lg-6 mb-2">
                                     <div class="form-group">
-                                        <label class="labelforms"><b>Nome do site</b></label>
+                                        <label class="labelforms"><b>Nome do site</b></label> 
                                         <input type="text" class="form-control" placeholder="Nome do site" wire:model="configData.app_name" id="app_name">
                                     </div>
                                 </div>
@@ -120,8 +102,8 @@
                                 <div class="col-12 col-md-6 col-lg-2"> 
                                     <div class="form-group">
                                         <label class="labelforms"><b>*CEP:</b></label>
-                                        <input type="text" x-mask="99.999-999" class="form-control @error('zipcode') is-invalid @enderror" id="zipcode" wire:model.lazy="configData.zipcode">
-                                        @error('zipcode')
+                                        <input type="text" x-mask="99.999-999" class="form-control @error('configData.zipcode') is-invalid @enderror" id="zipcode" wire:model.lazy="configData.zipcode">
+                                        @error('configData.zipcode')
                                             <span class="error erro-feedback">{{ $message }}</span>
                                         @enderror                                                    
                                     </div>
@@ -191,18 +173,18 @@
                                 </div>
                             </div>
                         </div>
-                    </div> 
+                    </div>
                     <div class="row mb-2">
                         <div class="col-12" wire:ignore>   
                             <label class="labelforms text-muted"><b>Política de Privacidade</b></label>
                             <textarea id="privacy_policy" wire:model="configData.privacy_policy">{{ $configData['privacy_policy'] ?? '' }}</textarea>                                                                                     
                         </div>                                    
-                    </div>                    
-                </div>
-        
-                <div x-show="tab === 'seo'" x-transition x-cloak>
-                    <!-- conteúdo da aba "SEO" -->
-                    <div class="row mb-2 text-muted">
+                    </div>                                       
+                </div> 
+
+                <!-- Conteúdo da aba Seo -->
+                <div x-show="tab === 'seo'" class="bg-white" x-cloak x-transition>                    
+                    <div class="row">
                         <div class="col-12 mb-1"> 
                             <div class="form-group">
                                 <label class="labelforms"><b>Descrição do site</b></label>
@@ -228,30 +210,23 @@
                                         }
                                     }"
                                     class="p-4 border rounded shadow"
-                                >
-                                <div class="flex flex-wrap gap-2 mb-2">
-                                    <template x-for="(tag, index) in tags" :key="index">
-                                        <span class="flex items-center bg-blue-500 text-white px-3 py-1 rounded-full">
-                                            <span x-text="tag"></span>
-                                            <button type="button" @click="removeTag(index)" class="ml-2 hover:text-gray-200">&times;</button>
-                                        </span>
-                                    </template>
+                                    >
+                                    <div class="flex flex-wrap gap-2 mb-2">
+                                        <template x-for="(tag, index) in tags" :key="index">
+                                            <span class="flex items-center bg-blue-500 text-white px-3 py-1 rounded-full">
+                                                <span x-text="tag"></span>
+                                                <button type="button" @click="removeTag(index)" class="ml-2 hover:text-gray-200">&times;</button>
+                                            </span>
+                                        </template>
+                                    </div>                                    
+                                    <input 
+                                        type="text" 
+                                        x-model="input" 
+                                        @keydown.enter.prevent="addTag"
+                                        placeholder="Digite uma tag e pressione Enter"
+                                        class="border border-gray-300 rounded px-3 py-2 w-full"
+                                    >
                                 </div>
-                            
-                                <input 
-                                    type="text" 
-                                    x-model="input" 
-                                    @keydown.enter.prevent="addTag"
-                                    placeholder="Digite uma tag e pressione Enter"
-                                    class="border border-gray-300 rounded px-3 py-2 w-full"
-                                >
-
-
-                            </div>
-
-
-
-
                             </div>
                         </div>
                         <div class="col-sm-12">
@@ -303,13 +278,13 @@
                         </div>
                         <div class="col-12 col-md-6 col-sm-6 col-lg-6 mapa-google mb-3"> 
                             {!! $configData['maps_google'] ?? '' !!}
-                        </div>                 
-                    </div>
+                        </div>
+                    </div>                    
                 </div>
-        
-                <div x-show="tab === 'contato'" x-transition x-cloak>
-                    <!-- conteúdo da aba "Informações de Contato" -->
-                    <div class="row mb-2 text-muted">
+
+                <!-- Conteúdo da aba contato -->
+                <div x-show="tab === 'contato'" class="bg-white" x-cloak x-transition>                    
+                    <div class="row">
                         <div class="col-sm-12">
                             <div class="mb-4 bg-gray-light p-3">
                                 <h5 class="text-md font-semibold text-gray-800 mb-2">Informações de Contato</h5>  
@@ -353,20 +328,15 @@
                                     wire:model="configData.additional_email" id="additional_email">
                             </div>
                         </div>                            
-                    </div>
+                    </div>                    
                 </div>
-        
-                <div x-show="tab === 'imagens'" x-transition x-cloak>
-                    <!-- conteúdo da aba "Imagens" -->
+
+                <!-- Conteúdo da aba Imagens -->
+                <div x-show="tab === 'imagens'" class="bg-white" x-cloak x-transition>                    
                     <div class="w-full md:w-1/2 p-2">
                         <label class="block text-sm font-medium text-gray-700 mb-2">
                             <b>Logomarca do site</b> - {{ env('LOGOMARCA_WIDTH') }}x{{ env('LOGOMARCA_HEIGHT') }} pixels
                         </label>
-
-
-
-
-
                         
                         <div 
                         x-data="{
@@ -424,27 +394,19 @@
 
 
 
-
-
-
-
-
-
-
-
-                    </div>
+                    </div>                   
                 </div>
+
                 <div class="row text-right">
                     <div class="col-12 mb-4">
-                        <button type="button" wire:click="update" class="btn btn-success btn-lg">
+                        <button type="button" wire:click="update" class="btn btn-lg btn-success p-3">
                             <i class="nav-icon fas fa-check mr-2"></i> Atualizar Configurações
                         </button>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
-        
-    </form>
+    </div>
 
         
     <!-- Modal -->
@@ -495,8 +457,7 @@
 
 </div>
 
-@script
-<script type="text/javascript">
+<script>
     
     document.addEventListener("livewire:navigated", () => {
         $('#privacy_policy').summernote({
@@ -537,4 +498,3 @@
     
     
 </script>
-@endscript

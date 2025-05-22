@@ -6,8 +6,11 @@ use Livewire\Component;
 
 class TableOfValues extends Component
 {
+    public $id = 1;
+
     public function render()
     {
-        return view('livewire.dashboard.table-of-values');
+        $title = 'Tabela de valores para frete';
+        return view('livewire.dashboard.table-of-values')->with('title', $title);
     }
 }
