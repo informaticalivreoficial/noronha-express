@@ -18,9 +18,23 @@
 
     
     <div x-data="{
-        tab: @entangle('currentTab'),
+            tab: @entangle('currentTab'),
             init() {
                 if (!this.tab) this.tab = 'dados';
+
+                this.$watch('tab', () => {
+                    this.$nextTick(() => {
+                        setTimeout(() => {
+                            const erroEl = [...document.querySelectorAll('[x-ref]')].find(el =>
+                                el.querySelector('.erro-feedback')
+                            );
+
+                            if (erroEl) {
+                                erroEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }
+                        }, 50);
+                    });
+                });
             }
         }" class="w-full">
         <!-- Abas -->
@@ -58,10 +72,13 @@
                     <div class="row">  
                         <div class="col-12 col-md-6 col-lg-12"> 
                             <div class="row mb-2 text-muted">
-                                <div class="col-12 col-md-6 col-sm-6 col-lg-6 mb-2">
+                                <div class="col-12 col-md-6 col-sm-6 col-lg-6 mb-2" x-ref="configData_app_name">
                                     <div class="form-group">
                                         <label class="labelforms"><b>Nome do site</b></label> 
-                                        <input type="text" class="form-control" placeholder="Nome do site" wire:model="configData.app_name" id="app_name">
+                                        <input type="text" class="form-control @error('configData.app_name') is-invalid @enderror" placeholder="Nome do site" wire:model="configData.app_name" id="app_name">
+                                        @error('configData.app_name')
+                                            <span class="error erro-feedback">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-sm-6 col-lg-6 mb-2">
@@ -144,7 +161,7 @@
                                 <div class="col-12 col-md-6 col-lg-3"> 
                                     <div class="form-group">
                                         <label class="labelforms"><b>Complemento:</b></label>
-                                        <input type="text" class="form-control" id="complement" wire:model="configData.complement">
+                                        <input type="text" class="form-control" id="complement" wire:model="configData.complement"/>
                                     </div>
                                 </div>   
                             </div>
@@ -328,73 +345,254 @@
                                     wire:model="configData.additional_email" id="additional_email">
                             </div>
                         </div>                            
+                        <div class="col-12 col-md-6 col-lg-4"> 
+                            <div class="form-group">
+                                <label class="labelforms"><b>Telegram:</b></label>
+                                <input type="text" class="form-control" placeholder="Telegram" 
+                                    wire:model="configData.telegram" id="telegram">
+                            </div>
+                        </div>                            
                     </div>                    
                 </div>
 
                 <!-- Conteúdo da aba Imagens -->
-                <div x-show="tab === 'imagens'" class="bg-white" x-cloak x-transition>                    
-                    <div class="w-full md:w-1/2 p-2">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">
-                            <b>Logomarca do site</b> - {{ env('LOGOMARCA_WIDTH') }}x{{ env('LOGOMARCA_HEIGHT') }} pixels
-                        </label>
+                <div x-show="tab === 'imagens'" class="bg-white" x-cloak x-transition> 
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div class="">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                <b>Logo do site</b> - {{ env('LOGOMARCA_WIDTH') }}x{{ env('LOGOMARCA_HEIGHT') }} pixels
+                            </label>
                         
-                        <div 
-                        x-data="{
-                            preview: '{{ $this->getLogo() }}',
-                            updatePreview(event) {
-                                const fileInput = event.target;
-                                const file = fileInput.files[0];
+                            <div 
+                                x-data="{
+                                    preview: '{{ $logo }}',
+                                    updatePreview(event) {
+                                        const fileInput = event.target;
+                                        const file = fileInput.files[0];
 
-                                if (file) {
-                                    const reader = new FileReader();
-                                    reader.onload = (e) => {
-                                        this.preview = e.target.result; // Atualiza o preview
-                                    };
-                                    reader.readAsDataURL(file);
-                                }
+                                        if (file) {
+                                            const reader = new FileReader();
+                                            reader.onload = (e) => {
+                                                this.preview = e.target.result; // Atualiza o preview
+                                            };
+                                            reader.readAsDataURL(file);
+                                        }
 
-                                // Reseta o input para permitir o mesmo arquivo novamente
-                                fileInput.value = '';
-                            }
-                        }"
-                        class="flex flex-col items-start space-y-2">
+                                        // Reseta o input para permitir o mesmo arquivo novamente
+                                        fileInput.value = '';
+                                    }
+                                }"
+                                class="flex flex-col items-start space-y-2">
 
-                        <img 
-                            :src="preview" 
-                            alt="Preview"
-                            class="border rounded max-w-full h-auto"
-                            width="{{ env('LOGOMARCA_WIDTH', 200) }}" 
-                            height="{{ env('LOGOMARCA_HEIGHT', 100) }}"
-                        >
+                                <img 
+                                    :src="preview" 
+                                    alt="Preview"
+                                    class="border rounded max-w-full h-auto"
+                                    width="{{ env('LOGOMARCA_WIDTH', 200) }}" 
+                                    height="{{ env('LOGOMARCA_HEIGHT', 100) }}"
+                                >
 
-                        <div 
-                            wire:loading wire:target="logo" 
-                            class="absolute inset-0 bg-white bg-opacity-70 flex items-center justify-center rounded"
-                        >
-                            <svg class="animate-spin h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                            </svg>
+                                <div 
+                                    wire:loading wire:target="logo" 
+                                    class="absolute inset-0 bg-white bg-opacity-70 flex items-center justify-center rounded"
+                                >
+                                    <svg class="animate-spin h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                                    </svg>
+                                </div>
+
+                                <input 
+                                    type="file" 
+                                    @change="updatePreview"
+                                    wire:model.defer="logo"
+                                    class="block w-full text-sm text-gray-700
+                                        file:mr-4 file:py-2 file:px-4
+                                        file:rounded file:border-0
+                                        file:text-sm file:font-semibold
+                                        file:bg-blue-50 file:text-blue-700
+                                        hover:file:bg-blue-100"
+                                    id="logo"
+                                />
+                            </div>
+                        </div> 
+                    
+                        <div class="">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                <b>Logo do Gerenciador</b> - {{ env('LOGOMARCA_GERENCIADOR_WIDTH') }}x{{ env('LOGOMARCA_GERENCIADOR_HEIGHT') }} pixels
+                            </label>
+                            
+                            <div 
+                                x-data="{
+                                    preview: '{{ $logo_admin }}',
+                                    updatePreview(event) {
+                                        const fileInput = event.target;
+                                        const file = fileInput.files[0];
+
+                                        if (file) {
+                                            const reader = new FileReader();
+                                            reader.onload = (e) => {
+                                                this.preview = e.target.result; // Atualiza o preview
+                                            };
+                                            reader.readAsDataURL(file);
+                                        }
+
+                                        // Reseta o input para permitir o mesmo arquivo novamente
+                                        fileInput.value = '';
+                                    }
+                                }"
+                                class="flex flex-col items-start space-y-2">
+
+                                <img 
+                                    :src="preview" 
+                                    alt="Preview"
+                                    class="border rounded max-w-full h-auto"
+                                    width="{{ env('LOGOMARCA__GERENCIADOR_WIDTH', 200) }}" 
+                                    height="{{ env('LOGOMARCA_GERENCIADOR_HEIGHT', 100) }}"
+                                >
+
+                                <div 
+                                    wire:loading wire:target="logo_admin" 
+                                    class="absolute inset-0 bg-white bg-opacity-70 flex items-center justify-center rounded"
+                                >
+                                    <svg class="animate-spin h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                                    </svg>
+                                </div>
+
+                                <input 
+                                    type="file" 
+                                    @change="updatePreview"
+                                    wire:model.defer="logo_admin"
+                                    class="block w-full text-sm text-gray-700
+                                        file:mr-4 file:py-2 file:px-4
+                                        file:rounded file:border-0
+                                        file:text-sm file:font-semibold
+                                        file:bg-blue-50 file:text-blue-700
+                                        hover:file:bg-blue-100"
+                                    id="logo_admin"
+                                />
+
+                            </div>
                         </div>
 
-                        <input 
-                            type="file" 
-                            @change="updatePreview"
-                            wire:model.defer="logo"
-                            class="block w-full text-sm text-gray-700
-                                file:mr-4 file:py-2 file:px-4
-                                file:rounded file:border-0
-                                file:text-sm file:font-semibold
-                                file:bg-blue-50 file:text-blue-700
-                                hover:file:bg-blue-100"
-                            id="logo"
-                        />
+                        <div class="">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                <b>Logo do rodapé</b> - {{ env('LOGOMARCA_FOOTER_WIDTH') }}x{{ env('LOGOMARCA_FOOTER_HEIGHT') }} pixels
+                            </label>
+                        
+                            <div 
+                                x-data="{
+                                    preview: '{{ $logo_footer }}',
+                                    updatePreview(event) {
+                                        const fileInput = event.target;
+                                        const file = fileInput.files[0];
 
+                                        if (file) {
+                                            const reader = new FileReader();
+                                            reader.onload = (e) => {
+                                                this.preview = e.target.result; // Atualiza o preview
+                                            };
+                                            reader.readAsDataURL(file);
+                                        }
+
+                                        // Reseta o input para permitir o mesmo arquivo novamente
+                                        fileInput.value = '';
+                                    }
+                                }"
+                                class="flex flex-col items-start space-y-2">
+
+                                <img 
+                                    :src="preview" 
+                                    alt="Preview"
+                                    class="border rounded max-w-full h-auto"
+                                    width="{{ env('LOGOMARCA_FOOTER_WIDTH', 200) }}" 
+                                    height="{{ env('LOGOMARCA_FOOTER_HEIGHT', 100) }}"
+                                >
+
+                                <div 
+                                    wire:loading wire:target="logo_footer" 
+                                    class="absolute inset-0 bg-white bg-opacity-70 flex items-center justify-center rounded"
+                                >
+                                    <svg class="animate-spin h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                                    </svg>
+                                </div>
+
+                                <input 
+                                    type="file" 
+                                    @change="updatePreview"
+                                    wire:model.defer="logo_footer"
+                                    class="block w-full text-sm text-gray-700
+                                        file:mr-4 file:py-2 file:px-4
+                                        file:rounded file:border-0
+                                        file:text-sm file:font-semibold
+                                        file:bg-blue-50 file:text-blue-700
+                                        hover:file:bg-blue-100"
+                                    id="logo_footer"
+                                />
+                            </div>
                         </div>
 
+                        <div class="">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                <b>Favicon</b> - {{ env('FAVEICON_WIDTH') }}x{{ env('FAVEICON_HEIGHT') }} pixels
+                            </label>
+                        
+                            <div 
+                                x-data="{
+                                    preview: '{{ $favicon }}',
+                                    updatePreview(event) {
+                                        const fileInput = event.target;
+                                        const file = fileInput.files[0];
+                                        if (file) {
+                                            const reader = new FileReader();
+                                            reader.onload = (e) => {
+                                                this.preview = e.target.result;
+                                            };
+                                            reader.readAsDataURL(file);
+                                        }
+                                        fileInput.value = '';
+                                    }
+                                }"
+                                class="flex flex-col items-start space-y-2">
 
+                                <img 
+                                    :src="preview" 
+                                    alt="Preview"
+                                    class="border rounded max-w-full h-auto"
+                                    width="{{ env('FAVEICON_WIDTH', 200) }}" 
+                                    height="{{ env('FAVEICON_HEIGHT', 100) }}"
+                                >
 
-                    </div>                   
+                                <div 
+                                    wire:loading wire:target="favicon" 
+                                    class="absolute inset-0 bg-white bg-opacity-70 flex items-center justify-center rounded"
+                                >
+                                    <svg class="animate-spin h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                                    </svg>
+                                </div>
+
+                                <input 
+                                    type="file" 
+                                    @change="updatePreview"
+                                    wire:model.defer="favicon"
+                                    class="block w-full text-sm text-gray-700
+                                        file:mr-4 file:py-2 file:px-4
+                                        file:rounded file:border-0
+                                        file:text-sm file:font-semibold
+                                        file:bg-blue-50 file:text-blue-700
+                                        hover:file:bg-blue-100"
+                                    id="favicon"
+                                />
+                            </div>
+                        </div>
+
+                    </div> 
                 </div>
 
                 <div class="row text-right">
@@ -458,6 +656,17 @@
 </div>
 
 <script>
+
+    document.addEventListener('atualizado', function() {
+        Swal.fire({
+            title: 'Sucesso!',
+            text: "Configurações atualizadas com sucesso!",
+            icon: 'success',
+            timerProgressBar: true,
+            showConfirmButton: false,
+            timer: 3000 // Fecha automaticamente após 3 segundos
+        });
+    });
     
     document.addEventListener("livewire:navigated", () => {
         $('#privacy_policy').summernote({

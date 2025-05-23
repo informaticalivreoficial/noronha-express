@@ -81,6 +81,14 @@ class Config extends Model
         } 
         return Storage::url($this->logo_admin);
     }
+
+    public function getlogofooter()
+    {
+        if(empty($this->logo_footer) || !Storage::disk()->exists($this->logo_footer)) {
+            return url(asset('theme/images/image.jpg'));
+        } 
+        return Storage::url($this->logo_footer);
+    }
     
     public function getfaveicon()
     {

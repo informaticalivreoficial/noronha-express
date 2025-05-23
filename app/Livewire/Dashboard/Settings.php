@@ -18,12 +18,13 @@ class Settings extends Component
 {
     use WithFileUploads;
 
-    public $configData;
+    public array $configData = [];
 
     public string $currentTab = 'dados';
 
     public $logo;
     public $logo_admin;
+    public $logo_footer;
     public $favicon;
     public $watermark;
     public $imgheader;
@@ -31,11 +32,40 @@ class Settings extends Component
 
     public array $tags = [];
 
+    protected function imageValidationRules(): array
+    {
+        $rules = [];
+
+        foreach (['logo', 'logo_admin', 'logo_footer', 'favicon'] as $field) {
+            $isUpload = $this->{$field} instanceof TemporaryUploadedFile;
+            $rules["configData.{$field}"] = $isUpload ? 'nullable|image|max:1024' : 'nullable|string';
+        }
+
+        return $rules;
+    }
+
+    protected function rules()
+    {
+        return array_merge([
+            'configData.app_name' => 'required|min:3',
+            //'configData.email' => 'required|email',
+        ], $this->imageValidationRules());
+    }
+
+    protected function loadLogos()
+    {
+        $this->logo = $this->getLogo();
+        $this->logo_admin = $this->getLogoadmin();
+        $this->logo_footer = $this->getLogofooter();
+        $this->favicon = $this->getfaveicon();
+    }
+
     public function mount()
     {
-        $this->configData = Config::findOrFail(1)->toArray();
-        $this->tags = explode(',', $this->configData->metatags ?? '');
-        $this->logo = $this->getLogo();
+        $config = Config::findOrFail(1);
+        $this->configData = $config->toArray();
+        $this->tags = explode(',', $config->metatags ?? '');
+        $this->loadLogos();
     }
 
     public function render()
@@ -45,35 +75,61 @@ class Settings extends Component
     }
 
     public function update()
-    {        
-        $validated = Validator::make([
-            'app_name' => $this->app_name,
-            'email' => $this->email,
-            'logo' => $this->logo,
-        ], (new SettingsRequest())->rules())->validate();
+    {      
+        try {
+            $validated = $this->validate();
 
-        // $this->validate([
-        //     'configData.app_name' => 'required|min:3',
-        //     'configData.email' => 'required|email',
-        //     'logo' => 'nullable|image|max:1024',
-        // ]);
-        dd($validated);
-        if ($this->logo instanceof TemporaryUploadedFile) {
-            // Exclui a foto antiga, se existir
-            if (!empty($this->configData['logo']) && Storage::disk('public')->exists($this->configData['logo'])) {
-                Storage::disk('public')->delete($this->configData['logo']);
-            }
-            // Salva a nova imagem e atualiza o caminho
-            $path = $this->logo->store('config', 'public');            
-            $this->configData['logo'] = $path;
-        }
-        
-        //$this->configData['metatags'] = implode(',', $this->tags);
-        $this->configData['metatags'] = implode(',', $this->tags ?? []);
-        
-        Config::updateOrCreate(['id' => 1], $this->configData);
-        $this->reset('logo');
-        $this->dispatch('toast', message: 'Configurações atualizadas com sucesso!', notify: 'success');
+            // if ($this->logo instanceof TemporaryUploadedFile) {
+            //     if (!empty($this->configData['logo']) && Storage::disk('public')->exists($this->configData['logo'])) {
+            //         Storage::disk('public')->delete($this->configData['logo']);
+            //     }
+            //     $path = $this->logo->store('config', 'public');            
+            //     $this->configData['logo'] = $path;
+            // }
+
+            // if ($this->logo_admin instanceof TemporaryUploadedFile) {
+            //     if (!empty($this->configData['logo_admin']) && Storage::disk('public')->exists($this->configData['logo_admin'])) {
+            //         Storage::disk('public')->delete($this->configData['logo_admin']);
+            //     }
+            //     $path = $this->logo_admin->store('config', 'public');            
+            //     $this->configData['logo_admin'] = $path;
+            // }
+
+            // if ($this->logo_footer instanceof TemporaryUploadedFile) {
+            //     if (!empty($this->configData['logo_footer']) && Storage::disk('public')->exists($this->configData['logo_footer'])) {
+            //         Storage::disk('public')->delete($this->configData['logo_footer']);
+            //     }
+            //     $path = $this->logo_footer->store('config', 'public');            
+            //     $this->configData['logo_footer'] = $path;
+            // }
+            $this->handleImageUploads();
+            
+            $this->configData['metatags'] = implode(',', $this->tags ?? []);
+            
+            Config::updateOrCreate(['id' => 1], $this->configData);
+            $this->resetImages();
+            $this->dispatch(['atualizado']);
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Captura a primeira chave com erro
+            $firstErrorKey = array_key_first($e->validator->errors()->messages());
+
+            // Define a aba correta com base no campo com erro
+            $this->currentTab = match (true) {
+                str_starts_with($firstErrorKey, 'configData.app_name') => 'dados',
+
+                //str_starts_with($firstErrorKey, 'configData.logo'),
+                //$firstErrorKey === 'configData.logo' => 'imagens',
+
+                str_starts_with($firstErrorKey, 'configData.meta_') => 'seo',
+
+                str_starts_with($firstErrorKey, 'configData.contact_') => 'contato',
+
+                default => 'dados',
+            };
+
+            throw $e; // Repassa a exceção para o Livewire exibir os erros no frontend
+        } 
                 
     }    
 
@@ -89,7 +145,7 @@ class Settings extends Component
                 $this->configData['neighborhood'] = $response['bairro'] ?? '';
                 $this->configData['state'] = $response['uf'] ?? '';
                 $this->configData['city'] = $response['localidade'] ?? '';
-                $this->configData['complement'] = $response['complemento'] ?? '';
+                //$this->configData['complement'] = $response['complemento'] ?? '';
             } else {
                 $this->dispatch('toast', message: 'CEP não encontrado!', notify: 'error');
             }
@@ -122,6 +178,57 @@ class Settings extends Component
         // Caso contrário, retorna a URL pública do arquivo
         return Storage::url($this->configData['logo']);
     }     
+
+    public function getLogoadmin()
+    {
+        if (empty($this->configData['logo_admin']) || !Storage::disk('public')->exists($this->configData['logo_admin'])) {
+            return url(asset('theme/images/image.jpg'));
+        }
+        return Storage::url($this->configData['logo_admin']);
+    }
+
+    public function getLogofooter()
+    {
+        if (empty($this->configData['logo_footer']) || !Storage::disk('public')->exists($this->configData['logo_footer'])) {
+            return url(asset('theme/images/image.jpg'));
+        }
+        return Storage::url($this->configData['logo_footer']);
+    }
+
+    public function getfaveicon()
+    {
+        if (empty($this->configData['favicon']) || !Storage::disk('public')->exists($this->configData['favicon'])) {
+            return url(asset('theme/images/image.jpg'));
+        }
+        return Storage::url($this->configData['favicon']);
+    }     
     
+    protected function resetImages()
+    {
+        $this->reset('logo', 'logo_admin', 'logo_footer', 'favicon');
+    }
+
+    protected function handleImageUploads()
+    {
+        $images = [
+            'logo' => $this->logo,
+            'logo_admin' => $this->logo_admin,
+            'logo_footer' => $this->logo_footer,
+            'favicon' => $this->favicon,
+        ];
+
+        foreach ($images as $key => $file) {
+            if ($file instanceof TemporaryUploadedFile) {
+                $currentPath = $this->configData[$key] ?? null;
+
+                if (!empty($currentPath) && Storage::disk('public')->exists($currentPath)) {
+                    Storage::disk('public')->delete($currentPath);
+                }
+
+                $path = $file->store('config', 'public');
+                $this->configData[$key] = $path;
+            }
+        }
+    }
     
 }

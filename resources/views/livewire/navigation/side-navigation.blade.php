@@ -1,7 +1,7 @@
 <aside class="main-sidebar sidebar-light-teal elevation-4">
     <!-- Brand Logo -->
     <a href="#" class="">
-        <img src="{{$config->getlogo()}}" alt="{{$config->app_name}}"
+        <img src="{{$config->getlogoadmin()}}" alt="{{$config->app_name}}"
             class="brand-image elevation-3">        
     </a>
 
