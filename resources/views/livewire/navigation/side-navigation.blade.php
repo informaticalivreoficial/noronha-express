@@ -29,7 +29,8 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{route('settings')}}" class="nav-link {{ Route::is('settings') ? 'active' : '' }}"><i class="nav-icon fas fa-cog"></i> 
+                    <a href="{{route('settings')}}" class="nav-link {{ Route::is('settings') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-cog"></i> 
                         <p> Configurações</p>
                     </a>
                 </li>
@@ -61,9 +62,8 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="{{route('companies.index')}}" class="nav-link">
+                    <a href="{{route('companies.index')}}" class="nav-link {{ Route::is('companies.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-industry"></i>
-
                         <p>
                             Empresas
                             <span class="badge badge-info right">{{$companyCount}}</span>

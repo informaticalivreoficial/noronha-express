@@ -27,6 +27,8 @@
     <link rel="stylesheet" href="{{ asset('theme/plugins/daterangepicker/daterangepicker.css') }}">
     {{-- summernote --}}
     <link rel="stylesheet" href="{{ asset('theme/plugins/summernote/summernote-bs4.min.css') }}">
+    {{-- Tom Select --}}
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
     
     {{-- Toastr --}}
     <link rel="stylesheet" href="{{ asset('theme/plugins/toastr/toastr.min.css') }}">
@@ -93,6 +95,8 @@
 
     {{-- Summernote --}}
     <script src="{{ asset('theme/plugins/summernote/summernote-bs4.min.js') }}"></script>
+    {{-- Tom Select --}}
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
 
     {{-- overlayScrollbars --}}
     <script src="{{ asset('theme/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
