@@ -116,7 +116,7 @@
                     <div class="card">
                         <div class="card-body text-muted">
                             <div class="row mb-2">
-                                <div class="col-12 col-md-6 col-lg-2"> 
+                                <div class="col-12 col-md-6 col-lg-2" x-ref="configData_zipcode"> 
                                     <div class="form-group">
                                         <label class="labelforms"><b>*CEP:</b></label>
                                         <input type="text" x-mask="99.999-999" class="form-control @error('configData.zipcode') is-invalid @enderror" id="zipcode" wire:model.lazy="configData.zipcode">
@@ -202,15 +202,23 @@
                 <!-- Conteúdo da aba Seo -->
                 <div x-show="tab === 'seo'" class="bg-white" x-cloak x-transition>                    
                     <div class="row">
-                        <div class="col-12 mb-1"> 
-                            <div class="form-group">
-                                <label class="labelforms"><b>Descrição do site</b></label>
-                                <textarea class="form-control" rows="5" wire:model="configData.information">{{ $configData['information'] ?? '' }}</textarea>
+                        <div class="col-sm-12">
+                            <div class="mb-6">                                    
+                                <h5 class="text-lg font-semibold text-gray-600">Descrição do site::</h5>                                    
                             </div>
                         </div>
                         <div class="col-12 mb-1"> 
                             <div class="form-group">
-                                <label class="labelforms"><b>MetaTags</b></label>
+                                <textarea class="form-control" rows="5" wire:model="configData.information">{{ $configData['information'] ?? '' }}</textarea>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="mb-6">                                    
+                                <h5 class="text-lg font-semibold text-gray-600">MetaTags::</h5>                                    
+                            </div>
+                        </div>
+                        <div class="col-12 mb-1"> 
+                            <div class="form-group">
                                 <div 
                                     x-data="{
                                         tags: @entangle('tags'),
@@ -301,13 +309,7 @@
 
                 <!-- Conteúdo da aba contato -->
                 <div x-show="tab === 'contato'" class="bg-white" x-cloak x-transition>                    
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="mb-4 bg-gray-light p-3">
-                                <h5 class="text-md font-semibold text-gray-800 mb-2">Informações de Contato</h5>  
-                                <p class="text-sm text-gray-600">Aqui você pode configurar as informações de contato da sua aplicação.</p>                                          
-                            </div>
-                        </div>
+                    <div class="row p-4 border rounded shadow">
                         <div class="col-12 col-md-6 col-lg-4"> 
                             <div class="form-group">
                                 <label class="labelforms"><b>Telefone fixo:</b></label>
@@ -357,8 +359,8 @@
 
                 <!-- Conteúdo da aba Imagens -->
                 <div x-show="tab === 'imagens'" class="bg-white" x-cloak x-transition> 
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <div class="">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-3">
+                        <div class="p-4 border rounded shadow">
                             <label class="block text-sm font-medium text-gray-700 mb-2">
                                 <b>Logo do site</b> - {{ env('LOGOMARCA_WIDTH') }}x{{ env('LOGOMARCA_HEIGHT') }} pixels
                             </label>
@@ -417,7 +419,7 @@
                             </div>
                         </div> 
                     
-                        <div class="">
+                        <div class="p-4 border rounded shadow">
                             <label class="block text-sm font-medium text-gray-700 mb-2">
                                 <b>Logo do Gerenciador</b> - {{ env('LOGOMARCA_GERENCIADOR_WIDTH') }}x{{ env('LOGOMARCA_GERENCIADOR_HEIGHT') }} pixels
                             </label>
@@ -477,7 +479,7 @@
                             </div>
                         </div>
 
-                        <div class="">
+                        <div class="p-4 border rounded shadow">
                             <label class="block text-sm font-medium text-gray-700 mb-2">
                                 <b>Logo do rodapé</b> - {{ env('LOGOMARCA_FOOTER_WIDTH') }}x{{ env('LOGOMARCA_FOOTER_HEIGHT') }} pixels
                             </label>
@@ -536,7 +538,7 @@
                             </div>
                         </div>
 
-                        <div class="">
+                        <div class="p-4 border rounded shadow">
                             <label class="block text-sm font-medium text-gray-700 mb-2">
                                 <b>Favicon</b> - {{ env('FAVEICON_WIDTH') }}x{{ env('FAVEICON_HEIGHT') }} pixels
                             </label>
@@ -592,10 +594,179 @@
                             </div>
                         </div>
 
+                        <div class="p-4 border rounded shadow">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                <b>Marca D´agua</b> - {{ env('MARCADAGUA_WIDTH') }}x{{ env('MARCADAGUA_HEIGHT') }} pixels
+                            </label>
+                        
+                            <div 
+                                x-data="{
+                                    preview: '{{ $watermark }}',
+                                    updatePreview(event) {
+                                        const fileInput = event.target;
+                                        const file = fileInput.files[0];
+                                        if (file) {
+                                            const reader = new FileReader();
+                                            reader.onload = (e) => {
+                                                this.preview = e.target.result;
+                                            };
+                                            reader.readAsDataURL(file);
+                                        }
+                                        fileInput.value = '';
+                                    }
+                                }"
+                                class="flex flex-col items-start space-y-2">
+
+                                <img 
+                                    :src="preview" 
+                                    alt="Preview"
+                                    class="border rounded max-w-full h-auto"
+                                    width="{{ env('MARCADAGUA_WIDTH', 200) }}" 
+                                    height="{{ env('MARCADAGUA_HEIGHT', 100) }}"
+                                >
+
+                                <div 
+                                    wire:loading wire:target="watermark" 
+                                    class="absolute inset-0 bg-white bg-opacity-70 flex items-center justify-center rounded"
+                                >
+                                    <svg class="animate-spin h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                                    </svg>
+                                </div>
+
+                                <input 
+                                    type="file" 
+                                    @change="updatePreview"
+                                    wire:model.defer="watermark"
+                                    class="block w-full text-sm text-gray-700
+                                        file:mr-4 file:py-2 file:px-4
+                                        file:rounded file:border-0
+                                        file:text-sm file:font-semibold
+                                        file:bg-blue-50 file:text-blue-700
+                                        hover:file:bg-blue-100"
+                                    id="watermark"
+                                />
+                            </div>
+                        </div>
+
                     </div> 
+                    <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4 mt-3">
+                        <div class="p-4 border rounded shadow">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                <b>Meta Imagem: </b> - {{ env('METAIMG_WIDTH') }}x{{ env('METAIMG_HEIGHT') }} pixels
+                            </label>
+                        
+                            <div 
+                                x-data="{
+                                    preview: '{{ $metaimg }}',
+                                    updatePreview(event) {
+                                        const fileInput = event.target;
+                                        const file = fileInput.files[0];
+                                        if (file) {
+                                            const reader = new FileReader();
+                                            reader.onload = (e) => {
+                                                this.preview = e.target.result;
+                                            };
+                                            reader.readAsDataURL(file);
+                                        }
+                                        fileInput.value = '';
+                                    }
+                                }"
+                                class="flex flex-col items-start space-y-2">
+
+                                <img 
+                                    :src="preview" 
+                                    alt="Preview"
+                                    class="border rounded max-w-full h-auto"
+                                    width="{{ env('METAIMG_WIDTH', 200) }}" 
+                                    height="{{ env('METAIMG_HEIGHT', 100) }}"
+                                >
+
+                                <div 
+                                    wire:loading wire:target="metaimg" 
+                                    class="absolute inset-0 bg-white bg-opacity-70 flex items-center justify-center rounded"
+                                >
+                                    <svg class="animate-spin h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                                    </svg>
+                                </div>
+
+                                <input 
+                                    type="file" 
+                                    @change="updatePreview"
+                                    wire:model.defer="metaimg"
+                                    class="block w-full text-sm text-gray-700
+                                        file:mr-4 file:py-2 file:px-4
+                                        file:rounded file:border-0
+                                        file:text-sm file:font-semibold
+                                        file:bg-blue-50 file:text-blue-700
+                                        hover:file:bg-blue-100"
+                                    id="metaimg"
+                                />
+                            </div>
+                        </div>
+                        <div class="p-4 border rounded shadow">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                <b>Topo do site: </b> - {{ env('IMGHEADER_WIDTH') }}x{{ env('IMGHEADER_HEIGHT') }} pixels
+                            </label>
+                        
+                            <div 
+                                x-data="{
+                                    preview: '{{ $imgheader }}',
+                                    updatePreview(event) {
+                                        const fileInput = event.target;
+                                        const file = fileInput.files[0];
+                                        if (file) {
+                                            const reader = new FileReader();
+                                            reader.onload = (e) => {
+                                                this.preview = e.target.result;
+                                            };
+                                            reader.readAsDataURL(file);
+                                        }
+                                        fileInput.value = '';
+                                    }
+                                }"
+                                class="flex flex-col items-start space-y-2">
+
+                                <img 
+                                    :src="preview" 
+                                    alt="Preview"
+                                    class="border rounded max-w-full h-auto"
+                                    width="{{ env('IMGHEADER_WIDTH', 200) }}" 
+                                    height="{{ env('IMGHEADER_HEIGHT', 100) }}"
+                                >
+
+                                <div 
+                                    wire:loading wire:target="imgheader" 
+                                    class="absolute inset-0 bg-white bg-opacity-70 flex items-center justify-center rounded"
+                                >
+                                    <svg class="animate-spin h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                                    </svg>
+                                </div>
+
+                                <input 
+                                    type="file" 
+                                    @change="updatePreview"
+                                    wire:model.defer="imgheader"
+                                    class="block w-full text-sm text-gray-700
+                                        file:mr-4 file:py-2 file:px-4
+                                        file:rounded file:border-0
+                                        file:text-sm file:font-semibold
+                                        file:bg-blue-50 file:text-blue-700
+                                        hover:file:bg-blue-100"
+                                    id="imgheader"
+                                />
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
 
-                <div class="row text-right">
+                <div class="row text-right mt-3">
                     <div class="col-12 mb-4">
                         <button type="button" wire:click="update" class="btn btn-lg btn-success p-3">
                             <i class="nav-icon fas fa-check mr-2"></i> Atualizar Configurações

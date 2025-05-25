@@ -224,6 +224,7 @@ return [
         'trip' => 'viagem',
         'type' => 'tipo',
         'object' => 'finalidade',
+        'configData.app_name' => 'nome do aplicativo',
         'birthday' => 'data de nascimento',
         'cell_phone'    => 'celular',
         'postcode' => 'cep',

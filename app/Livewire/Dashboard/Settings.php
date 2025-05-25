@@ -36,7 +36,7 @@ class Settings extends Component
     {
         $rules = [];
 
-        foreach (['logo', 'logo_admin', 'logo_footer', 'favicon'] as $field) {
+        foreach (['logo', 'logo_admin', 'logo_footer', 'favicon', 'watermark', 'metaimg', 'imgheader'] as $field) {
             $isUpload = $this->{$field} instanceof TemporaryUploadedFile;
             $rules["configData.{$field}"] = $isUpload ? 'nullable|image|max:1024' : 'nullable|string';
         }
@@ -58,6 +58,9 @@ class Settings extends Component
         $this->logo_admin = $this->getLogoadmin();
         $this->logo_footer = $this->getLogofooter();
         $this->favicon = $this->getfaveicon();
+        $this->watermark = $this->getwatermark();
+        $this->metaimg = $this->getmetaimg();
+        $this->imgheader = $this->getheadersite();
     }
 
     public function mount()
@@ -77,35 +80,9 @@ class Settings extends Component
     public function update()
     {      
         try {
-            $validated = $this->validate();
-
-            // if ($this->logo instanceof TemporaryUploadedFile) {
-            //     if (!empty($this->configData['logo']) && Storage::disk('public')->exists($this->configData['logo'])) {
-            //         Storage::disk('public')->delete($this->configData['logo']);
-            //     }
-            //     $path = $this->logo->store('config', 'public');            
-            //     $this->configData['logo'] = $path;
-            // }
-
-            // if ($this->logo_admin instanceof TemporaryUploadedFile) {
-            //     if (!empty($this->configData['logo_admin']) && Storage::disk('public')->exists($this->configData['logo_admin'])) {
-            //         Storage::disk('public')->delete($this->configData['logo_admin']);
-            //     }
-            //     $path = $this->logo_admin->store('config', 'public');            
-            //     $this->configData['logo_admin'] = $path;
-            // }
-
-            // if ($this->logo_footer instanceof TemporaryUploadedFile) {
-            //     if (!empty($this->configData['logo_footer']) && Storage::disk('public')->exists($this->configData['logo_footer'])) {
-            //         Storage::disk('public')->delete($this->configData['logo_footer']);
-            //     }
-            //     $path = $this->logo_footer->store('config', 'public');            
-            //     $this->configData['logo_footer'] = $path;
-            // }
-            $this->handleImageUploads();
-            
-            $this->configData['metatags'] = implode(',', $this->tags ?? []);
-            
+            $validated = $this->validate();            
+            $this->handleImageUploads();            
+            $this->configData['metatags'] = implode(',', $this->tags ?? []);            
             Config::updateOrCreate(['id' => 1], $this->configData);
             $this->resetImages();
             $this->dispatch(['atualizado']);
@@ -147,7 +124,7 @@ class Settings extends Component
                 $this->configData['city'] = $response['localidade'] ?? '';
                 //$this->configData['complement'] = $response['complemento'] ?? '';
             } else {
-                $this->dispatch('toast', message: 'CEP não encontrado!', notify: 'error');
+                $this->addError('configData.zipcode', 'CEP não encontrado.'); 
             }
         }
     }
@@ -170,12 +147,9 @@ class Settings extends Component
 
     public function getLogo()
     {
-        // Verifica se o caminho da imagem está presente e existe no disco
         if (empty($this->configData['logo']) || !Storage::disk('public')->exists($this->configData['logo'])) {
-            return url(asset('theme/images/image.jpg')); // Imagem padrão caso não tenha uma logo
+            return url(asset('theme/images/image.jpg'));
         }
-
-        // Caso contrário, retorna a URL pública do arquivo
         return Storage::url($this->configData['logo']);
     }     
 
@@ -201,11 +175,35 @@ class Settings extends Component
             return url(asset('theme/images/image.jpg'));
         }
         return Storage::url($this->configData['favicon']);
+    }  
+
+    public function getwatermark()
+    {
+        if (empty($this->configData['watermark']) || !Storage::disk('public')->exists($this->configData['watermark'])) {
+            return url(asset('theme/images/image.jpg'));
+        }
+        return Storage::url($this->configData['watermark']);
+    } 
+
+    public function getmetaimg()
+    {
+        if (empty($this->configData['metaimg']) || !Storage::disk('public')->exists($this->configData['metaimg'])) {
+            return url(asset('theme/images/image.jpg'));
+        }
+        return Storage::url($this->configData['metaimg']);
+    }  
+
+    public function getheadersite()
+    {
+        if (empty($this->configData['imgheader']) || !Storage::disk('public')->exists($this->configData['imgheader'])) {
+            return url(asset('theme/images/image.jpg'));
+        }
+        return Storage::url($this->configData['imgheader']);
     }     
     
     protected function resetImages()
     {
-        $this->reset('logo', 'logo_admin', 'logo_footer', 'favicon');
+        $this->reset('logo', 'logo_admin', 'logo_footer', 'favicon', 'watermark', 'metaimg', 'imgheader');
     }
 
     protected function handleImageUploads()
@@ -215,6 +213,9 @@ class Settings extends Component
             'logo_admin' => $this->logo_admin,
             'logo_footer' => $this->logo_footer,
             'favicon' => $this->favicon,
+            'watermark' => $this->watermark,
+            'metaimg' => $this->metaimg,
+            'imgheader' => $this->imgheader,
         ];
 
         foreach ($images as $key => $file) {

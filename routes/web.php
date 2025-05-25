@@ -48,9 +48,9 @@ Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'admin'], functi
 
     // Companies
     Route::get('empresas', Companies::class)->name('companies.index');
-    Route::get('cadastrar-empresa', CompanyForm::class)->name('companies.create');
-    Route::get('editar-empresa/{company}', CompanyForm::class)->name('companies.edit');
-    Route::get('visualizar-empresa/{company}', ViewUser::class)->name('companies.view');
+    Route::get('empresas/cadastrar-empresa', CompanyForm::class)->name('companies.create');
+    Route::get('empresas/editar-empresa/{company}', CompanyForm::class)->name('companies.edit');
+    Route::get('empresas/visualizar-empresa/{company}', ViewUser::class)->name('companies.view');
 
     // Trips
     Route::get('viagens', Trips::class)->name('trips.index');
