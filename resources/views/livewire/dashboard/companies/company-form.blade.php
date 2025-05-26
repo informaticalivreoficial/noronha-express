@@ -45,11 +45,11 @@
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-md-3 col-lg-2">
-                        <label class="labelforms"><b>*CNPJ:</b></label>
+                        <label class="labelforms"><b>CNPJ:</b></label>
                         <input class="form-control" x-mask="99.999.999/9999-99" id="document_company" wire:model.defer="document_company" />
                     </div>
                     <div class="col-12 col-sm-6 col-md-3 col-lg-4">
-                        <label class="labelforms"><b>*Razão Social:</b></label>
+                        <label class="labelforms"><b>Razão Social:</b></label>
                         <input class="form-control" id="social_name" wire:model.defer="social_name" />
                     </div>
                     <div class="col-12 col-sm-6 col-md-3 col-lg-2">
@@ -126,9 +126,12 @@
                             <div class="col-12 col-md-6 col-lg-4"> 
                                 <div class="form-group">
                                     <label class="labelforms"><b>*Celular:</b></label>
-                                    <input type="text" class="form-control" placeholder="(00) 00000-0000"
+                                    <input type="text" class="form-control @error('cell_phone') is-invalid @enderror" placeholder="(00) 00000-0000"
                                         x-mask="(99) 99999-9999" wire:model="cell_phone"
-                                        id="cell_phone">                                    
+                                        id="cell_phone">   
+                                    @error('cell_phone')
+                                        <span class="error erro-feedback">{{ $message }}</span>
+                                    @enderror                                 
                                 </div>
                             </div>
                             <div class="col-12 col-md-6 col-lg-4"> 
@@ -142,8 +145,11 @@
                             <div class="col-12 col-md-6 col-lg-4"> 
                                 <div class="form-group">
                                     <label class="labelforms"><b>Email:</b></label>
-                                    <input type="text" class="form-control" placeholder="Email" 
+                                    <input type="text" class="form-control @error('email') is-invalid @enderror" placeholder="Email" 
                                         wire:model="email" id="email">
+                                    @error('email')
+                                        <span class="error erro-feedback">{{ $message }}</span>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-12 col-md-6 col-lg-4"> 
@@ -175,12 +181,11 @@
 
                 <div class="row text-right mt-3">
                     <div class="col-12 mb-4">
-                        <button type="button" wire:click="update" class="btn btn-lg btn-success p-3">
+                        <button type="button" wire:click="save" class="btn btn-lg btn-success p-3">
                             <i class="nav-icon fas fa-check mr-2"></i> {{ $company ? 'Atualizar Agora' : 'Cadastrar Agora' }}
                         </button>
                     </div>
-                </div>
-                
+                </div>                
 
             </form>
         </div>
