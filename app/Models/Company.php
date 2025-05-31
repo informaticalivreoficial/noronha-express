@@ -45,6 +45,11 @@ class Company extends Model
     {
         return $this->hasOne(User::class, 'id', 'user');
     }
+    
+    public function manifest()
+    {
+        return $this->hasMany(Manifest::class, 'company', 'id');
+    }
 
     /**
      * Accerssors and Mutators

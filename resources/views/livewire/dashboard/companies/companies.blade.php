@@ -62,7 +62,7 @@
                         @foreach($companies as $company)                    
                         <tr style="{{ ($company->status == true ? '' : 'background: #fffed8 !important;')  }}">                            
                             <td>{{$company->alias_name}}</td>
-                            <td></td>
+                            <td>{{$company->manifest->count()}}</td>
                             <td></td>
                             <td class="text-center">
                                 <label class="switch" wire:model="active">
