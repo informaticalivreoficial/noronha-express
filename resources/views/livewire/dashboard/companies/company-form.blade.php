@@ -41,20 +41,20 @@
                     <div class="col-12 col-sm-6 col-md-3 col-lg-4">
                         <div class="form-group">
                             <label class="labelforms"><b>*Nome Fantasia:</b></label>
-                            <input class="form-control" placeholder="Nome da empresa" id="alias_name" wire:model.defer="alias_name" />
+                            <input class="form-control" placeholder="Nome da empresa" id="alias_name" wire:model="alias_name" />
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-md-3 col-lg-2">
                         <label class="labelforms"><b>CNPJ:</b></label>
-                        <input class="form-control" x-mask="99.999.999/9999-99" id="document_company" wire:model.defer="document_company" />
+                        <input class="form-control" x-mask="99.999.999/9999-99" id="document_company" wire:model="document_company" />
                     </div>
                     <div class="col-12 col-sm-6 col-md-3 col-lg-4">
                         <label class="labelforms"><b>Razão Social:</b></label>
-                        <input class="form-control" id="social_name" wire:model.defer="social_name" />
+                        <input class="form-control" id="social_name" wire:model="social_name" />
                     </div>
                     <div class="col-12 col-sm-6 col-md-3 col-lg-2">
                         <label class="labelforms"><b>Inscrição Estadual:</b></label>
-                        <input class="form-control" id="document_company_secondary" wire:model.defer="document_company_secondary" />
+                        <input class="form-control" id="document_company_secondary" wire:model="document_company_secondary" />
                     </div>                    
                 </div>
 
@@ -193,5 +193,23 @@
 </div>
 
 <script>
-    
+    document.addEventListener('empresa-atualizada', function() {
+        Swal.fire({
+            title: 'Sucesso!',
+            text: "Empresa atualizada!",
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 3000 // Fecha automaticamente após 3 segundos
+        });
+    });
+
+    document.addEventListener('empresa-cadastrada', function() {
+        Swal.fire({
+            title: 'Sucesso!',
+            text: "Empresa Cadastrada!",
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 3000 // Fecha automaticamente após 3 segundos
+        });
+    });
 </script>

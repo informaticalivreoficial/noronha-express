@@ -45,7 +45,7 @@ class Companies extends Component
         $title = 'Lista de Empresas';
         $companies = Company::query()->when($this->search, function($query){
             $query->orWhere('social_name', 'LIKE', "%{$this->search}%");
-            $query->orWhere('email', "%{$this->search}%");
+            $query->orWhere('email', 'LIKE', "%{$this->search}%");
         })->orderBy($this->sortField, $this->sortDirection)->paginate(35);
         return view('livewire.dashboard.companies.companies',[
             'companies' => $companies
