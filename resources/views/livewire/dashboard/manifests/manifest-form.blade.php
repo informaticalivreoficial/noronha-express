@@ -206,52 +206,53 @@
                         </div>
                         <div class="bg-white p-4 shadow rounded-md space-y-6 overflow-x-auto">
                             @foreach($items as $index => $item)
-                                <div class="grid grid-cols-2 md:grid-cols-6 lg:grid-cols-12 gap-4 items-end">
-                                    <div class="col-span-2 lg:col-span-1">
+                                <div class="grid grid-cols-2 md:grid-cols-6 lg:grid-cols-12 gap-4 items-end {{ $index === 1 ? 'border-t border-gray-300 mt-6 pt-4' : 'pb-3' }}">
+                                    <div class="col-span-3 lg:col-span-1">
                                         <label class="block text-sm font-medium">Qtd.</label>
                                         <input type="text" wire:model="items.{{ $index }}.quantity" class="input-form" />
                                     </div>
-                                    <div class="col-span-2 lg:col-span-1">
+                                    <div class="col-span-3 lg:col-span-1">
                                         <label class="block text-sm font-medium">Unid.</label>
                                         <input type="text" wire:model="items.{{ $index }}.unit" class="input-form" />
                                     </div>
-                                    <div class="col-span-2 md:col-span-3 lg:col-span-3">
+                                    <div class="col-span-9 md:col-span-3 lg:col-span-8">
                                         <label class="block text-sm font-medium">Descrição</label>
                                         <input type="text" wire:model="items.{{ $index }}.description" class="input-form" />
                                         @error('items.' . $index . '.description')
                                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                         @enderror
                                     </div>
-                                    <div class="col-span-1">
+                                    <div class="col-span-1 lg:col-span-1">
                                         <label class="block text-sm font-medium">Horti-Fruti</label>
                                         <input type="text" wire:model="items.{{ $index }}.horti_fruit" class="input-form" />
                                     </div>
-                                    <div class="col-span-1">
-                                        <label class="block text-sm font-medium">Cubagem</label>
-                                        <input type="text" wire:model="items.{{ $index }}.cubage" class="input-form" />
-                                    </div>
-                                    <div class="col-span-1">
-                                        <label class="block text-sm font-medium">Peso Seco</label>
-                                        <input type="text" wire:model="items.{{ $index }}.dry_weight" class="input-form" />
-                                    </div>
-                                    <div class="col-span-1">
-                                        <label class="block text-sm font-medium">Seguro</label>
-                                        <input type="text" wire:model="items.{{ $index }}.secure" class="input-form" />
-                                    </div>
-                                    <div class="col-span-1">
-                                        <label class="block text-sm font-medium">Embalagem</label>
-                                        <input type="text" wire:model="items.{{ $index }}.package" class="input-form" />
-                                    </div>
-                                    <div class="col-span-1">
+                                    <div class="col-span-1 lg:col-span-1">
                                         <label class="block text-sm font-medium">Congelados</label>
                                         <input type="text" wire:model="items.{{ $index }}.glace" class="input-form" />
                                     </div>
-                                    <div class="col-span-1">
+                                    <div class="col-span-1 lg:col-span-2">
+                                        <label class="block text-sm font-medium">Cubagem</label>
+                                        <input type="text" wire:model="items.{{ $index }}.cubage" class="input-form" />
+                                    </div>
+                                    <div class="col-span-1 lg:col-span-2">
+                                        <label class="block text-sm font-medium">Peso Seco</label>
+                                        <input type="text" wire:model="items.{{ $index }}.dry_weight" class="input-form" />
+                                    </div>
+                                    <div class="col-span-1 lg:col-span-2">
+                                        <label class="block text-sm font-medium">Seguro</label>
+                                        <input type="text" wire:model="items.{{ $index }}.secure" class="input-form" />
+                                    </div>
+                                    <div class="col-span-1 lg:col-span-2">
+                                        <label class="block text-sm font-medium">Embalagem</label>
+                                        <input type="text" wire:model="items.{{ $index }}.package" class="input-form" />
+                                    </div>
+                                    
+                                    <div class="col-span-1 lg:col-span-2">
                                         <label class="block text-sm font-medium">Taxas</label>
                                         <input type="text" wire:model="items.{{ $index }}.tax" class="input-form" />
                                     </div>
-                                    <div class="col-span-1 flex items-end">
-                                        <button type="button" wire:click="removeItem({{ $index }})" class="btn-danger w-full">
+                                    <div class="col-span-1 flex items-end lg:col-span-2">
+                                        <button type="button" wire:click="removeItem({{ $index }})" class="btn-danger w-full h-8">
                                             <i class="fas fa-ban"></i>
                                         </button>
                                     </div>

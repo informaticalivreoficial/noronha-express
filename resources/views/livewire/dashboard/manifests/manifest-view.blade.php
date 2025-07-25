@@ -196,8 +196,12 @@
                         <div class="row no-print">
                             <div class="col-12">
                                 <a href="invoice-print.html" rel="noopener" target="_blank" class="btn btn-default"><i class="fas fa-print"></i> Imprimir</a>
+                                
                                 <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
                                     <i class="fas fa-download"></i> Gerar PDF
+                                </button>
+                                <button type="button" onclick="window.history.back()" class="btn btn-lg btn-default float-right" style="margin-right: 5px;">
+                                    <i class="fas fa-arrow-left"></i> Voltar
                                 </button>
                             </div>
                         </div>

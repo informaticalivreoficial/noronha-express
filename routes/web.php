@@ -16,8 +16,8 @@ use App\Livewire\Dashboard\Reports\Companies as ReportsCompanies;
 use App\Livewire\Dashboard\Reports\Manifests as ReportsManifests;
 use App\Livewire\Dashboard\{
     Settings,
-    TableOfValues
 };
+use App\Livewire\Dashboard\Billing\TableOfValues;
 use App\Livewire\Dashboard\Trips\TripForm;
 use App\Livewire\Dashboard\Trips\Trips;
 use App\Livewire\Dashboard\Users\Form;
