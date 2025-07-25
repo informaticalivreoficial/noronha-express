@@ -328,7 +328,10 @@
             </div>
             <div class="row text-right">
                 <div class="col-12 pr-4 pb-4">
-                    <button type="submit" class="btn btn-lg btn-success p-3"><i class="nav-icon fas fa-check mr-2"></i> {{ $manifest ? 'Atualizar Agora' : 'Cadastrar Agora' }}</button>
+                    <button type="submit" class="btn btn-lg btn-success p-3"><i class="nav-icon fas fa-check mr-2"></i> {!! $manifest ? '<b>Atualizar Agora</b>' : '<b>Cadastrar Agora</b>' !!}</button>
+                    @if ($manifest)
+                        <button type="submit" class="btn btn-lg btn-primary p-3"><i class="nav-icon fas fa-check mr-2"></i> <b>Entregar ao Comercial</b></button>
+                    @endif                    
                 </div>
             </div>
         </form>

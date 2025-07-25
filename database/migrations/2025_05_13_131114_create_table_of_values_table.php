@@ -19,7 +19,9 @@ return new class extends Migration
             $table->decimal('dry_weight', 10, 2)->nullable()->default(0);            
             $table->decimal('package', 10, 2)->nullable()->default(0);            
             $table->decimal('glace', 10, 2)->nullable()->default(0);            
-            $table->decimal('tax', 10, 2)->nullable()->default(0);         
+            $table->decimal('tax', 10, 2)->nullable()->default(0);   
+            $table->decimal('general_1000_5000', 10, 2)->nullable()->default(0);
+            $table->decimal('general_above_5000', 10, 2)->nullable()->default(0);      
             
             $table->timestamps();
         });

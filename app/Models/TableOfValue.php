@@ -18,7 +18,8 @@ class TableOfValue extends Model
         'dry_weight',
         'package',
         'glace',
-        'tax'
-        
+        'tax',
+        'general_1000_5000',
+        'general_above_5000'        
     ];
 }

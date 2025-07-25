@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Dashboard\Billing;
 
+use App\Models\TableOfValue;
 use Livewire\Component;
 
 class TableOfValues extends Component
@@ -14,6 +15,9 @@ class TableOfValues extends Component
     public float $general_1000_5000 = 0.0;
     public float $general_above_5000 = 0.0;
     public float $cubage = 0.0;
+    public float $tax = 0.0;
+    public float $package = 0.0;
+    public float $secure = 0.0;
 
     public function render()
     {
@@ -23,7 +27,17 @@ class TableOfValues extends Component
 
     public function mount()
     {
+        $values = TableOfValue::findOrFail($this->id);
         
+        $this->dry_weight = $values->dry_weight;
+        $this->horti_fruit = $values->horti_fruit;
+        $this->glace = $values->glace;
+        $this->general_1000_5000 = $values->general_1000_5000;
+        $this->general_above_5000 = $values->general_above_5000;
+        $this->cubage = $values->cubage;
+        $this->tax = $values->tax;
+        $this->package = $values->package;
+        $this->secure = $values->secure;
     }
 
     public function update()
@@ -35,20 +49,28 @@ class TableOfValues extends Component
             'general_1000_5000' => 'required|numeric|min:0',
             'general_above_5000' => 'required|numeric|min:0',
             'cubage' => 'required|numeric|min:0',
+            'tax' => 'required|numeric|min:0',
+            'package' => 'required|numeric|min:0',
+            'secure' => 'required|numeric|min:0',
         ]);
 
-        // Exemplo: atualizando um registro existente (ID 1)
-        $frete = FreteTabela::findOrFail($this->id);
+        $values = TableOfValue::findOrFail($this->id);
 
-        $frete->update([
+        //dd($this->dry_weight);
+        $values->update([
             'dry_weight' => $this->dry_weight,
             'horti_fruit' => $this->horti_fruit,
             'glace' => $this->glace,
             'general_1000_5000' => $this->general_1000_5000,
             'general_above_5000' => $this->general_above_5000,
             'cubage' => $this->cubage,
+            'tax' => $this->tax,
+            'package' => $this->package,
+            'secure' => $this->secure,
         ]);
 
-        session()->flash('success', 'Tabela de valores atualizada com sucesso!');
+        $this->dispatch(['atualizado']);
+
+        //session()->flash('success', 'Tabela de valores atualizada com sucesso!');
     }
 }
