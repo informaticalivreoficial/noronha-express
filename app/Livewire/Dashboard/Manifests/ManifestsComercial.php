@@ -7,7 +7,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\On;
 
-class Manifests extends Component
+class ManifestsComercial extends Component
 {
     use WithPagination;
 
@@ -35,15 +35,14 @@ class Manifests extends Component
         }
 
         $this->resetPage();
-    }    
+    }
 
     public function render()
     {
         $title = 'Gerenciar Manifestos';
         $manifests = Manifest::query()
             ->where('object', 'carga')
-            ->where('section', 'conferencia')
-            ->orWhere('section', null)
+            ->where('section', 'comercial')
             ->when($this->search, function($query){
                 $query->where(function($q) {
                     $q->where('trip', 'LIKE', "%{$this->search}%")
@@ -58,8 +57,8 @@ class Manifests extends Component
                         });
                 });
         })->orderBy($this->sortField, $this->sortDirection)->paginate(50);
-        
-        return view('livewire.dashboard.manifests.manifests',[
+
+        return view('livewire.dashboard.manifests.manifests-comercial',[
             'manifests' => $manifests
         ])->with('title', $title);
     }

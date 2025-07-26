@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedInteger('company')->nullable();
             $table->unsignedInteger('user')->nullable(); 
             $table->string('status')->nullable();           
+            $table->string('section')->nullable();           
             
             /** address */
             $table->string('zipcode')->nullable();

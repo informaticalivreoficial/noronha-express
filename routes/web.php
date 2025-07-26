@@ -8,7 +8,8 @@ use App\Livewire\Dashboard\Dashboard;
 use App\Livewire\Dashboard\Manifests\{
     ManifestForm,
     ManifestView,
-    Manifests
+    Manifests,
+    ManifestsComercial
 };
 use App\Livewire\Dashboard\Permissions\Index as PermissionIndex;
 use App\Livewire\Dashboard\Roles\Index as RoleIndex;
@@ -59,6 +60,7 @@ Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'admin'], functi
 
     // Manifests
     Route::get('manifestos', Manifests::class)->name('manifests.index');
+    Route::get('manifestos-comercial', ManifestsComercial::class)->name('manifests.comercial');
     Route::get('manifestos/cadastrar-manifesto', ManifestForm::class)->name('manifests.create');
     Route::get('manifestos/{manifest}/editar', ManifestForm::class)->name('manifests.edit');
     Route::get('manifestos/{manifest}/visualizar', ManifestView::class)->name('manifests.view');

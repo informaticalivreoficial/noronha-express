@@ -15,10 +15,12 @@ use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
+use Livewire\WithRedirects;
 
 class ManifestForm extends Component
 {
     use WithFileUploads;
+    use WithRedirects;
 
     public ?Manifest $manifest = null;
 
@@ -49,7 +51,9 @@ class ManifestForm extends Component
     public array $images = [];
     public $savedImages = [];
 
-    public string $currentTab = 'dados';
+    public string $currentTab = 'dados'; 
+    
+    public string $section;
 
     public function render()
     {
@@ -57,6 +61,17 @@ class ManifestForm extends Component
         return view('livewire.dashboard.manifests.manifest-form')->with([
             'title' => $title,
         ]);
+    }
+
+    public function updateSection(string $newSection)
+    {
+        $this->section = $newSection;
+
+        if ($this->manifest) {
+            $this->manifest->section = $newSection;
+            $this->manifest->save();
+        }
+        return redirect()->route('seu.rota.desejada');
     }
 
     public function mount(Manifest $manifest)

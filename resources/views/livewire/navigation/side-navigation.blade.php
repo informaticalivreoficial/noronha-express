@@ -93,9 +93,15 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="{{route('manifests.comercial')}}" class="nav-link {{ Route::is('manifests.comercial') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>No Comercial <span class="badge badge-info right">{{$manifestComercialCount}}</span></p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>No Comercial</p>
+                                <p>No Financeiro <span class="badge badge-info right">{{$manifestFinanceCount}}</span></p>
                             </a>
                         </li>
                         <li class="nav-item">
