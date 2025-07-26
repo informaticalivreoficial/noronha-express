@@ -39,7 +39,7 @@ class Manifests extends Component
 
     public function render()
     {
-        $title = 'Gerenciar Manifestos';
+        $title = 'Gerenciar Manifestos na Conferência';
         $manifests = Manifest::query()
             ->where('object', 'carga')
             ->where('section', 'conferencia')

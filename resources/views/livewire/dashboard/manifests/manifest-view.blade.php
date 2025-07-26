@@ -9,7 +9,17 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ route('admin') }}">Painel de Controle</a></li>
-                        <li class="breadcrumb-item"><a wire:navigate href="{{ route('manifests.index') }}">Manifestos</a>
+                        <li class="breadcrumb-item">
+                            <a 
+                                wire:navigate 
+                                href="{{
+                                            route(
+                                                $manifest && $manifest->section == 'comercial' ? 'manifests.comercial' :
+                                                ($manifest && $manifest->section == 'financeiro' ? 'manifests.finance' :
+                                                ($manifest && $manifest->section == 'finalizado' ? 'manifests.finished' : 'manifests.index'))
+                                            )
+                                        }}">Manifestos</a>
+                        </li>
                         <li class="breadcrumb-item active">Manifesto de Carga</li>
                     </ol>
                 </div>

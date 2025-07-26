@@ -99,7 +99,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{route('manifests.finance')}}" class="nav-link {{ Route::is('manifests.finance') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>No Financeiro <span class="badge badge-info right">{{$manifestFinanceCount}}</span></p>
                             </a>

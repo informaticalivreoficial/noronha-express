@@ -15,12 +15,10 @@ use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
-use Livewire\WithRedirects;
 
 class ManifestForm extends Component
 {
     use WithFileUploads;
-    use WithRedirects;
 
     public ?Manifest $manifest = null;
 
@@ -66,12 +64,19 @@ class ManifestForm extends Component
     public function updateSection(string $newSection)
     {
         $this->section = $newSection;
-
         if ($this->manifest) {
             $this->manifest->section = $newSection;
+            $this->manifest->status = 'recebido';
             $this->manifest->save();
         }
-        return redirect()->route('seu.rota.desejada');
+        return redirect()->route(
+            (
+                $newSection == 'comercial' ? 'manifests.comercial' : (
+                $newSection == 'financeiro' ? 'manifests.finance' : (
+                $newSection == 'conferencia' ? 'manifests.comercial' : (
+                $newSection == 'finalizado' ? 'manifests.finished' : (
+                $newSection == 'financeiro-comercial' ? 'manifests.finance' : 'manifests.index')))))
+            );
     }
 
     public function mount(Manifest $manifest)

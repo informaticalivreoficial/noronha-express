@@ -39,7 +39,7 @@ class ManifestsComercial extends Component
 
     public function render()
     {
-        $title = 'Gerenciar Manifestos';
+        $title = 'Gerenciar Manifestos no Comercial';
         $manifests = Manifest::query()
             ->where('object', 'carga')
             ->where('section', 'comercial')

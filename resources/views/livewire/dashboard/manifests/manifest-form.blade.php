@@ -9,7 +9,16 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ route('admin') }}">Painel de Controle</a></li>
-                        <li class="breadcrumb-item"><a wire:navigate href="{{ route('manifests.index') }}">Manifestos</a>
+                        <li class="breadcrumb-item">
+                            <a 
+                                wire:navigate 
+                                href="{{
+                                            route(
+                                                $manifest && $manifest->section == 'comercial' ? 'manifests.comercial' :
+                                                ($manifest && $manifest->section == 'financeiro' ? 'manifests.finance' :
+                                                ($manifest && $manifest->section == 'finalizado' ? 'manifests.finished' : 'manifests.index'))
+                                            )
+                                        }}">Manifestos</a>
                         </li>
                         <li class="breadcrumb-item active">{{ $manifest ? 'Editar' : 'Cadastrar' }}</li>
                     </ol>
@@ -68,6 +77,12 @@
                                     <span class="error erro-feedback">{{ $message }}</span>
                                 @enderror
                             </div>
+                            @if ($manifest && $manifest->section != 'conferencia' && $manifest->section != null)
+                                <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                                    <label class="labelforms"><b>Conferente:</b></label>
+                                    <p class="p-1"><small class="badge badge-success p-2">{{$manifest->created}}</small></p>
+                                </div>                                
+                            @endif                            
                         </div>
                         <div class="row">
                             <div x-show="type === 'juridica'" x-cloak class="col-12 col-sm-12 col-md-6 col-lg-4"> 
@@ -329,8 +344,17 @@
             <div class="row text-right">
                 <div class="col-12 pr-4 pb-4">
                     <button type="submit" class="btn btn-lg btn-success p-3"><i class="nav-icon fas fa-check mr-2"></i> {!! $manifest ? '<b>Atualizar Agora</b>' : '<b>Cadastrar Agora</b>' !!}</button>
-                    @if ($manifest)
-                        <button type="submit" class="btn btn-lg btn-primary p-3" wire:click="updateSection('comercial')"><i class="nav-icon fas fa-check mr-2"></i> <b>Entregar ao Comercial</b></button>
+                    @if ($manifest->section == 'financeiro')
+                        <button type="button" class="btn btn-lg btn-primary p-3" wire:click="updateSection('comercial')"><i class="nav-icon fas fa-file-invoice mr-2"></i> <b>Gerar Fatura</b></button>
+                    @endif                    
+                    @if ($manifest->section == 'conferencia' || $manifest->section == null)
+                        <button type="button" class="btn btn-lg btn-primary p-3" wire:click="updateSection('comercial')"><i class="nav-icon fas fa-check mr-2"></i> <b>Entregar ao Comercial</b></button>
+                    @endif                    
+                    @if ($manifest->section == 'comercial')
+                        <button type="button" class="btn btn-lg btn-primary p-3" wire:click="updateSection('financeiro')"><i class="nav-icon fas fa-check mr-2"></i> <b>Entregar ao Financeiro</b></button>
+                    @endif                    
+                    @if ($manifest->section == 'financeiro')
+                        <button type="button" class="btn btn-lg btn-warning p-3" wire:click="updateSection('financeiro-comercial')"><i class="nav-icon fas fa-check mr-2"></i> <b>Devolver para Comercial</b></button>
                     @endif                    
                 </div>
             </div>
