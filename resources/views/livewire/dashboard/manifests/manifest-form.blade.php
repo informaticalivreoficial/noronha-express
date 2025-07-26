@@ -255,13 +255,12 @@
                                     </div>
                                     <div class="col-span-1 lg:col-span-2">
                                         <label class="block text-sm font-medium">Seguro</label>
-                                        <input type="text" wire:model="items.{{ $index }}.secure" class="input-form" />
+                                        <input type="text" wire:model="items.{{ $index }}.secure" class="input-form" {{}} />
                                     </div>
                                     <div class="col-span-1 lg:col-span-2">
                                         <label class="block text-sm font-medium">Embalagem</label>
                                         <input type="text" wire:model="items.{{ $index }}.package" class="input-form" />
-                                    </div>
-                                    
+                                    </div>                                    
                                     <div class="col-span-1 lg:col-span-2">
                                         <label class="block text-sm font-medium">Taxas</label>
                                         <input type="text" wire:model="items.{{ $index }}.tax" class="input-form" />
